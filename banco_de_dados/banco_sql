@@ -46,8 +46,8 @@ CREATE TABLE perguntas (
 CREATE TABLE resposta (
 	id_resposta INT NOT NULL PRIMARY KEY, 
     id_perguntas INT NOT NULL,
-    id_aluno INT NOT NULL,
+    ra_aluno INT NOT NULL,
     nota INT, 
     FOREIGN KEY (id_perguntas) REFERENCES perguntas(id_perguntas),
-    FOREIGN KEY (id_aluno) REFERENCES alunos(id_alunos)
+    FOREIGN KEY (ra_aluno) REFERENCES aluno(ra_aluno)
 );
