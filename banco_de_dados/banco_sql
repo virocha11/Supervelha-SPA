@@ -1,6 +1,6 @@
 USE supervelha;
 
-DROP TABLE IF EXISTS respostas;
+DROP TABLE IF EXISTS resposta;
 DROP TABLE IF EXISTS perguntas;
 DROP TABLE IF EXISTS questionario;
 DROP TABLE IF EXISTS turma;
@@ -33,21 +33,21 @@ CREATE TABLE turma (
 CREATE TABLE questionario (
 	id_questionario INT NOT NULL PRIMARY KEY,
     codigo_turma INT NOT NULL,
-    FOREIGN KEY (codigo_turma) REFERENCES turma(codigo)
+    FOREIGN KEY (codigo_turma) REFERENCES turma(codigo) ON DELETE CASCADE ON UPDATE CASCADE 
 );
 
 CREATE TABLE perguntas (
-	id_perguntas INT NOT NULL PRIMARY KEY,
+	id_pergunta INT NOT NULL PRIMARY KEY,
     enunciado TEXT NOT NULL,
     id_questionario INT NOT NULL,
-    FOREIGN KEY (id_questionario) REFERENCES questionario(id_questionario)
+    FOREIGN KEY (id_questionario) REFERENCES questionario(id_questionario) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE resposta (
 	id_resposta INT NOT NULL PRIMARY KEY, 
-    id_perguntas INT NOT NULL,
+    id_pergunta INT NOT NULL,
     ra_aluno INT NOT NULL,
     nota INT, 
-    FOREIGN KEY (id_perguntas) REFERENCES perguntas(id_perguntas),
-    FOREIGN KEY (ra_aluno) REFERENCES aluno(ra_aluno)
+    FOREIGN KEY (id_pergunta) REFERENCES perguntas(id_pergunta) ON DELETE CASCADE ON UPDATE CASCADE ,
+    FOREIGN KEY (ra_aluno) REFERENCES aluno(ra_aluno) ON DELETE CASCADE ON UPDATE CASCADE 
 );
