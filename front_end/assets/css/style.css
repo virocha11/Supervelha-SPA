@@ -6,19 +6,28 @@
     --azul: #28647E;
 }
 
+footer{
+    background-color: var(--azul_marinho);
+}
 html, body{
     padding: 0;
     margin: 0;
 }
-main{
-    background-color: var(--azul);
-}
 header{
     background-color: var(--azul_marinho);
 }
-footer{
-    background-color: var(--azul_marinho);
+
+main{
+    background-color: var(--azul);
 }
+
+header>nav>div>div>a>img{
+    background-color: var(--ciano_medio);
+}
+
 .img_livros{
     width: 300px;
+}
+.w_85{
+    width: 85%;
 }

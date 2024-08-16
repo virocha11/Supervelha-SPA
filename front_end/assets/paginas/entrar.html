@@ -2,35 +2,51 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="../bootstrap_4.1.3_dist/css/bootstrap.css">
+        <link rel="stylesheet" href="../css/style.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Supervelha SPA</title>
     </head>
     <body>
-        <header><nav>
-            <img src="assets/imgs/logo.png" alt="">
-            <a href="assets/paginas/cadastro.html">Cadastrar</a>
-            <a href="#">Sobre o site</a>
-        </nav></header>
-        <!-- formulario-->
-        <form class="form">
-            <label class="label-input" for="">
-                <i class="far fa-user icon-modify"></i>
-                <input type="text" placeholder="Nome">
+        <header class="text-white">
+            <nav class="navbar navbar-light bg-transparent">
+                <div class="container-fluid">
+                    <div class="navbar-brand"><a href="../../index.html"><img src="../imgs/logo.png" alt=""></a></div>
+                    <div class="d-flex">
+                        <a class="nav-link" href="cadastro.html">Cadastrar</a>
+                        <a class="nav-link" href="#">Sobre o site</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main>
+            <!-- formulario-->
+            <label for="form_prof">
+                <input onclick="form_prof()" id="form_prof" type="radio" name="entrar" value="professor">Professor
             </label>
+            <form class="form" id="formulario_p" action="" method="POST">
+                <label class="" for="">
+                    <input type="email" placeholder="Email">
+                </label>
             
-            <label class="label-input" for="">
-                <i class="far fa-envelope icon-modify"></i>
-                <input type="email" placeholder="Email">
+                <label class="" for="">
+                    <input type="password" placeholder="Senha">
+                </label>
+                <button class="">Entrar</button>
+            </form>
+            <label for="form_aluno">
+                <input onclick="form_aluno()" id="form_aluno" type="radio" name="entrar" value="professor">Aluno
             </label>
+            <form class="form" id="formulario_a" action="" method="POST">
+                <label class="" for="">
+                    <input type="email" placeholder="Email">
+                </label>
             
-            <label class="label-input" for="">
-                <i class="fas fa-lock icon-modify"></i>
-                <input type="password" placeholder="Senha">
-            </label>
-            
-            
-            <button class="btn btn-second">cadastrar</button>        
-        </form>
-        
+                <label class="" for="">
+                    <input type="password" placeholder="Senha">
+                </label>
+                <button class="">Entrar</button>
+            </form>
+        </main>
     </body>
 </html>
