@@ -3,39 +3,47 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/bootstrap_4.1.3_dist/css/bootstrap.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+
+        <link rel="shortcut icon" href="#" type="image/x-icon">
+
         <title>Supervelha SPA</title>
     </head>
     <body>
-        <header>
-            <nav>
-            <img src="assets/imgs/logo.png" alt="">
-            <a href="assets/paginas/login.html">Entre</a>
-            <a href="#">Sobre o site</a>
-        </nav>
-    </header>
+        <header class="text-white">
+            <nav class="navbar navbar-light bg-transparent">
+                <div class="container-fluid">
+                    <div class="navbar-brand"><img src="assets/imgs/logo.png" alt=""></div>
+                    <div class="d-flex">
+                        <a class="nav-link" href="assets/paginas/entrar.html">Entre</a>
+                        <a class="nav-link" href="#">Sobre o site</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
         <main>
-            <section>
-                <article>
+            <section class="row">
+                <article class="col-4 mx-auto">
                     <h1>BEM VINDO!</h1>
                     <h3>Cadastre-se!</h3>
-                    <a href="assets/paginas/cadastro_professor.html">Professor</a>
-                    <a href="assets/paginas/cadastro_aluno.html">Aluno</a>
-                    <img src="" alt="">
+                    <a href="assets/paginas/cadastro.html">Professor</a>
+                    <a href="assets/paginas/cadastro.html">Aluno</a>
                 </article>
+                <article class="col-5 mx-auto"><img class="img_livros" src="assets/imgs/livros.png" alt=""></article>
             </section>
         </main>
+        <footer class="text-white">
+            <article>
+                <p>Desenvolvedores:</p>
+                <p>Connor Harumi Iwamoto</p>
+                <p>Vívian Adriana Rocha</p>
+                <p>Matheus de Oliveira Teixeira</p>
+                <p>Taís Barbosa Rodrigues</p>
+            </article>
+        </footer>
     </body>
-    <footer>
-        <article>
-            <p>Desenvolvedores:</p>
-            <p>Connor Harumi Iwamoto</p>
-            <p>Vívian Adriana Rocha</p>
-            <p>Matheus de Oliveira Teixeira</p>
-            <p>Taís Barbosa Rodrigues</p>
-        </article>
-    </footer>
 </html>

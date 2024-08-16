@@ -5,3 +5,20 @@
     --azul_marinho: #093D65;
     --azul: #28647E;
 }
+
+html, body{
+    padding: 0;
+    margin: 0;
+}
+main{
+    background-color: var(--azul);
+}
+header{
+    background-color: var(--azul_marinho);
+}
+footer{
+    background-color: var(--azul_marinho);
+}
+.img_livros{
+    width: 300px;
+}
