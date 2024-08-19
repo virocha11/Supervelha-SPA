@@ -4,7 +4,7 @@ import debug_toolbar
 
 urlpatterns = [
     path('', include('cadastro.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('conta/', include('django.contrib.auth.urls')),
     path('turma/', include('turma.urls')),
     path('admin/', admin.site.urls),
     path('__debug__/', include(debug_toolbar.urls)),

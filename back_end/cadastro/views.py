@@ -31,7 +31,10 @@ def validar_cadastro(request: HttpRequest):
 def cadastrar_aluno(request: HttpRequest):
     if (validar_cadastro(request) == True):
         novo_aluno = User.objects.create_user(request.POST.get('username'), request.POST.get('email'), request.POST.get('password'))
-        grupo = Group.objects.get(pk = 1)
+        try:
+            grupo = Group.objects.get(name='Aluno')
+        except:
+            grupo = Group.objects.create(name='Aluno')
         novo_aluno.groups.add(grupo)
         return HttpResponse(f'Cadastrado com sucesso! Seu ID é: {novo_aluno.id}')
     else:
@@ -40,7 +43,10 @@ def cadastrar_aluno(request: HttpRequest):
 def cadastrar_professor(request: HttpRequest):
     if (validar_cadastro(request) == True):
         novo_professor = User.objects.create_user(request.POST.get('username'), request.POST.get('email'), request.POST.get('password'))
-        grupo = Group.objects.get(pk = 2)
+        try:
+            grupo = Group.objects.get(name='Professor')
+        except:
+            grupo = Group.objects.create(name='Professor')
         novo_professor.groups.add(grupo)
         return HttpResponse(f'Cadastrado com sucesso! Seu ID é: {novo_professor.id}')
     else:
