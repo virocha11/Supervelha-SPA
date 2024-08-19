@@ -5,9 +5,13 @@
     --azul_marinho: #093D65;
     --azul: #28647E;
 }
-
+body{
+    height: 100vh;
+}
 footer{
+    color: #fff;
     background-color: var(--azul_marinho);
+    height: 100%;
 }
 html, body{
     padding: 0;
@@ -19,14 +23,50 @@ header{
 
 main{
     background-color: var(--azul);
+    height: 100vh;
+}
+main{
+    background-color: var(--azul);
+    height: 100vh;
 }
 
 header>nav>div>div>a>img{
     background-color: var(--ciano_medio);
 }
+.btn_formulario{
+    padding: 5px 3px 5px 3px;
+    background-color: var(--amarelo_claro);
+    border: inset var(--azul_marinho) 4px;
+}
+.btn_formulario:hover{
+    background-color: var(--azul);
+    color: var(--amarelo_claro);
+    border: inset var(--ciano_medio) 2px;
+    text-decoration: none;
+    transition-duration: 0.25s;
+}
+.cadastre_btn{
+    padding: 0 3px 0 3px;
+    height: 40px;
+    background-color: var(--amarelo_claro);
+    border: inset var(--azul_marinho) 4px;
+}
 
+.cadastre_btn:hover{
+    background-color: var(--azul);
+    color: var(--amarelo_claro);
+    border: inset var(--ciano_medio) 3px;
+    text-decoration: none;
+    transition-duration: 0.25s;
+}
+.centraliza_vertical{
+    height: 100vh;
+}
 .img_livros{
     width: 300px;
+}
+.obj_footer{
+    height: 250px;
 }
 .w_85{
     width: 85%;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="../bootstrap_4.1.3_dist/css/bootstrap.css">
@@ -11,7 +11,7 @@
         <header class="text-white">
             <nav class="navbar navbar-light bg-transparent">
                 <div class="container-fluid">
-                    <div class="navbar-brand"><a href="../../index.html"><img src="../imgs/logo.png" alt=""></a></div>
+                    <div class="navbar-brand"><a href="../../index.html"><img class="rounded" src="../imgs/logo.png" alt=""></a></div>
                     <div class="d-flex">
                         <a class="nav-link" href="cadastro.html">Cadastrar</a>
                         <a class="nav-link" href="#">Sobre o site</a>
@@ -20,33 +20,42 @@
             </nav>
         </header>
         <main>
-            <!-- formulario-->
-            <label for="form_prof">
-                <input onclick="form_prof()" id="form_prof" type="radio" name="entrar" value="professor">Professor
-            </label>
-            <form class="form" id="formulario_p" action="" method="POST">
-                <label class="" for="">
-                    <input type="email" placeholder="Email">
-                </label>
-            
-                <label class="" for="">
-                    <input type="password" placeholder="Senha">
-                </label>
-                <button class="">Entrar</button>
-            </form>
-            <label for="form_aluno">
-                <input onclick="form_aluno()" id="form_aluno" type="radio" name="entrar" value="professor">Aluno
-            </label>
-            <form class="form" id="formulario_a" action="" method="POST">
-                <label class="" for="">
-                    <input type="email" placeholder="Email">
-                </label>
-            
-                <label class="" for="">
-                    <input type="password" placeholder="Senha">
-                </label>
-                <button class="">Entrar</button>
-            </form>
+            <section class="accordion w-75 m-auto" id="accordion_entrar">
+                <div id="heading_one">
+                    <button class="btn btn_formulario w-100" type="button" data-toggle="collapse" data-target="#formulario_p" aria-expanded="true" aria-controls="formulario_p">Sou professor</button>
+                </div>
+                
+                <!-- formulario_professor-->
+                <form class="form collapse" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_p" action="" method="POST">
+                    <label class="" for="">
+                        <input type="email" placeholder="Email">
+                    </label>
+                
+                    <label class="" for="">
+                        <input type="password" placeholder="Senha">
+                    </label>
+                    <button class="">Entrar</button>
+                </form>
+                <div id="heading_one">
+                    <button class="btn btn_formulario w-100" type="button" data-toggle="collapse" data-target="#formulario_a" aria-expanded="true" aria-controls="formulario_a">Sou aluno</button>
+                </div>
+
+                <!-- formulario_aluno-->
+                <form class="form collapse" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_a" action="" method="POST">
+                    <label class="" for="">
+                        <input type="email" placeholder="Email">
+                    </label>
+                
+                    <label class="" for="">
+                        <input type="password" placeholder="Senha">
+                    </label>
+                    <button class="">Entrar</button>
+                </form>
+            </section>
         </main>
+        <object class="w-100 obj_footer" data="footer.html" type="text/html"></object>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     </body>
 </html>
