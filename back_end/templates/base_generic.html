@@ -23,6 +23,14 @@
         </ul>
       </div>
     </nav>
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
     {% block sidebar %}<!-- insert default navigation text for every page -->{% endblock %}
     {% block content %}<!-- default content text (typically empty) -->{% endblock %}
   </body>

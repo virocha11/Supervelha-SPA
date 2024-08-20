@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 from django.contrib.auth.models import User, Group
+from django.contrib import messages
+
 import re
 
 # Create your views here.
@@ -15,18 +17,26 @@ def cadastro_professor(request: HttpRequest):
     return render(request, 'registration/professor.html')
 
 def validar_cadastro(request: HttpRequest):
+    error = 0
     if request.POST.get('password') != request.POST.get('cpassword'):
-        return False, HttpResponse('As duas senhas digitadas são diferentes.')
+        messages.add_message(request, messages.ERROR, 'As duas senhas digitadas são diferentes.')
+        error = 1
     r = re.compile(r'^[\w-]+@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$')
     if (not r.match(request.POST.get('email'))):
-        return False, HttpResponse('E-mail inválido.')
+        messages.add_message(request, messages.ERROR, 'E-mail inválido.')
+        error = 1
     usuarios = User.objects.all()
     for usuario in usuarios:
         if usuario.email == request.POST.get('email'):
-            return False, HttpResponse('E-mail já cadastrado.')
+            messages.add_message(request, messages.ERROR, 'E-mail já está em uso.')
+            error = 1
         if usuario.username == request.POST.get('username'):
-            return False, HttpResponse('Nome de usuário em uso.')
-    return True
+            messages.add_message(request, messages.ERROR, 'Nome de usuário já está em uso.')
+            error = 1
+    if error == 1:
+        return False
+    else:
+        return True
 
 def cadastrar_aluno(request: HttpRequest):
     if (validar_cadastro(request) == True):
@@ -36,9 +46,10 @@ def cadastrar_aluno(request: HttpRequest):
         except:
             grupo = Group.objects.create(name='Aluno')
         novo_aluno.groups.add(grupo)
-        return HttpResponse(f'Cadastrado com sucesso! Seu ID é: {novo_aluno.id}')
+        messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_aluno.id}')
+        return render(request, 'registration/aluno.html')
     else:
-        return(validar_cadastro(request)[1])
+        return render(request, 'registration/aluno.html')
 
 def cadastrar_professor(request: HttpRequest):
     if (validar_cadastro(request) == True):
@@ -48,6 +59,7 @@ def cadastrar_professor(request: HttpRequest):
         except:
             grupo = Group.objects.create(name='Professor')
         novo_professor.groups.add(grupo)
-        return HttpResponse(f'Cadastrado com sucesso! Seu ID é: {novo_professor.id}')
+        messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_professor.id}')
+        return render(request, 'registration/professor.html')
     else:
-        return(validar_cadastro(request)[1])
+        return render(request, 'registration/professor.html')
