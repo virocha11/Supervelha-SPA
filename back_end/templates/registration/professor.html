@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<form action="{% url 'cadastrar_professor' %}" method="post">
+    {% csrf_token %}
+        <div style="text-align: center" class="container">
+            <h2>Cadastro de Professor</h1>
+            <p>Nome <input name="username" type="text"></p>
+            <p>E-mail <input name="email" type="email"></p>
+            <p>Senha <input name="password" type="password"></p>
+            <p>Confirmar Senha <input name="cpassword" type="password"></p>
+            <p><button>Enviar</button></p>
+        </div>
+</form>
+<a href="{% url 'home'%}">Clique aqui para retornar.</a>
+{% endblock %}
