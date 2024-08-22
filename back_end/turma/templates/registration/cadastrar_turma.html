@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<form action="{% url 'cadastrar_turma' %}" method="post">
+    {% csrf_token %}
+    <div style="text-align: center" class="container">
+        <h2>Cadastro de Turma</h2>
+        <p>Nome da Turma <input name="nome" type="text"></p>
+        <p>Capacidade <input name="capacidade" type="number"></p>
+        <p>Professor Responsável 
+            <select name="ra_professor">
+                {% for professor in professores %}
+                    <option value="{{ professor.id }}">{{ professor.username }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <p><button type="submit">Cadastrar</button></p>
+    </div>
+</form>
+<a href="{% url 'home'%}">Clique aqui para retornar.</a>
+{% endblock %}

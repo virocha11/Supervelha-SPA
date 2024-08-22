@@ -2,10 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
+# from .models import Turma # pra mexer com o banco preciso disso?
 
 import re
 
-# Create your views here.
+# Create your views here. # < recebe uma requisiçao http e retorna uma resposta http. logica de negocio
 
 def home(request: HttpRequest):
     return render(request, 'registration/home.html')
@@ -47,7 +48,7 @@ def cadastrar_aluno(request: HttpRequest):
             grupo = Group.objects.create(name='Aluno')
         novo_aluno.groups.add(grupo)
         messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_aluno.id}')
-        return render(request, 'registration/login.html')
+        return render(request, 'registration/aluno.html')
     else:
         return render(request, 'registration/aluno.html')
 
@@ -60,6 +61,9 @@ def cadastrar_professor(request: HttpRequest):
             grupo = Group.objects.create(name='Professor')
         novo_professor.groups.add(grupo)
         messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_professor.id}')
-        return render(request, 'registration/login.html')
+        return render(request, 'registration/professor.html')
     else:
         return render(request, 'registration/professor.html')
+    
+# def cadastrar_turma(request: HttpRequest):
+    
