@@ -47,7 +47,7 @@ def cadastrar_aluno(request: HttpRequest):
             grupo = Group.objects.create(name='Aluno')
         novo_aluno.groups.add(grupo)
         messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_aluno.id}')
-        return render(request, 'registration/aluno.html')
+        return render(request, 'registration/login.html')
     else:
         return render(request, 'registration/aluno.html')
 
@@ -60,6 +60,6 @@ def cadastrar_professor(request: HttpRequest):
             grupo = Group.objects.create(name='Professor')
         novo_professor.groups.add(grupo)
         messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_professor.id}')
-        return render(request, 'registration/professor.html')
+        return render(request, 'registration/login.html')
     else:
         return render(request, 'registration/professor.html')
