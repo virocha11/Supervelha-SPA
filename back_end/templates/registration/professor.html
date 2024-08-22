@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<form action="{% url 'cadastrar_professor' %}" method="post">
+<form action="{% url 'cadastro_professor' %}" method="post">
     {% csrf_token %}
         <div style="text-align: center" class="container">
             <h2>Cadastro de Professor</h1>

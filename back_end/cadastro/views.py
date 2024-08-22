@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
+from .models import Turma
 # from .models import Turma # pra mexer com o banco preciso disso?
 
 import re
@@ -12,10 +13,22 @@ def home(request: HttpRequest):
     return render(request, 'registration/home.html')
 
 def cadastro_aluno(request: HttpRequest):
-    return render(request, 'registration/aluno.html')
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            messages.add_message(request, messages.ERROR, 'Usuário já autenticado.')
+            return render(request, 'registration/home.html')
+        else:
+            return render(request, 'registration/aluno.html')
+    else: return cadastrar_aluno(request)
 
 def cadastro_professor(request: HttpRequest):
-    return render(request, 'registration/professor.html')
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            messages.add_message(request, messages.ERROR, 'Usuário já autenticado.')
+            return render(request, 'registration/home.html')
+        else:
+            return render(request, 'registration/professor.html')
+    else: return cadastrar_professor(request)
 
 def validar_cadastro(request: HttpRequest):
     error = 0
@@ -65,5 +78,26 @@ def cadastrar_professor(request: HttpRequest):
     else:
         return render(request, 'registration/professor.html')
     
-# def cadastrar_turma(request: HttpRequest):
+def cadastrar_turma(request: HttpRequest):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            if request.user.groups.get().name == 'Professor':
+                return render(request, 'registration/cadastrar_turma.html')
+            else:
+                messages.add_message(request, messages.ERROR, 'Permissão negada.')
+                return render(request, 'registration/home.html')
+        else:
+            messages.add_message(request, messages.ERROR, 'Usuário não autenticado.')
+            return render(request, 'registration/home.html')
+
+    if request.method == 'POST': # se for envio de formulário
+        nome = request.POST.get('nome') # pegando os valores passados etc tal
+        capacidade = request.POST.get('capacidade')
+        quantidade_alunos = 0
+        professor_responsavel = User.objects.get(id=request.user.id) # recupera o professor responsável baseado no id do formulario
+        # cria nova turma se deus quiser com os valores pegos do get
+        nova_turma = Turma.objects.create(nome=nome, capacidade=capacidade, ra_professor=professor_responsavel, quantidade_alunos=quantidade_alunos)
+        messages.add_message(request, messages.SUCCESS, f'Turma "{nova_turma.nome}" cadastrada com sucesso. O código dela é "{nova_turma.codigo}"!') # retorna pro ''front''
     
+    # professores = User.objects.filter(groups__name='Professor')  # filtra apenas professores naquele campinho pra pessoa escolher
+    return render(request, 'registration/cadastrar_turma.html') # retorna essa listinha

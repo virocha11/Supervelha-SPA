@@ -3,7 +3,7 @@ from django.urls import path, include
 import debug_toolbar
 
 urlpatterns = [
-    path('', include('cadastro.urls')),
+    path('cadastro/', include('cadastro.urls')),
     path('conta/', include('django.contrib.auth.urls')),
     path('turma/', include('turma.urls')),
     path('admin/', admin.site.urls),

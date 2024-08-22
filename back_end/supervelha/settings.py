@@ -57,7 +57,7 @@ TEMPLATES = [
     },
 ]
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/cadastro/'
 
 WSGI_APPLICATION = 'supervelha.wsgi.application'
 
