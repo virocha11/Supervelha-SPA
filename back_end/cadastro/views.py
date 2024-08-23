@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpRequest
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from .models import Turma
@@ -96,8 +96,8 @@ def cadastrar_turma(request: HttpRequest):
         quantidade_alunos = 0
         professor_responsavel = User.objects.get(id=request.user.id) # recupera o professor responsável baseado no id do formulario
         # cria nova turma se deus quiser com os valores pegos do get
-        nova_turma = Turma.objects.create(nome=nome, capacidade=capacidade, ra_professor=professor_responsavel, quantidade_alunos=quantidade_alunos)
+        nova_turma = Turma.objects.create(nome=nome, capacidade=capacidade, professor=professor_responsavel, quantidade_alunos=quantidade_alunos)
         messages.add_message(request, messages.SUCCESS, f'Turma "{nova_turma.nome}" cadastrada com sucesso. O código dela é "{nova_turma.codigo}"!') # retorna pro ''front''
+        return render(request, 'registration/cadastrar_turma.html') # retorna essa listinha
     
     # professores = User.objects.filter(groups__name='Professor')  # filtra apenas professores naquele campinho pra pessoa escolher
-    return render(request, 'registration/cadastrar_turma.html') # retorna essa listinha
