@@ -101,3 +101,29 @@ def cadastrar_turma(request: HttpRequest):
         return render(request, 'registration/cadastrar_turma.html') # retorna essa listinha
     
     # professores = User.objects.filter(groups__name='Professor')  # filtra apenas professores naquele campinho pra pessoa escolher
+
+def excluir_usuario(request: HttpRequest):
+    if request.method == 'GET': # somente exibe o formulario se voce estiver autenticado
+        if request.user.is_authenticated:
+            return render(request, 'registration/excluir_usuario.html')
+        else:
+            messages.add_message(request, messages.ERROR, 'Você precisa estar autenticado para excluir seu usuario.')
+            return render(request, 'registration/home.html')
+
+    if request.method == 'POST':
+        usuario_id = request.POST.get('usuario_id') # id do formulario
+        try:
+            usuario = User.objects.get(id=usuario_id) # buscando o id do formulario no banco
+        except User.DoesNotExist:
+            messages.add_message(request, messages.ERROR, 'Usuário não encontrado.')
+            return render(request, 'registration/excluir_usuario.html')
+
+        # verifica se o id do usuario autenticado é o mesmo de quem ele tá tentando calar
+        if request.user.id != usuario.id:
+            messages.add_message(request, messages.ERROR, 'Você só pode excluir seu próprio usuário.')
+            return render(request, 'registration/excluir_usuario.html')
+
+        # remove o usuário
+        usuario.delete()
+        messages.add_message(request, messages.SUCCESS, 'Seu usuário foi excluído com sucesso.')
+        return render(request, 'registration/excluir_usuario.html')

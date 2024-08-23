@@ -64,7 +64,7 @@ def remover_aluno(request: HttpRequest):
                 turma.quantidade_alunos = turma.quantidade_alunos - 1
                 turma.alunos.remove(aluno)
                 turma.save()
-                messages.add_message(request, messages.SUCCESS, f'Aluno: {aluno.username} removido com sucesso à turma: {turma.nome}.')
+                messages.add_message(request, messages.SUCCESS, f'Aluno: {aluno.username} removido com sucesso da turma: {turma.nome}.')
                 return retornar_turmas(request, 'registration/remover_aluno.html')
         messages.add_message(request, messages.ERROR, 'Aluno não está cadastrado nesta turma.')
         return retornar_turmas(request, 'registration/remover_aluno.html')

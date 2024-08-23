@@ -6,4 +6,5 @@ urlpatterns = [
     path('aluno/', views.cadastro_aluno, name='cadastro_aluno'),
     path('professor/', views.cadastro_professor, name='cadastro_professor'),
     path('turma/', views.cadastrar_turma, name='cadastrar_turma'),
+    path('excluir_usuario/', views.excluir_usuario, name='excluir_usuario'),
 ]
