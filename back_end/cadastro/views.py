@@ -24,10 +24,10 @@ def validar_cadastro(request: HttpRequest):
         error = 1
     usuarios = User.objects.all()
     for usuario in usuarios:
-        if usuario.email == request.POST.get('email'):
+        if usuario.email == request.POST.get('email') and usuario.id != request.user.id: # adiçao caso seja da mesma pessoa
             messages.add_message(request, messages.ERROR, 'E-mail já está em uso.')
             error = 1
-        if usuario.username == request.POST.get('username'):
+        if usuario.username == request.POST.get('username') and usuario.id != request.user.id: # adiçao caso seja da mesma pessoa
             messages.add_message(request, messages.ERROR, 'Nome de usuário já está em uso.')
             error = 1
     if error == 1:
@@ -120,4 +120,30 @@ def excluir_usuario(request: HttpRequest):
         messages.add_message(request, messages.SUCCESS, 'Seu usuário foi excluído com sucesso.')
         return render(request, 'registration/excluir_usuario.html')
     
-  
+def editar_usuario(request: HttpRequest):
+    if request.method == 'GET':
+        if request.user.is_authenticated: # somente exibe o formulario se voce estiver autenticado
+            return render(request, 'registration/editar_usuario.html')
+        else:
+            messages.add_message(request, messages.ERROR, 'Você precisa estar autenticado para editar suas informações.')
+            return render(request, 'registration/home.html')
+
+    if request.method == 'POST':
+        # validar os dados de entrada com validar cadastro
+        if not validar_cadastro(request):
+            return render(request, 'registration/editar_usuario.html')
+
+        # se passou seja o que deus quiser
+        nome = request.POST.get('username')
+        email = request.POST.get('email')
+        senha = request.POST.get('password')
+
+        request.user.username = nome
+        request.user.email = email
+
+        if senha: # se o campo senha não estiver vazio
+            request.user.set_password(senha)
+
+        request.user.save() # salva as alterações
+        messages.add_message(request, messages.SUCCESS, 'Suas informações foram atualizadas com sucesso.')
+        return render(request, 'registration/editar_usuario.html')
