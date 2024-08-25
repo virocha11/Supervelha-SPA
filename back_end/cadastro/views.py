@@ -68,15 +68,19 @@ def cadastrar_aluno(request: HttpRequest):
 def cadastrar_professor(request: HttpRequest):
     if (validar_cadastro(request) == True):
         novo_professor = User.objects.create_user(request.POST.get('username'), request.POST.get('email'), request.POST.get('password'))
+        
         try:
             grupo = Group.objects.get(name='Professor')
         except:
             grupo = Group.objects.create(name='Professor')
         novo_professor.groups.add(grupo)
         messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_professor.id}')
+        
         return render(request, 'registration/professor.html')
     else:
         return render(request, 'registration/professor.html')
+    
+    
     
 def cadastrar_turma(request: HttpRequest):
     if request.method == 'GET':
@@ -127,3 +131,5 @@ def excluir_usuario(request: HttpRequest):
         usuario.delete()
         messages.add_message(request, messages.SUCCESS, 'Seu usuário foi excluído com sucesso.')
         return render(request, 'registration/excluir_usuario.html')
+    
+  

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="../bootstrap_4.1.3_dist/css/bootstrap.css">
@@ -23,51 +23,51 @@
 
             <section class="accordion w-75 m-auto py-2" id="accordion_entrar">
                 <div class="mb-2" id="heading_one">
-                    <button class="btn btn_formulario w-100" type="button" data-toggle="collapse" data-target="#formulario_p" aria-expanded="true" aria-controls="formulario_p">Sou professor</button>
+                    <button class="btn btn_geral w-100" type="button" data-toggle="collapse" data-target="#formulario_p" aria-expanded="true" aria-controls="formulario_p">Sou professor</button>
                 </div>
                 
                 <!-- formulario_professor-->
-                <form class="form collapse" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_p" action="/cadastro_professor" method="POST">
+                <form class="form collapse" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_p" action="" method="POST">
                     <label class="" for="nome_prof">
-                        <input type="text" id="nome_prof" placeholder="Nome de usuário">
+                        <input class="rounded" type="text" id="nome_prof" placeholder="Nome de usuário">
                     </label>
                 
                     <label class="" for="email_prof">
-                        <input type="email" id="email_prof" placeholder="Email">
+                        <input class="rounded" type="email" id="email_prof" placeholder="Email">
                     </label>
 
                     <label class="" for="senha_prof">
-                        <input type="password" id="senha_prof" placeholder="Senha">
+                        <input class="rounded" type="password" id="senha_prof" placeholder="Senha">
                     </label>
 
                     <label class="" for="confirmacao_prof">
-                        <input type="password" id="confirmacao_prof" placeholder="Confirme sua senha">
+                        <input class="rounded" type="password" id="confirmacao_prof" placeholder="Confirme sua senha">
                     </label>
-                    <button class="">Cadastrar</button>    
+                    <button class="btn-info rounded">Cadastrar</button>    
                 </form>
 
                 <div class="my-2" id="heading_one">
-                    <button class="btn btn_formulario w-100" type="button" data-toggle="collapse" data-target="#formulario_a" aria-expanded="true" aria-controls="formulario_a">Sou aluno</button>
+                    <button class="btn btn_geral w-100" type="button" data-toggle="collapse" data-target="#formulario_a" aria-expanded="true" aria-controls="formulario_a">Sou aluno</button>
                 </div>
 
                 <!-- formulario_aluno-->
-                <form class="form collapse" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_a" action="/cadastro_aluno" method="POST">
+                <form class="form collapse" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_a" action="" method="POST">
                     <label class="" for="nome_aluno">
-                        <input type="text" id="nome_aluno" placeholder="Nome de usuário">
+                        <input class="rounded" type="text" id="nome_aluno" placeholder="Nome de usuário">
                     </label>
                 
                     <label class="" for="email_aluno">
-                        <input type="email" id="email_aluno" placeholder="Email">
+                        <input class="rounded" type="email" id="email_aluno" placeholder="Email">
                     </label>
 
                     <label class="" for="senha_aluno">
-                        <input type="password" id="senha_aluno" placeholder="Senha">
+                        <input class="rounded" type="password" id="senha_aluno" placeholder="Senha">
                     </label>
 
                     <label class="" for="confirmacao_aluno">
-                        <input type="password" id="confirmacao_aluno" placeholder="Confirme sua senha">
+                        <input class="rounded" type="password" id="confirmacao_aluno" placeholder="Confirme sua senha">
                     </label>
-                    <button class="">Cadastrar</button>    
+                    <button class="btn-info rounded">Cadastrar</button>    
                 </form>
             </section>
         </main>

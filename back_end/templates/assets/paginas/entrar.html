@@ -20,36 +20,36 @@
             </nav>
         </header>
         <main>
-            <section class="accordion w-75 m-auto" id="accordion_entrar">
+            <section class="accordion w-75 m-auto py-2 " id="accordion_entrar">
                 <div id="heading_one">
-                    <button class="btn btn_formulario w-100" type="button" data-toggle="collapse" data-target="#formulario_p" aria-expanded="true" aria-controls="formulario_p">Sou professor</button>
+                    <button class="btn btn_geral w-100" type="button" data-toggle="collapse" data-target="#formulario_p" aria-expanded="true" aria-controls="formulario_p">Sou professor</button>
                 </div>
                 
                 <!-- formulario_professor-->
-                <form class="form collapse" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_p" action="professor.html" method="POST">
+                <form class="form collapse mt-3" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_p" action="" method="POST">
                     <label class="" for="">
-                        <input type="text" placeholder="Nome de usuário">
+                        <input class="rounded" type="text" placeholder="Nome de usuário">
                     </label>
                 
                     <label class="" for="">
-                        <input type="password" placeholder="Senha">
+                        <input class="rounded" type="password" placeholder="Senha">
                     </label>
-                    <button class="">Entrar</button>
+                    <button class="btn-info rounded">Entrar</button>
                 </form>
-                <div id="heading_one">
-                    <button class="btn btn_formulario w-100" type="button" data-toggle="collapse" data-target="#formulario_a" aria-expanded="true" aria-controls="formulario_a">Sou aluno</button>
+                <div class="my-2" id="heading_one">
+                    <button class="btn btn_geral w-100" type="button" data-toggle="collapse" data-target="#formulario_a" aria-expanded="true" aria-controls="formulario_a">Sou aluno</button>
                 </div>
 
                 <!-- formulario_aluno-->
-                <form class="form collapse" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_a" action="" method="POST">
+                <form class="form collapse mt-3" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_a" action="" method="POST">
                     <label class="" for="">
-                        <input type="text" placeholder="Nome de usuário">
+                        <input class="rounded" type="text" placeholder="Nome de usuário">
                     </label>
                 
                     <label class="" for="">
-                        <input type="password" placeholder="Senha">
+                        <input class="rounded" type="password" placeholder="Senha">
                     </label>
-                    <button class=""  href="professor.html">Entrar</button>
+                    <button class="btn-info rounded" >Entrar</button>
                 </form>
             </section>
         </main>
