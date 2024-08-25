@@ -57,7 +57,7 @@ TEMPLATES = [
     },
 ]
 
-LOGIN_REDIRECT_URL = '/cadastro/'
+LOGIN_REDIRECT_URL = '/redirect/'
 
 WSGI_APPLICATION = 'supervelha.wsgi.application'
 
@@ -100,5 +100,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

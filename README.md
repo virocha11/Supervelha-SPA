@@ -7,4 +7,4 @@ Python 3.x.x
 MySql Server 8.0.x
 
 python manage.py migrate
-python manage.py runservser
+python manage.py runserver

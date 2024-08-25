@@ -2,8 +2,9 @@
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="../bootstrap_4.1.3_dist/css/bootstrap.css">
-        <link rel="stylesheet" href="../css/style.css">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'assets/bootstrap_4.1.3_dist/css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Supervelha SPA</title>
     </head>
@@ -11,9 +12,9 @@
         <header class="text-white">
             <nav class="navbar navbar-light bg-transparent">
                 <div class="container-fluid">
-                    <div class="navbar-brand"><a href="../../index.html"><img class="rounded" src="../imgs/logo.png" alt=""></a></div>
+                    <div class="navbar-brand"><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
                     <div class="d-flex">
-                        <a class="nav-link" href="entrar.html">Entre</a>
+                        <a class="nav-link" href="{% url 'login' %}">Entre</a>
                         <a class="nav-link" href="#">Sobre o site</a>
                     </div>
                 </div>
@@ -27,21 +28,22 @@
                 </div>
                 
                 <!-- formulario_professor-->
-                <form class="form collapse" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_p" action="" method="POST">
+                <form class="form collapse" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_p" action="{% url 'cadastro_professor' %}" method="POST">
+                    {% csrf_token %}
                     <label class="" for="nome_prof">
-                        <input class="rounded" type="text" id="nome_prof" placeholder="Nome de usuário">
+                        <input class="rounded" type="text" id="nome_prof" name="username" placeholder="Nome de usuário">
                     </label>
                 
                     <label class="" for="email_prof">
-                        <input class="rounded" type="email" id="email_prof" placeholder="Email">
+                        <input class="rounded" type="email" id="email_prof" name="email" placeholder="Email">
                     </label>
 
                     <label class="" for="senha_prof">
-                        <input class="rounded" type="password" id="senha_prof" placeholder="Senha">
+                        <input class="rounded" type="password" id="senha_prof" name="password" placeholder="Senha">
                     </label>
 
                     <label class="" for="confirmacao_prof">
-                        <input class="rounded" type="password" id="confirmacao_prof" placeholder="Confirme sua senha">
+                        <input class="rounded" type="password" id="confirmacao_prof" name="cpassword" placeholder="Confirme sua senha">
                     </label>
                     <button class="btn-info rounded">Cadastrar</button>    
                 </form>
@@ -51,27 +53,28 @@
                 </div>
 
                 <!-- formulario_aluno-->
-                <form class="form collapse" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_a" action="" method="POST">
+                <form class="form collapse" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_a" action="{% url 'cadastro_aluno' %}" method="POST">
+                    {% csrf_token %}
                     <label class="" for="nome_aluno">
-                        <input class="rounded" type="text" id="nome_aluno" placeholder="Nome de usuário">
+                        <input class="rounded" type="text" id="nome_aluno" name="username" placeholder="Nome de usuário">
                     </label>
                 
                     <label class="" for="email_aluno">
-                        <input class="rounded" type="email" id="email_aluno" placeholder="Email">
+                        <input class="rounded" type="email" id="email_aluno" name="email" placeholder="Email">
                     </label>
 
                     <label class="" for="senha_aluno">
-                        <input class="rounded" type="password" id="senha_aluno" placeholder="Senha">
+                        <input class="rounded" type="password" id="senha_aluno" name="password" placeholder="Senha">
                     </label>
 
                     <label class="" for="confirmacao_aluno">
-                        <input class="rounded" type="password" id="confirmacao_aluno" placeholder="Confirme sua senha">
+                        <input class="rounded" type="password" id="confirmacao_aluno" name="cpassword" placeholder="Confirme sua senha">
                     </label>
                     <button class="btn-info rounded">Cadastrar</button>    
                 </form>
             </section>
         </main>
-        <object class="w-100 obj_footer" data="footer.html" type="text/html"></object>
+        <object class="w-100 obj_footer" data="{% static 'assets/paginas/footer.html' %}" type="text/html"></object>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>

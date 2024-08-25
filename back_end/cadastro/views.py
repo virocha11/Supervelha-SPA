@@ -1,34 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpRequest
+from django.contrib.auth import login
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from .models import Turma
-# from .models import Turma # pra mexer com o banco preciso disso?
-
 import re
 
-# Create your views here. # < recebe uma requisiçao http e retorna uma resposta http. logica de negocio
-
-def home(request: HttpRequest):
-    return render(request, 'registration/home.html')
-
-def cadastro_aluno(request: HttpRequest):
+def cadastro(request: HttpRequest):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            messages.add_message(request, messages.ERROR, 'Usuário já autenticado.')
-            return render(request, 'registration/home.html')
+            return redirect('redirect')
         else:
-            return render(request, 'registration/aluno.html')
-    else: return cadastrar_aluno(request)
-
-def cadastro_professor(request: HttpRequest):
-    if request.method == 'GET':
-        if request.user.is_authenticated:
-            messages.add_message(request, messages.ERROR, 'Usuário já autenticado.')
-            return render(request, 'registration/home.html')
-        else:
-            return render(request, 'registration/professor.html')
-    else: return cadastrar_professor(request)
+            return render(request, 'paginas/cadastro.html')
 
 def validar_cadastro(request: HttpRequest):
     error = 0
@@ -51,6 +34,12 @@ def validar_cadastro(request: HttpRequest):
         return False
     else:
         return True
+        
+def cadastro_aluno(request: HttpRequest):
+    return cadastrar_aluno(request)
+
+def cadastro_professor(request: HttpRequest):
+    return cadastrar_professor(request)
 
 def cadastrar_aluno(request: HttpRequest):
     if (validar_cadastro(request) == True):
@@ -60,27 +49,26 @@ def cadastrar_aluno(request: HttpRequest):
         except:
             grupo = Group.objects.create(name='Aluno')
         novo_aluno.groups.add(grupo)
+        login(request, novo_aluno)
         messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_aluno.id}')
-        return render(request, 'registration/aluno.html')
+        return render(request, 'paginas/cadastro.html')
     else:
-        return render(request, 'registration/aluno.html')
+        return render(request, 'paginas/cadastro.html')
 
 def cadastrar_professor(request: HttpRequest):
     if (validar_cadastro(request) == True):
         novo_professor = User.objects.create_user(request.POST.get('username'), request.POST.get('email'), request.POST.get('password'))
-        
         try:
             grupo = Group.objects.get(name='Professor')
         except:
             grupo = Group.objects.create(name='Professor')
         novo_professor.groups.add(grupo)
+        login(request, novo_professor)
         messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_professor.id}')
         
-        return render(request, 'registration/professor.html')
+        return render(request, 'paginas/cadastro.html')
     else:
-        return render(request, 'registration/professor.html')
-    
-    
+        return render(request, 'paginas/cadastro.html')
     
 def cadastrar_turma(request: HttpRequest):
     if request.method == 'GET':
