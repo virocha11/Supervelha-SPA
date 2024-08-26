@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from .models import Turma
@@ -73,13 +73,13 @@ def cadastrar_turma(request: HttpRequest):
     if request.method == 'GET':
         if request.user.is_authenticated:
             if request.user.groups.get().name == 'Professor':
-                return render(request, 'registration/cadastrar_turma.html')
+                return render(request, 'paginas/cadastro_turma.html')
             else:
                 messages.add_message(request, messages.ERROR, 'Permissão negada.')
-                return render(request, 'registration/home.html')
+                redirect('index')
         else:
             messages.add_message(request, messages.ERROR, 'Usuário não autenticado.')
-            return render(request, 'registration/home.html')
+            redirect('index')
 
     if request.method == 'POST': # se for envio de formulário
         nome = request.POST.get('nome') # pegando os valores passados etc tal
@@ -89,7 +89,7 @@ def cadastrar_turma(request: HttpRequest):
         # cria nova turma se deus quiser com os valores pegos do get
         nova_turma = Turma.objects.create(nome=nome, capacidade=capacidade, professor=professor_responsavel, quantidade_alunos=quantidade_alunos)
         messages.add_message(request, messages.SUCCESS, f'Turma "{nova_turma.nome}" cadastrada com sucesso. O código dela é "{nova_turma.codigo}"!') # retorna pro ''front''
-        return render(request, 'registration/cadastrar_turma.html') # retorna essa listinha
+        return render(request, 'paginas/inicio_professor.html') # retorna essa listinha
     
     # professores = User.objects.filter(groups__name='Professor')  # filtra apenas professores naquele campinho pra pessoa escolher
 
@@ -115,6 +115,7 @@ def excluir_usuario(request: HttpRequest):
             return render(request, 'registration/excluir_usuario.html')
 
         # remove o usuário
+        logout(request.user)
         usuario.delete()
         messages.add_message(request, messages.SUCCESS, 'Seu usuário foi excluído com sucesso.')
         return render(request, 'registration/excluir_usuario.html')
@@ -133,16 +134,18 @@ def editar_usuario(request: HttpRequest):
             return render(request, 'registration/editar_usuario.html')
 
         # se passou seja o que deus quiser
-        nome = request.POST.get('username')
+        username = request.POST.get('username')
         email = request.POST.get('email')
         senha = request.POST.get('password')
 
-        if nome:
-            request.user.username = nome
+        user = User.objects.get(username=request.user.username)
+
+        if username:
+            user.username = username
         if email:
-            request.user.email = email
-        if senha: # se o campo senha não estiver vazio
-            request.user.set_password(senha)
+            user.email = email
+        if senha:
+            user.password = senha
 
         request.user.save() # salva as alterações
         messages.add_message(request, messages.SUCCESS, 'Suas informações foram atualizadas com sucesso.')

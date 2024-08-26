@@ -39,7 +39,7 @@ def logout_validate(request: HttpRequest):
     if request.method == 'GET':
         if request.user.is_authenticated:
             logout(request)
-            return redirect('login')
+            return redirect('index')
         else:
             messages.add_message(request, messages.ERROR, 'Sessão inválida.')
             return redirect('login')
