@@ -51,9 +51,9 @@ def cadastrar_aluno(request: HttpRequest):
         novo_aluno.groups.add(grupo)
         login(request, novo_aluno)
         messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_aluno.id}')
-        return render(request, 'paginas/cadastro.html')
+        return redirect('redirect')
     else:
-        return render(request, 'paginas/cadastro.html')
+        return redirect('redirect')
 
 def cadastrar_professor(request: HttpRequest):
     if (validar_cadastro(request) == True):
@@ -65,10 +65,9 @@ def cadastrar_professor(request: HttpRequest):
         novo_professor.groups.add(grupo)
         login(request, novo_professor)
         messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_professor.id}')
-        
-        return render(request, 'paginas/cadastro.html')
+        return redirect('redirect')
     else:
-        return render(request, 'paginas/cadastro.html')
+        return redirect('redirect')
     
 def cadastrar_turma(request: HttpRequest):
     if request.method == 'GET':
@@ -138,9 +137,10 @@ def editar_usuario(request: HttpRequest):
         email = request.POST.get('email')
         senha = request.POST.get('password')
 
-        request.user.username = nome
-        request.user.email = email
-
+        if nome:
+            request.user.username = nome
+        if email:
+            request.user.email = email
         if senha: # se o campo senha não estiver vazio
             request.user.set_password(senha)
 

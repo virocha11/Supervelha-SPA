@@ -43,3 +43,7 @@ def logout_validate(request: HttpRequest):
         else:
             messages.add_message(request, messages.ERROR, 'Sessão inválida.')
             return redirect('login')
+        
+def perfil_professor(request: HttpRequest):
+    if request.method == 'GET':
+        return render(request, 'paginas/perfil_prof.html')

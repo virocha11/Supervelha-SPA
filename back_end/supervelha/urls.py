@@ -10,6 +10,7 @@ urlpatterns = [
     path('redirect/', views.redirect_group, name='redirect'),
     path('inicio/professor/', views.home_professor, name='inicio_professor'),
     path('inicio/aluno/', views.home_aluno, name='inicio_aluno'),
+    path('perfil/professor/', views.perfil_professor, name='perfil_professor'),
     path('cadastro/', include('cadastro.urls')),
     path('turma/', include('turma.urls')),
     path('admin/', admin.site.urls),
