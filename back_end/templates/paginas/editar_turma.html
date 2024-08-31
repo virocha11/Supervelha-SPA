@@ -66,7 +66,8 @@
                     <p>Aluno: {{ aluno.username }} <a href="{% url 'remover_aluno' turma.codigo aluno.username %}"><button class="btn_geral rounded">Remover Aluno</button></a></p>
                 </div>
                 {% endfor %}
-                <a href="{% url 'minhas_turmas' %}"><button class="btn_geral rounded">Retornar</button></a>
+                <p><a href="{% url 'excluir_turma' turma.codigo %}"><button class="btn_geral rounded">Excluir Turma</button></a></p>
+                <p><a href="{% url 'minhas_turmas' %}"><button class="btn_geral rounded">Retornar</button></a></p>
             </section>
         </main>
         <object class="w-100 obj_footer" data="{% static 'assets/paginas/footer.html' %}" type="text/html"></object>

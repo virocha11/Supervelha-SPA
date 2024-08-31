@@ -147,3 +147,9 @@ def editar_usuario(request: HttpRequest):
         request.user.save() # salva as alterações
         messages.add_message(request, messages.SUCCESS, 'Suas informações foram atualizadas com sucesso.')
         return render(request, 'registration/editar_usuario.html')
+    
+def excluir_turma(request: HttpRequest, codigo_turma): # falta desenvolver completo
+    turma = Turma.objects.get(codigo=codigo_turma)
+    turma.delete()
+    messages.add_message(request, messages.SUCCESS, 'Turma excluída com sucesso.')
+    return redirect('minhas_turmas')
