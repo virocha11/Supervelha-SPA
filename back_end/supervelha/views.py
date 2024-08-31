@@ -47,3 +47,7 @@ def logout_validate(request: HttpRequest):
 def perfil_professor(request: HttpRequest):
     if request.method == 'GET':
         return render(request, 'paginas/perfil_prof.html')
+    
+def perfil_aluno(request: HttpRequest):
+    if request.method == 'GET':
+        return render(request, 'paginas/perfil_aluno.html')

@@ -4,6 +4,10 @@
     --ciano_claro: #B6F5FE;
     --azul_marinho: #093D65;
     --azul: #28647E;
+    --fonte_m: 1.4rem;
+    --fonte_g: 1.6rem;
+    --fonte_gg: 2rem;
+    --fonte_gg: 3.2rem;
 }
 body{
     height: 100vh;
@@ -12,6 +16,9 @@ footer{
     color: #fff;
     background-color: var(--azul_marinho);
     height: 100%;
+}
+form>input{
+    font-size: 1.1rem;
 }
 html, body{
     padding: 0;
@@ -30,6 +37,10 @@ main{
 header>nav>div>div>a>img{
     background-color: var(--ciano_medio);
 }
+.bgc_claro{
+ background-color: var(--ciano_medio);
+}
+
 .btn_geral{
     padding: 5px 8px 5px 8px;
     background-color: var(--amarelo_claro);
@@ -56,8 +67,9 @@ header>nav>div>div>a>img{
     transition-duration: 0.25s;
 }
 .cadastre_btn{
-    padding: 0 3px 0 3px;
-    height: 40px;
+    padding: 8px 6px 0 6px;
+    width: 55px;
+    height: 55px;
     background-color: var(--amarelo_claro);
     border: inset var(--azul_marinho) 4px;
 }
@@ -75,6 +87,18 @@ header>nav>div>div>a>img{
 .conteudo_modal{
     max-width: 600px;
     color: var(--azul_marinho);
+}
+.fonte_media{
+    font-size: var(--fonte_m);
+}
+.fonte_grande{
+    font-size: var(--fonte_g);
+}
+.fonte_grande_g{
+    font-size: var(--fonte_gg);
+}
+.fonte_xgrande{
+    font-size: var(--fonte_gg);
 }
 .img_livros{
     width: 300px;

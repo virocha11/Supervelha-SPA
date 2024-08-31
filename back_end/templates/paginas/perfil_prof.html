@@ -6,13 +6,15 @@
         {% load static %}
         <link rel="stylesheet" href="{% static 'assets/bootstrap_4.1.3_dist/css/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+        <link rel="shortcut icon" href="{% static 'assets/imgs/logo.png' %}" type="image/x-icon">
+
         <title>Perfil</title>
     </head>
     <body>
         <header class="text-white">
             <nav class="navbar navbar-light bg-transparent">
                 <div class="container-fluid">
-                    <div class="navbar-brand"><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
+                    <div class="navbar-brand w-auto"><a href="#"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
                     <div class="d-flex">
 
                         <!-- BOTAO DE SAIR DO SITE -->

@@ -6,46 +6,46 @@
         <link rel="stylesheet" href="{% static 'assets/bootstrap_4.1.3_dist/css/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="{% static 'assets/imgs/logo.png' %}" type="image/x-icon">
+
         <title>Supervelha SPA</title>
     </head>
     <body>
         <header class="text-white">
             <nav class="navbar navbar-light bg-transparent">
                 <div class="container-fluid">
-                    <div class="navbar-brand"><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
+                    <div class="navbar-brand w-auto"><a href="#"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
+
                     <div class="d-flex">
-                        <a class="nav-link" href="{% url 'login' %}">Entre</a>
-                        <a class="nav-link" href="#">Sobre o site</a>
+                        <a class="btn_nav rounded mr-2 ml-2" href="{% url 'login' %}">Entre</a>
+                        <a class="btn_nav rounded mr-2 ml-2" href="#">Sobre o site</a>
                     </div>
                 </div>
             </nav>
         </header>
         <main>
 
-            <section class="accordion w-75 m-auto py-2" id="accordion_entrar">
+            <section class="accordion w-50 m-auto py-2" id="accordion_entrar">
                 <div class="mb-2" id="heading_one">
                     <button class="btn btn_geral w-100" type="button" data-toggle="collapse" data-target="#formulario_p" aria-expanded="true" aria-controls="formulario_p">Sou professor</button>
                 </div>
                 
                 <!-- formulario_professor-->
-                <form class="form collapse" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_p" action="{% url 'cadastro_professor' %}" method="POST">
+                <form class="form collapse mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_p" action="{% url 'cadastro_professor' %}" method="POST">
                     {% csrf_token %}
-                    <label class="" for="nome_prof">
-                        <input class="rounded" type="text" id="nome_prof" name="username" placeholder="Nome de usuário">
-                    </label>
-                
-                    <label class="" for="email_prof">
-                        <input class="rounded" type="email" id="email_prof" name="email" placeholder="Email">
-                    </label>
+                    <label class="row m-2 fonte_media" for="nome_prof">Nome:</label>
+                    <input class="rounded w-100 mb-3" type="text" id="nome_prof" name="username" placeholder="Nome de usuário">
 
-                    <label class="" for="senha_prof">
-                        <input class="rounded" type="password" id="senha_prof" name="password" placeholder="Senha">
-                    </label>
+                    <label class="row m-2 fonte_media" for="email_prof">Email:</label>
+                    <input class="rounded w-100 mb-3" type="email" id="email_prof" name="email" placeholder="Email">
 
-                    <label class="" for="confirmacao_prof">
-                        <input class="rounded" type="password" id="confirmacao_prof" name="cpassword" placeholder="Confirme sua senha">
-                    </label>
-                    <button class="btn-info rounded">Cadastrar</button>    
+                    <label class="row m-2 fonte_media" for="senha_prof">Senha</label>
+                    <input class="rounded w-100 mb-3" type="password" id="senha_prof" name="password" placeholder="Senha">
+
+                    <label class="row m-2 fonte_media" for="confirmacao_prof">Confirmação de senha:</label>
+                    <input class="rounded w-100 mb-3" type="password" id="confirmacao_prof" name="cpassword" placeholder="Confirme sua senha">
+
+                    <button class="btn-info rounded row m-auto"><h4>Cadastrar</h4></button>    
                 </form>
 
                 <div class="my-2" id="heading_one">
@@ -53,24 +53,21 @@
                 </div>
 
                 <!-- formulario_aluno-->
-                <form class="form collapse" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_a" action="{% url 'cadastro_aluno' %}" method="POST">
+                <form class="form collapse mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_a" action="{% url 'cadastro_aluno' %}" method="POST">
                     {% csrf_token %}
-                    <label class="" for="nome_aluno">
-                        <input class="rounded" type="text" id="nome_aluno" name="username" placeholder="Nome de usuário">
-                    </label>
-                
-                    <label class="" for="email_aluno">
-                        <input class="rounded" type="email" id="email_aluno" name="email" placeholder="Email">
-                    </label>
+                    <label class="row m-2 fonte_media" for="nome_aluno">Nome:</label>
+                    <input class="rounded w-100 mb-3" type="text" id="nome_aluno" name="username" placeholder="Nome de usuário">
 
-                    <label class="" for="senha_aluno">
-                        <input class="rounded" type="password" id="senha_aluno" name="password" placeholder="Senha">
-                    </label>
+                    <label class="row m-2 fonte_media" for="email_aluno">Email:</label>
+                    <input class="rounded w-100 mb-3" type="email" id="email_aluno" name="email" placeholder="Email">
 
-                    <label class="" for="confirmacao_aluno">
-                        <input class="rounded" type="password" id="confirmacao_aluno" name="cpassword" placeholder="Confirme sua senha">
-                    </label>
-                    <button class="btn-info rounded">Cadastrar</button>    
+                    <label class="row m-2 fonte_media" for="senha_aluno">Senha</label>
+                    <input class="rounded w-100 mb-3" type="password" id="senha_aluno" name="password" placeholder="Senha">
+
+                    <label class="row m-2 fonte_media" for="confirmacao_aluno">Confirmação de senha:</label>
+                    <input class="rounded w-100 mb-3" type="password" id="confirmacao_aluno" name="cpassword" placeholder="Confirme sua senha">
+
+                    <button class="btn-info rounded row m-auto"><h4>Cadastrar</h4></button>      
                 </form>
             </section>
         </main>
