@@ -81,20 +81,17 @@ def cadastrar_turma(request: HttpRequest):
             messages.add_message(request, messages.ERROR, 'Usuário não autenticado.')
             redirect('index')
 
-    if request.method == 'POST': # se for envio de formulário
-        nome = request.POST.get('nome') # pegando os valores passados etc tal
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
         capacidade = request.POST.get('capacidade')
         quantidade_alunos = 0
-        professor_responsavel = User.objects.get(id=request.user.id) # recupera o professor responsável baseado no id do formulario
-        # cria nova turma se deus quiser com os valores pegos do get
+        professor_responsavel = User.objects.get(id=request.user.id)
         nova_turma = Turma.objects.create(nome=nome, capacidade=capacidade, professor=professor_responsavel, quantidade_alunos=quantidade_alunos)
-        messages.add_message(request, messages.SUCCESS, f'Turma "{nova_turma.nome}" cadastrada com sucesso. O código dela é "{nova_turma.codigo}"!') # retorna pro ''front''
-        return render(request, 'paginas/inicio_professor.html') # retorna essa listinha
-    
-    # professores = User.objects.filter(groups__name='Professor')  # filtra apenas professores naquele campinho pra pessoa escolher
+        messages.add_message(request, messages.SUCCESS, f'Turma "{nova_turma.nome}" cadastrada com sucesso. O código dela é "{nova_turma.codigo}"!')
+        return render(request, 'paginas/inicio_professor.html')
 
 def excluir_usuario(request: HttpRequest):
-    if request.method == 'GET': # somente exibe o formulario se voce estiver autenticado
+    if request.method == 'GET':
         if request.user.is_authenticated:
             return render(request, 'registration/excluir_usuario.html')
         else:

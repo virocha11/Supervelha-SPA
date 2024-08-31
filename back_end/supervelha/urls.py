@@ -16,5 +16,4 @@ urlpatterns = [
     path('turma/', include('turma.urls')),
     path('admin/', admin.site.urls),
     path('__debug__/', include(debug_toolbar.urls)),
-    # path('conta/', include('django.contrib.auth.urls')),
 ]

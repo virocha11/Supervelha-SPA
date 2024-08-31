@@ -7,8 +7,8 @@
         <link rel="stylesheet" href="{% static 'assets/bootstrap_4.1.3_dist/css/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
         <link rel="shortcut icon" href="{% static 'assets/imgs/logo.png' %}" type="image/x-icon">
-
-        <title>Início</title>
+        
+        <title>Editar Detalhes</title>
     </head>
     <body>
         <header class="text-white">
@@ -17,7 +17,7 @@
                     <div class="navbar-brand w-auto"><a href="#"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
 
                     <div class="d-flex">
-                        <a class="btn_nav rounded mr-2 ml-2" href="{% url 'perfil_professor' %}">Perfil</a>
+                        <a class="btn_nav rounded mr-2 ml-2" href="{% url 'perfil_aluno' %}">Perfil</a>
 
                         <!-- BOTAO DE SAIR DO SITE -->
                         <button type="button" class="btn_nav rounded mr-2 ml-2" onclick="abrir_modal('vis_modal')">Sair</button>
@@ -43,9 +43,19 @@
         </header>
         <main>
             <section>
-                <h2>Início</h2>
-                <a href="{% url 'cadastrar_turma' %}"><button class="btn_geral rounded">Cadastrar Turma</button></a>
-                <a href="{% url 'minhas_turmas' %}"><button class="btn_geral rounded">Minhas Turmas</button></a>
+                <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'editar_detalhes_turma' turma.codigo %}" method="POST">
+                    {% csrf_token %}   
+                    <h3 class="text-white">Editar Turma</h3>
+
+                    <label class="row m-2 fonte_media" for="nome">Nome da turma:</label>
+                    <input class="rounded w-100 mb-3" type="text" id="nome" name="nome" placeholder="Nome de turma">
+
+                    <label class="row m-2 fonte_media" for="capacidade">Capacidade:</label>
+                    <input class="rounded w-25 mb-3" type="number" min="1" id="capacidade" name="capacidade" placeholder="Número máximo de alunos">
+
+                    <button class="btn-info rounded row m-auto" type="submit"><h4>Editar</h4></button>    
+                </form>
+                <a href="{% url 'editar_turma' turma.codigo %}"><button class="btn_geral rounded">Retornar</button></a>
             </section>
         </main>
         <object class="w-100 obj_footer" data="{% static 'assets/paginas/footer.html' %}" type="text/html"></object>
