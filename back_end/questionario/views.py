@@ -33,9 +33,8 @@ def criar_questionario(request: HttpRequest, codigo_turma):
             return redirect('redirect')
 
 def visualizar_questionario(request: HttpRequest, questionario_id):
-    # Verificar se o usuário pertence ao grupo 'Professor'
     if request.user.groups.get().name == 'Professor':
-        # Lidar com requisição GET
+
         if request.method == 'GET':
             questionario = Questionario.objects.get(id=questionario_id)
             questoes = Pergunta.objects.filter(questionario=questionario)
@@ -92,7 +91,7 @@ def adicionar_questao(request: HttpRequest, questionario_id):
             questionario = Questionario.objects.get(id=questionario_id)
             enunciado = request.POST.get('questao')
             if enunciado:
-                # Verificar se a questão já existe para evitar duplicação
+                # ver se questao ja existe pra nao ter 2 igual
                 if not Pergunta.objects.filter(enunciado=enunciado, questionario=questionario).exists():
                     Pergunta.objects.create(enunciado=enunciado, questionario=questionario)
                     questionario.quantidade_perguntas += 1
