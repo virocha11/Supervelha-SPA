@@ -26,3 +26,5 @@ class Resposta(models.Model):
     resposta = models.TextField()
     avaliado = models.BooleanField(default=0)
     nota = models.IntegerField()
+    def __str__(self):
+        return self.resposta

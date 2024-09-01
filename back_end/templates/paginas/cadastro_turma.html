@@ -52,7 +52,7 @@
                         </div>
                     {% endfor %}
                 </div>
-            {% endif %}
+                {% endif %}
                 <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'cadastrar_turma' %}" method="POST">
                     {% csrf_token %}   
                     <h3 class="text-white">Cadastrar Turma</h3>

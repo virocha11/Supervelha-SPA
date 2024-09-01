@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
 from . import views
-import debug_toolbar
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -16,5 +15,4 @@ urlpatterns = [
     path('turma/', include('turma.urls')),
     path('questionario/', include('questionario.urls')),
     path('admin/', admin.site.urls),
-    path('__debug__/', include(debug_toolbar.urls)),
 ]

@@ -32,35 +32,25 @@ def criar_questionario(request: HttpRequest, codigo_turma):
             messages.add_message(request, messages.ERROR, 'Permissão negada.')
             return redirect('redirect')
 
+def excluir_questionario(request: HttpRequest, questionario_id, codigo_turma):
+    if request.method == 'GET':
+        if request.user.groups.get().name == 'Professor':
+            questionario = Questionario.objects.get(id=questionario_id)
+            questionario.delete()
+            messages.add_message(request, messages.SUCCESS, 'Questionário excluído com sucesso!')
+            return redirect('questionarios', codigo_turma)
+        else:
+            messages.add_message(request, messages.ERROR, 'Permissão negada.')
+            return redirect('redirect')
+
 def visualizar_questionario(request: HttpRequest, questionario_id):
     if request.user.groups.get().name == 'Professor':
-
         if request.method == 'GET':
             questionario = Questionario.objects.get(id=questionario_id)
             questoes = Pergunta.objects.filter(questionario=questionario)
-            return render(request, 'paginas/questionario.html', {
-                'questionario': questionario,
-                'questoes': questoes
-            })
-        
-        if request.method == 'POST':
-            enunciado = request.POST.get('questao')
-            if enunciado:
-                # adicionaa a nova questão ao questionário
-                questionario = Questionario.objects.get(id=questionario_id)
-                Pergunta.objects.create(enunciado=enunciado, questionario=questionario)
-                # atualiza qtde de perguntas no questionário
-                questionario.quantidade_perguntas += 1
-                questionario.save()
-                messages.add_message(request, messages.SUCCESS, 'Questão adicionada com sucesso!')
-            else:
-                messages.add_message(request, messages.ERROR, 'Enunciado da questão não pode estar vazio.')
-            
-            # Redirecionar de volta para a página do questionário
-            return redirect('visualizar_questionario', questionario_id=questionario_id)
-    
+            return render(request, 'paginas/questionario.html', {'questionario': questionario, 'questoes': questoes})
     else:
-        messages.add_message(request, messages.ERROR, 'Permissão negada.') # se não for professor
+        messages.add_message(request, messages.ERROR, 'Permissão negada.')
         return redirect('redirect')
         
 def editar_questionario(request: HttpRequest, questionario_id):
@@ -85,20 +75,53 @@ def editar_questionario(request: HttpRequest, questionario_id):
             messages.add_message(request, messages.ERROR, 'Permissão negada.')
             return redirect('redirect')
         
-def adicionar_questao(request: HttpRequest, questionario_id):
+def adicionar_pergunta(request: HttpRequest, questionario_id):
     if request.method == 'POST':
         if request.user.groups.get().name == 'Professor':
             questionario = Questionario.objects.get(id=questionario_id)
-            enunciado = request.POST.get('questao')
+            enunciado = request.POST.get('enunciado')
             if enunciado:
-                # ver se questao ja existe pra nao ter 2 igual
-                if not Pergunta.objects.filter(enunciado=enunciado, questionario=questionario).exists():
+                try: 
+                    pergunta = Pergunta.objects.get(enunciado=enunciado, questionario_id=questionario_id)
+                    messages.add_message(request, messages.ERROR, 'Questão já existe.')
+                except:
                     Pergunta.objects.create(enunciado=enunciado, questionario=questionario)
                     questionario.quantidade_perguntas += 1
                     questionario.save()
                     messages.add_message(request, messages.SUCCESS, 'Questão adicionada com sucesso!')
-                else:
-                    messages.add_message(request, messages.ERROR, 'Questão já existe.') # nao tá funcionando essa bosta
-            else:
-                messages.add_message(request, messages.ERROR, 'Enunciado da questão não pode estar vazio.')
             return redirect('visualizar_questionario', questionario_id=questionario_id)
+        
+def remover_pergunta(request: HttpRequest, questionario_id, questao_id):
+    if request.method == 'GET':
+        if request.user.groups.get().name == 'Professor':
+            pergunta = Pergunta.objects.get(id=questao_id)
+            if pergunta:
+                questionario = Questionario.objects.get(id=questionario_id)
+                if questionario.turma.professor == request.user:
+                    pergunta.delete()
+                    questionario.quantidade_perguntas -= 1
+                    questionario.save()
+                    messages.add_message(request, messages.SUCCESS, 'Questão removida com sucesso!')
+                    return redirect('visualizar_questionario', questionario_id=questionario_id)
+                else:
+                    messages.add_message(request, messages.ERROR, 'Permissão negada.')
+                    return redirect('redirect')
+            else:
+                messages.add_message(request, messages.ERROR, 'Questão não existe.')
+                return redirect('visualizar_questionario', questionario_id=questionario_id)
+        else:
+            messages.add_message(request, messages.ERROR, 'Permissão negada.')
+            return redirect('redirect')
+        
+def editar_pergunta(request: HttpRequest, questionario_id, questao_id):
+    if request.method == 'POST':
+        if request.user.groups.get().name == 'Professor':
+            questao = Pergunta.objects.get(id=questao_id)
+            enunciado = request.POST.get('enunciado')
+            questao.enunciado = enunciado
+            questao.save()
+            messages.add_message(request, messages.SUCCESS, 'Questão alterada com sucesso!')
+            return redirect('visualizar_questionario', questionario_id=questionario_id)
+        else:
+            messages.add_message(request, messages.ERROR, 'Permissão negada.')
+            return redirect('redirect')
