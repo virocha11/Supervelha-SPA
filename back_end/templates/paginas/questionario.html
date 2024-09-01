@@ -57,7 +57,7 @@
                                     <h3 class="p-3 my-0 py-0">Editar questionário {{ questionario.enunciado }}</h3>
                                 
                                     <label class="row m-2 fonte_media" for="enunciado">Enunciado:</label>
-                                    <textarea class="rounded mb-3" id="enunciado" name="enunciado" placeholder="Digite o enunciado do questionário" minlength="1" maxlength="1000" rows=3 cols=60></textarea>
+                                    <textarea class="rounded mb-3" id="enunciado" name="enunciado" placeholder="Digite o novo enunciado do questionário" minlength="1" maxlength="1000" rows=3 cols=60></textarea>
                                     <label class="row m-2 fonte_media" for="abertura">Abertura:</label>
                                     <input type="datetime-local" id="abertura" name="abertura"/>
                                     <label class="row m-2 fonte_media" for="fechamento">Fechamento:</label>
@@ -71,6 +71,14 @@
                     </article>
                     <!-- FIM MODAL -->
                 </article>
+            <!-- mensagens de sucesso e erro se deus quiser -->
+            {% if messages %}
+                <div class="alert-container">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
                 <h3>Questões</h3>
                 <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="#" method="POST">
                     {% csrf_token %}
@@ -91,6 +99,9 @@
                         <a href="#"><button class="btn_geral rounded">Remover questão</button></a></p>
                 </article>
                 {% endfor %}
+
+            <section>
+
                 <!-- MODAL PARA EDITAR QUESTAO -->
                 <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_questao">
                     <div class="conteudo_modal m-auto bg-light rounded text-center">

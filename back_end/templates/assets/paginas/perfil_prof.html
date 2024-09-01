@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../bootstrap_4.1.3_dist/css/bootstrap.css">
+        <link rel="stylesheet" href="../css/style.css">
+        <title>Perfil</title>
+    </head>
+    <body>
+        <header class="text-white">
+            <nav class="navbar navbar-light bg-transparent">
+                <div class="container-fluid">
+                    <div class="navbar-brand"><a href="../../index.html"><img class="rounded" src="../imgs/logo.png" alt=""></a></div>
+                    <div class="d-flex">
+
+                        <!-- BOTAO DE SAIR DO SITE -->
+                        <button type="button" class="btn_nav rounded mr-2 ml-2" onclick="abrir_modal('vis_modal')">Sair</button>
+
+                    </div>
+
+                    <!-- MODAL PARA USUARIO CONFIRMAR SE DESEJA SAIR DO SITE -->
+                    <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal">
+                        <div class="conteudo_modal m-auto bg-light rounded text-center">
+                            <div>
+                                <h3 class="p-3 my-0 py-0">Tem certeza que deseja sair do site?</h3>
+                            </div>
+                            <div>
+                                <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal')">Voltar</button>
+                                <a href="../../index.html"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Sair</button></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FIM MODAL -->
+
+                </div>
+            </nav>
+        </header>
+        <main>
+            <section>
+                <table>
+                    <tr>
+                        <th>nome: </th>
+                        <th>email: </th>
+                    </tr>
+                    
+                    <tr>
+                        <td>{{professor.nome}}</td>
+                        <td>{{professor.email}}</td>
+                    </tr>
+                </table>
+            </section>
+        </main>
+        <object class="w-100 obj_footer" data="footer.html" type="text/html"></object>
+        <script src="../js/script.js"></script>
+    </body>
+</html>

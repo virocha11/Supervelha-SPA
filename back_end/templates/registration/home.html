@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<p><a href="{% url 'cadastro_aluno' %}">Cadastrar Aluno</a></p>
+<p><a href="{% url 'cadastro_professor' %}">Cadastrar Professor</a></p>
+<p><a href="{% url 'cadastrar_turma' %}">Cadastrar Turma</a></p>
+<p><a href="{% url 'adicionar_aluno' %}">Adicionar Aluno A Turma</a></p>
+<p><a href="{% url 'remover_aluno' %}">Remover Aluno Da Turma</a></p>
+<p><a href="{% url 'excluir_usuario' %}">Excluir Usuário</a></p>
+
+{% endblock %}

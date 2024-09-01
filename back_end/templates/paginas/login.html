@@ -24,6 +24,16 @@
         </header>
         <main>
             <section class="w-50 m-auto py-2" id="">
+                <!--se deus quiser, bota as mensagens de erro na tela certa-->>
+                {% if messages %}
+                <div class="alert-container">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
                 <!-- formulario-->
                 <form class="form mt-5 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'login' %}" method="POST">
                     {% csrf_token %}

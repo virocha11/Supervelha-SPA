@@ -88,7 +88,7 @@ def cadastrar_turma(request: HttpRequest):
         professor_responsavel = User.objects.get(id=request.user.id)
         nova_turma = Turma.objects.create(nome=nome, capacidade=capacidade, professor=professor_responsavel, quantidade_alunos=quantidade_alunos)
         messages.add_message(request, messages.SUCCESS, f'Turma "{nova_turma.nome}" cadastrada com sucesso. O código dela é "{nova_turma.codigo}"!')
-        return render(request, 'paginas/inicio_professor.html')
+        return render(request, 'paginas/cadastro_turma.html')
 
 def excluir_usuario(request: HttpRequest):
     if request.method == 'GET':
