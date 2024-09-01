@@ -7,17 +7,16 @@
         <link rel="stylesheet" href="{% static 'assets/bootstrap_4.1.3_dist/css/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
         <link rel="shortcut icon" href="{% static 'assets/imgs/logo.png' %}" type="image/x-icon">
-        
-        <title>Editar Turma</title>
+        <title>Questionário</title>
     </head>
     <body>
         <header class="text-white">
             <nav class="navbar navbar-light bg-transparent">
                 <div class="container-fluid">
-                    <div class="navbar-brand w-auto"><a href="#"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
+                    <div class="navbar-brand w-auto"><a href="{% url 'turmas_prof' %}"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
 
                     <div class="d-flex">
-                        <a class="btn_nav rounded mr-2 ml-2" href="{% url 'perfil_aluno' %}">Perfil</a>
+                        <a class="btn_nav rounded mr-2 ml-2" href="{% url 'perfil_prof' %}">Perfil</a>
 
                         <!-- BOTAO DE SAIR DO SITE -->
                         <button type="button" class="btn_nav rounded mr-2 ml-2" onclick="abrir_modal('vis_modal')">Sair</button>
@@ -43,31 +42,22 @@
         </header>
         <main>
             <section>
-                <h2>Editar Turma</h2>
-                <h3>Turma: {{ turma.nome }}</h3>
-                <p>Capacidade: {{ turma.capacidade }}</p>
-                <p>Quantidade de Alunos: {{ turma.quantidade_alunos }}</p>
-                <a href="{% url 'editar_detalhes_turma' turma.codigo %}"><button class="btn_geral rounded">Editar</button></a>
-                <h3>Alunos</h3>
-                {% if turma.quantidade_alunos < turma.capacidade %}
-                <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'adicionar_aluno' turma.codigo %}" method="POST">
-                    {% csrf_token %}
-                    <h3 class="text-white">Adicionar Aluno</h3>
+                <article>
+                    <h3>Questao {{ questao.numero }}:</h3>
+                    <p>{{ questao.enunciado }}</p>
+                </article>
+                <h3>Respostas</h3>
 
-                    <label class="row m-2 fonte_media" for="aluno">Nome de usuário:</label>
-                    <input class="rounded w-100 mb-3" type="text" id="aluno" name="aluno" placeholder="Nome de usuário">
-                    <button class="btn-info rounded row m-auto" type="submit"><h4>Adicionar</h4></button>    
-                </form>
-                {% else %}
-                <p>Turma cheia, não é possível adicionar mais alunos.</p>
-                {% endif %}
-                {% for aluno in alunos %}
-                <div>
-                    <p>Aluno: {{ aluno.username }} <a href="{% url 'remover_aluno' turma.codigo aluno.username %}"><button class="btn_geral rounded">Remover Aluno</button></a></p>
-                </div>
+                {% for resposta in respostas %}
+                <article>
+                    <p>Aluno: {{ aluno.username }}</p>
+                    <p>{{ resposta.texto }}</p>
+                    {% comment "" %} botao para abrir modal{% endcomment %}
+                    <button class="btn_geral rounded" onclick="abrir_modal('vis_modal_avaliacao')">Avaliar</button>
+                </article>
                 {% endfor %}
-                <p><a href="{% url 'excluir_turma' turma.codigo %}"><button class="btn_geral rounded">Excluir Turma</button></a></p>
-                <p><a href="{% url 'minhas_turmas' %}"><button class="btn_geral rounded">Retornar</button></a></p>
+                <!-- MODAL PARA AVALIAR RESPOSTA -->
+                <!-- FIM MODAL -->
             </section>
         </main>
         <object class="w-100 obj_footer" data="{% static 'assets/paginas/footer.html' %}" type="text/html"></object>

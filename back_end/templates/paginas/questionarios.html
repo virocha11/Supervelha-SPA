@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
         <link rel="shortcut icon" href="{% static 'assets/imgs/logo.png' %}" type="image/x-icon">
         
-        <title>Editar Detalhes</title>
+        <title>Questionários</title>
     </head>
     <body>
         <header class="text-white">
@@ -43,18 +43,43 @@
         </header>
         <main>
             <section>
-                <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'editar_detalhes_turma' turma.codigo %}" method="POST">
-                    {% csrf_token %}   
-                    <h3 class="text-white">Editar Turma</h3>
+                <h2>Questionários</h2>
 
-                    <label class="row m-2 fonte_media" for="nome">Nome da turma:</label>
-                    <input class="rounded w-100 mb-3" type="text" id="nome" name="nome" placeholder="Nome de turma">
+                <a href="{% url 'add_questionario' %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Adicionar questionário</button></a>
 
-                    <label class="row m-2 fonte_media" for="capacidade">Capacidade:</label>
-                    <input class="rounded w-25 mb-3" type="number" min="1" id="capacidade" name="capacidade" placeholder="Número máximo de alunos">
-
-                    <button class="btn-info rounded row m-auto" type="submit"><h4>Concluir</h4></button>    
-                </form>
+                <!-- MODAL PARA EDITAR QUESTAO -->
+                <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_add_questionario">
+                    <div class="conteudo_modal m-auto bg-light rounded text-center">
+                        <div>
+                            <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'add_questionario' turma.codigo %}" method="POST">
+                                {% csrf_token %}
+                                <h3 class="p-3 my-0 py-0">Adicionar questionário</h3>
+            
+                                <label class="row m-2 fonte_media" for="aluno">Enunciado:</label>
+                                <textarea class="rounded mb-3" id="questao" name="questao" placeholder="Digite o enunciado da questão" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
+                                <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_questao')">Voltar</button>
+                                <button class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_add_questionario')" type="submit"><h4>Adicionar</h4></button>    
+                            </form>
+                        </div>
+                    </div>
+                </article>
+                <!-- FIM MODAL -->
+                {% if messages %}
+                <ul class="messages">
+                  {% for message in messages %}
+                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+                {% for questionario in questionarios %}
+                <div>
+                    <h3>Questionário: {{ questionario.nome }}</h3>
+                    <p>Abertura: {{ questionario.data }} {{ questionario.horario }}</p>
+                    <p>Fechamento: {{ questionario.data }} {{ questionario.horario }}</p>
+                    <p>{{ questionario.qtd_questoes }} questões</p>
+                    <a href="{% url 'visualizar_questionario' %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Visualizar questionário</button></a>
+                </div>
+                {% endfor %}
                 
             </section>
         </main>

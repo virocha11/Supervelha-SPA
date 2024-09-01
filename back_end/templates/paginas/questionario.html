@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'assets/bootstrap_4.1.3_dist/css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+        <link rel="shortcut icon" href="{% static 'assets/imgs/logo.png' %}" type="image/x-icon">
+        <title>Questionário</title>
+    </head>
+    <body>
+        <header class="text-white">
+            <nav class="navbar navbar-light bg-transparent">
+                <div class="container-fluid">
+                    <div class="navbar-brand w-auto"><a href="{% url 'turmas_prof' %}"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
+
+                    <div class="d-flex">
+                        <a class="btn_nav rounded mr-2 ml-2" href="{% url 'perfil_prof' %}">Perfil</a>
+
+                        <!-- BOTAO DE SAIR DO SITE -->
+                        <button type="button" class="btn_nav rounded mr-2 ml-2" onclick="abrir_modal('vis_modal')">Sair</button>
+
+                    </div>
+
+                    <!-- MODAL PARA USUARIO CONFIRMAR SE DESEJA SAIR DO SITE -->
+                    <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal">
+                        <div class="conteudo_modal m-auto bg-light rounded text-center">
+                            <div>
+                                <h3 class="p-3 my-0 py-0">Tem certeza que deseja sair do site?</h3>
+                            </div>
+                            <div>
+                                <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal')">Voltar</button>
+                                <a href="{% url 'logout' %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Sair</button></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FIM MODAL -->
+
+                </div>
+            </nav>
+        </header>
+        <main>
+            <section>
+                <article>
+                    <h3>Questionário: {{ questionario.nome }}</h3>
+                    <p>Abertura: {{ questionario.data }} {{ questionario.horario }}</p>
+                    <p>Fechamento: {{ questionario.data }} {{ questionario.horario }}</p>
+                    <p>{{ questionario.qtd_questoes }} questões</p>
+                    <a href="{% url 'editar_detalhes_turma' turma.codigo %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="abrir_modal('vis_modal_questionario')">Editar questionário</button></a>
+                    <!-- MODAL PARA EDITAR QUESTAO -->
+                    <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_questionario">
+                        <div class="conteudo_modal m-auto bg-light rounded text-center">
+                            <div>
+                                <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'editar_questionario' questionario.nome %}" method="POST">
+                                    {% csrf_token %}
+                                    <h3 class="p-3 my-0 py-0">Editar questionário {{ questionario.nome }}</h3>
+                                
+                                    <label class="row m-2 fonte_media" for="nome">Nome:</label>
+                                    <input class="rounded mb-3" id="nome" name="questao" placeholder="Digite o nome do questionário" required>
+                                    <label class="row m-2 fonte_media" for="">Abertura:</label>
+                                    <input class="rounded mb-3" name="questao" type="date" required>
+                                    <input class="rounded mb-3" name="questao" type="time" required>
+                                    <label class="row m-2 fonte_media" for="">Fechamento:</label>
+                                    <input class="rounded mb-3" name="questao" type="date" required>
+                                    <input class="rounded mb-3" name="questao" type="time" required>
+                                    <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_questao')">Voltar</button>
+                                    <button class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_questionario')" type="submit"><h4>Concluir</h4></button>    
+                                </form>
+                            </div>
+                        </div>
+                    </article>
+                    <!-- FIM MODAL -->
+                </article>
+                <h3>Questões</h3>
+                <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'adicionar_aluno' turma.codigo %}" method="POST">
+                    {% csrf_token %}
+                    <h3 class="text-white">Adicionar questão:</h3>
+
+                    <label class="row m-2 fonte_media" for="aluno">Enunciado:</label>
+                    <textarea class="rounded mb-3" id="questao" name="questao" placeholder="Digite o enunciado da questão" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
+                    <button class="btn-info rounded row m-auto" type="submit"><h4>Adicionar</h4></button>    
+                </form>
+                {% for questao in questoes %}
+                <article>
+                    <p>Questão {{ questao.numero }}: {{ questao.enunciado }} 
+                        <a href="{% url 'respostas' %}"><button class="btn_geral rounded">Respostas</button></a> 
+                        
+                        {% comment "" %} botao para abrir modal{% endcomment %}
+                        <button class="btn_geral rounded" onclick="abrir_modal('vis_modal_questao')">Editar</button> 
+
+                        <a href="{% url 'remover_questao' questionario.nome questao.numero %}"><button class="btn_geral rounded">Remover questão</button></a></p>
+                </article>
+                {% endfor %}
+                <!-- MODAL PARA EDITAR QUESTAO -->
+                <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_questao">
+                    <div class="conteudo_modal m-auto bg-light rounded text-center">
+                        <div>
+                            <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'editar_questao' questionario.nome questao.numero %}" method="POST">
+                                {% csrf_token %}
+                                <h3 class="p-3 my-0 py-0">Editar questão {{ questao.numero }}</h3>
+            
+                                <label class="row m-2 fonte_media" for="aluno">Enunciado:</label>
+                                <textarea class="rounded mb-3" id="questao" name="questao" placeholder="Digite o enunciado da questão" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
+                                <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_questao')">Voltar</button>
+                                <button class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_questao')" type="submit"><h4>Concluir</h4></button>    
+                            </form>
+                        </div>
+                    </div>
+                </article>
+                <!-- FIM MODAL -->
+            </section>
+        </main>
+        <object class="w-100 obj_footer" data="{% static 'assets/paginas/footer.html' %}" type="text/html"></object>
+        <script src="{% static 'assets/js/script.js' %}"></script>
+    </body>
+</html>
