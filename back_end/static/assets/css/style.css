@@ -9,9 +9,6 @@
     --fonte_gg: 2rem;
     --fonte_gg: 3.2rem;
 }
-body{
-    height: 100vh;
-}
 footer{
     color: #fff;
     background-color: var(--azul_marinho);
@@ -23,6 +20,7 @@ form>input{
 html, body{
     padding: 0;
     margin: 0;
+    height: 100%;
 }
 header{
     background-color: var(--azul_marinho);
@@ -30,7 +28,8 @@ header{
 
 main{
     background-color: var(--azul);
-    height: 100vh;
+    min-height: 100vh;
+    padding: 20px;
     margin: 0;
 }
 
@@ -38,7 +37,7 @@ header>nav>div>div>a>img{
     background-color: var(--ciano_medio);
 }
 .bgc_claro{
- background-color: var(--ciano_medio);
+    background-color: var(--ciano_medio);
 }
 
 .btn_geral{
