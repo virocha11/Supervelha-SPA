@@ -10,4 +10,5 @@ urlpatterns = [
     path('adicionar_questao/questionario_id=<questionario_id>', views.adicionar_pergunta, name='adicionar_questao'),
     path('remover_questao/questionario_id=<questionario_id>&&questao_id=<questao_id>', views.remover_pergunta, name='remover_questao'),
     path('editar_questao/questionario_id=<questionario_id>&&questao_id=<questao_id>', views.editar_pergunta, name='editar_questao'),
+    path('responder/questionario_id=<questionario_id>', views.responder_questionario, name='responder_questionario'),
 ]

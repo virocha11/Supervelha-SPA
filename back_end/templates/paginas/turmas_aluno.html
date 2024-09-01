@@ -8,13 +8,13 @@
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
         <link rel="shortcut icon" href="{% static 'assets/imgs/logo.png' %}" type="image/x-icon">
         
-        <title>Início</title>
+        <title>Minhas Turmas</title>
     </head>
     <body>
         <header class="text-white">
             <nav class="navbar navbar-light bg-transparent">
                 <div class="container-fluid">
-                    <div class="navbar-brand w-auto"><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
+                    <div class="navbar-brand w-auto"><a href="{% url 'inicio_aluno' %}"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
 
                     <div class="d-flex">
                         <a class="btn_nav rounded mr-2 ml-2" href="{% url 'perfil_aluno' %}">Perfil</a>
@@ -43,8 +43,14 @@
         </header>
         <main>
             <section>
-                <h2>Início</h2>
-                <a href="{% url 'minhas_turmas' %}"><button class="btn_geral rounded">Minhas Turmas</button></a>
+                {% for turma in turmas %}
+                <div>
+                    <h3>Turma: {{ turma.nome }}</h3>
+                    <p>Código: {{ turma.codigo }}</p>
+                    <p>Professor: {{ turma.professor }}</p>
+                    <a href="{% url 'visualizar_turma' turma.codigo %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Visualizar Turma</button></a>
+                </div>
+                {% endfor %}
             </section>
         </main>
         <object class="w-100 obj_footer" data="{% static 'assets/paginas/footer.html' %}" type="text/html"></object>
