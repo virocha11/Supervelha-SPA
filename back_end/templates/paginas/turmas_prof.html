@@ -57,7 +57,7 @@
                     <p>Código: {{ turma.codigo }}</p>
                     <p>Capacidade: {{ turma.capacidade }}</p>
                     <p>Quantidade de Alunos: {{ turma.quantidade_alunos }}</p>
-                    <a href="{% url 'visualizar_turma' %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Visualizar Turma</button></a>
+                    <a href="{% url 'visualizar_turma' turma.codigo %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Visualizar Turma</button></a>
                 </div>
                 {% endfor %}
                 

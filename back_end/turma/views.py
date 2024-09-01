@@ -10,6 +10,11 @@ def minhas_turmas(request):
     turmas = Turma.objects.filter(professor=request.user.id)
     return render(request, 'paginas/turmas_prof.html', {'turmas': turmas})
 
+def visualizar_turma(request: HttpRequest, codigo_turma):
+    turma = Turma.objects.get(codigo=codigo_turma)
+    alunos = turma.alunos.all()
+    return render(request, 'paginas/turma.html', {'turma': turma, 'alunos': alunos})
+
 def editar_turma(request: HttpRequest, codigo_turma):
     if request.method == 'GET':
         if request.user.groups.get().name == 'Professor':

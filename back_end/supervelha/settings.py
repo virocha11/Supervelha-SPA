@@ -18,7 +18,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'cadastro',
-    'turma'
+    'turma',
+    'questionario'
 ]
 
 MIDDLEWARE = [

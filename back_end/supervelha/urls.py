@@ -14,6 +14,7 @@ urlpatterns = [
     path('perfil/aluno/', views.perfil_aluno, name='perfil_aluno'),
     path('cadastro/', include('cadastro.urls')),
     path('turma/', include('turma.urls')),
+    path('questionario/', include('questionario.urls')),
     path('admin/', admin.site.urls),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
