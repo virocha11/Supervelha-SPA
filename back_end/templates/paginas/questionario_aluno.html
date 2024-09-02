@@ -53,17 +53,8 @@
                     <h3>Questionário: {{ questionario.enunciado }}</h3>
                     <p>Abertura: {{ questionario.abertura }} {{ questionario.horario }}</p>
                     <p>Fechamento: {{ questionario.fechamento }} {{ questionario.horario }}</p>
-                    <h3>Questões</h3>
-                    <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'responder_questionario' questionario.id %}" method="POST">
-                    {% csrf_token %}
-                    {% for questao in questoes %}
-                    <article>
-                        <p>{{ questao.enunciado }}</p>
-                        <label class="row m-2 fonte_media" value="" for="resposta">Resposta:</label>
-                        <textarea class="rounded mb-3" name="resposta" placeholder="Digite sua resposta" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
-                    </article>
-                    {% endfor %}
-                    <button class="btn m-3 pr-3 pl-3 btn_geral"><h4>Enviar</h4></button>
+                    <a href="{% url 'responder_questionario' questionario.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Tentativa do questionário</button></a>
+                    <a href="{% url 'revisar_respostas' questionario.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Revisar respostas</button></a>
                     </form>    
                 </article>
                 <section>

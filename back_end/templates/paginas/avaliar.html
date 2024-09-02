@@ -13,7 +13,7 @@
         <header class="text-white">
             <nav class="navbar navbar-light bg-transparent">
                 <div class="container-fluid">
-                    <div class="navbar-brand w-auto"><a href="{% url 'visualizar_questionario' questionario.id %}"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
+                    <div class="navbar-brand w-auto"><a href="{% url 'verificar_respostas' questionario.id %}"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
 
                     <div class="d-flex">
                         <a class="btn_nav rounded mr-2 ml-2" href="{% url 'perfil_professor' %}">Perfil</a>
@@ -43,19 +43,28 @@
         <main>
             <section>
                 <article>
-                    <h3>Questionario {{ questionario.enunciado }}</h3>
+                    {% if messages %}
+                    <div class="alert-container">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <h3>Questões</h3>
+                    <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'avaliar_respostas' questionario.id aluno.id %}" method="POST">
+                    {% csrf_token %}
+                    {% for questao, resposta in questoes_respostas %}
+                    <article>
+                        <p>{{ questao.enunciado }}</p>
+                        <p>{{ resposta.resposta }}</p>
+                        <label class="row m-2 fonte_media" value="" for="notas">Nota:</label>
+                        <input type="number" name="notas" min="0" max="10">
+                    </article>
+                    {% endfor %}
+                    <button class="btn m-3 pr-3 pl-3 btn_geral"><h4>Avaliar</h4></button>
+                    </form>    
                 </article>
-                <h3>Alunos que responderam:</h3>
-
-                {% for aluno in alunos %}
-                <article>
-                    <p>Aluno: {{ aluno.username }}</p>
-                    <a href="{% url 'avaliar_respostas' questionario.id aluno.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Avaliar</button></a>
-                    <a href="{% url 'editar_avaliacao' questionario.id aluno.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Editar avaliação</button></a>
-                </article>
-                {% endfor %}
-                <!-- MODAL PARA AVALIAR RESPOSTA -->
-                <!-- FIM MODAL -->
+                <section>
             </section>
         </main>
         <object class="w-100 obj_footer" data="{% static 'assets/paginas/footer.html' %}" type="text/html"></object>

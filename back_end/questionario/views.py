@@ -5,34 +5,27 @@ from .models import Questionario, Pergunta, Resposta
 from django.contrib import messages
 from django.utils.dateparse import parse_datetime
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Create your views here.
 
 def visualizar_questionarios(request: HttpRequest, codigo_turma):
     if request.method == 'GET':
+        turma = Turma.objects.get(codigo=codigo_turma)
+        questionarios = Questionario.objects.filter(turma=turma)
         if request.user.groups.get().name == 'Professor':
-            turma = Turma.objects.get(codigo=codigo_turma)
-            questionarios = Questionario.objects.filter(turma=turma)
             return render(request, 'paginas/questionarios.html', {'turma': turma, 'questionarios': questionarios})
         elif request.user.groups.get().name == 'Aluno':
-            turma = Turma.objects.get(codigo=codigo_turma)
-            questionarios = Questionario.objects.filter(turma=turma)
             return render(request, 'paginas/questionarios_aluno.html', {'turma': turma, 'questionarios': questionarios})
         
 def visualizar_questionario(request: HttpRequest, questionario_id):
     if request.method == 'GET':
+        questionario = Questionario.objects.get(id=questionario_id)
+        questoes = Pergunta.objects.filter(questionario=questionario)
         if request.user.groups.get().name == 'Professor':
-            questionario = Questionario.objects.get(id=questionario_id)
-            questoes = Pergunta.objects.filter(questionario=questionario)
             return render(request, 'paginas/questionario.html', {'questionario': questionario, 'questoes': questoes})
         elif request.user.groups.get().name == 'Aluno':
-            questionario = Questionario.objects.get(id=questionario_id)
-            if questionario.abertura <= timezone.now() <= questionario.fechamento:
-                questoes = Pergunta.objects.filter(questionario=questionario)
-                return render(request, 'paginas/questionario_aluno.html', {'questionario': questionario, 'questoes': questoes})
-            else:
-                messages.add_message(request, messages.ERROR, 'Questionário fechado.')
-                return redirect('questionarios', questionario.turma.codigo)
+            return render(request, 'paginas/questionario_aluno.html', {'questionario': questionario, 'questoes': questoes})
         
 def criar_questionario(request: HttpRequest, codigo_turma):
     if request.method == 'POST':
@@ -123,8 +116,13 @@ def remover_pergunta(request: HttpRequest, questionario_id, questao_id):
 def editar_pergunta(request: HttpRequest, questionario_id, questao_id):
     if request.method == 'POST':
         if request.user.groups.get().name == 'Professor':
-            questao = Pergunta.objects.get(id=questao_id)
+            perguntas = Pergunta.objects.filter(questionario=Questionario.objects.get(id=questionario_id))
             enunciado = request.POST.get('enunciado')
+            for pergunta in perguntas:
+                if pergunta.enunciado == enunciado:
+                    messages.add_message(request, messages.ERROR, 'Pergunta já existe.')
+                    return redirect('visualizar_questionario', questionario_id=questionario_id)
+            questao = Pergunta.objects.get(id=questao_id)
             questao.enunciado = enunciado
             questao.save()
             messages.add_message(request, messages.SUCCESS, 'Questão alterada com sucesso!')
@@ -134,6 +132,22 @@ def editar_pergunta(request: HttpRequest, questionario_id, questao_id):
             return redirect('redirect')
         
 def responder_questionario(request:HttpRequest, questionario_id):
+    if request.method == 'GET':
+        if request.user.groups.get().name == 'Aluno':
+            questionario = Questionario.objects.get(id=questionario_id)
+            if questionario.abertura <= timezone.now() <= questionario.fechamento:
+                if request.user not in questionario.respondido_por.all():
+                    questoes = Pergunta.objects.filter(questionario=questionario)
+                    return render(request, 'paginas/responder_aluno.html', {'questionario': questionario, 'questoes': questoes})
+                else:
+                    messages.add_message(request, messages.ERROR, 'Você já respondeu esse questionário.')
+                    return redirect('visualizar_questionario', questionario_id=questionario_id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Questionário fechado.')
+                return redirect('visualizar_questionario', questionario_id=questionario_id)
+        else:
+            messages.add_message(request, messages.ERROR, 'Permissão negada.')
+            return redirect('redirect')
     if request.method == 'POST':
         if request.user.groups.get().name == 'Aluno':
             questionario = Questionario.objects.get(id=questionario_id)
@@ -151,6 +165,119 @@ def responder_questionario(request:HttpRequest, questionario_id):
             else:
                 messages.add_message(request, messages.ERROR, 'Você já respondeu esse questionário.')
                 return redirect('visualizar_questionario', questionario_id=questionario_id)
+        else:
+            messages.add_message(request, messages.ERROR, 'Permissão negada.')
+            return redirect('redirect')
+
+def revisar_respostas(request: HttpRequest, questionario_id):
+    if request.method == 'GET':
+        if request.user.groups.get().name == 'Aluno':
+            questionario = Questionario.objects.get(id=questionario_id)
+            if request.user in questionario.respondido_por.all():
+                questoes = Pergunta.objects.filter(questionario=questionario)
+                respostas = []
+                for questao in questoes:
+                    respostas.append(Resposta.objects.get(pergunta=questao, aluno=request.user))
+                questoes_respostas = zip(questoes, respostas)
+                return render(request, 'paginas/revisao_aluno.html', {'questionario': questionario, 'questoes_respostas': questoes_respostas})
+            else:
+                messages.add_message(request, messages.ERROR, 'Você não respondeu esse questionário.')
+                return redirect('visualizar_questionario', questionario_id=questionario_id)
+        else:
+            messages.add_message(request, messages.ERROR, 'Permissão negada.')
+            return redirect('redirect')
+        
+def verificar_respostas(request: HttpRequest, questionario_id):
+    if request.method == 'GET':
+        if request.user.groups.get().name == 'Professor':
+            questionario = Questionario.objects.get(id=questionario_id)
+            alunos = questionario.respondido_por.all()
+            return render(request, 'paginas/respostas.html', {'questionario': questionario, 'alunos': alunos})
+        else:
+            messages.add_message(request, messages.ERROR, 'Permissão negada.')
+            return redirect('redirect')
+        
+def avaliar_respostas(request: HttpRequest, questionario_id, aluno_id):
+    if request.method == 'GET':
+        if request.user.groups.get().name == 'Professor':
+            questionario = Questionario.objects.get(id=questionario_id)
+            aluno = User.objects.get(id=aluno_id)
+            questoes = Pergunta.objects.filter(questionario=questionario)
+            respostas = []
+            for questao in questoes:
+                respostas.append(Resposta.objects.get(pergunta=questao, aluno=aluno))
+            if not respostas[0].avaliado:
+                questoes_respostas = zip(questoes, respostas)
+                return render(request, 'paginas/avaliar.html', {'questionario': questionario, 'questoes_respostas': questoes_respostas, 'aluno': aluno})
+            else:
+                messages.add_message(request, messages.ERROR, 'Questionário já avaliado.')
+                return redirect('verificar_respostas', questionario_id=questionario_id)
+        else:
+            messages.add_message(request, messages.ERROR, 'Permissão negada.')
+            return redirect('redirect')
+    if request.method == 'POST':
+        if request.user.groups.get().name == 'Professor':
+            questionario = Questionario.objects.get(id=questionario_id)
+            aluno = User.objects.get(id=aluno_id)
+            questoes = Pergunta.objects.filter(questionario=questionario)
+            respostas = []
+            for questao in questoes:
+                respostas.append(Resposta.objects.get(pergunta=questao, aluno=aluno))
+            if respostas[0].avaliado:
+                messages.add_message(request, messages.ERROR, 'Questionário já avaliado.')
+                return redirect('verificar_respostas', questionario_id=questionario_id)
+            else:
+                notas = request.POST.getlist('notas')
+                aux = 0
+                for resposta in respostas:
+                    resposta.nota = notas[aux]
+                    resposta.avaliado = 1
+                    resposta.save()
+                    aux += 1
+                messages.add_message(request, messages.SUCCESS, 'Questionário avaliado com sucesso!')
+                return redirect('verificar_respostas', questionario_id=questionario_id)
+        else:
+            messages.add_message(request, messages.ERROR, 'Permissão negada.')
+            return redirect('redirect')
+        
+def editar_avalicao(request: HttpRequest, questionario_id, aluno_id):
+    if request.method == 'GET':
+        if request.user.groups.get().name == 'Professor':
+            questionario = Questionario.objects.get(id=questionario_id)
+            aluno = User.objects.get(id=aluno_id)
+            questoes = Pergunta.objects.filter(questionario=questionario)
+            respostas = []
+            for questao in questoes:
+                respostas.append(Resposta.objects.get(pergunta=questao, aluno=aluno))
+            if respostas[0].avaliado:
+                questoes_respostas = zip(questoes, respostas)
+                return render(request, 'paginas/editar_avaliacao.html', {'questionario': questionario, 'questoes_respostas': questoes_respostas, 'aluno': aluno})
+            else:
+                messages.add_message(request, messages.ERROR, 'Questionário não foi avaliado.')
+                return redirect('verificar_respostas', questionario_id=questionario_id)
+        else:
+            messages.add_message(request, messages.ERROR, 'Permissão negada.')
+            return redirect('redirect')
+    if request.method == 'POST':
+        if request.user.groups.get().name == 'Professor':
+            questionario = Questionario.objects.get(id=questionario_id)
+            aluno = User.objects.get(id=aluno_id)
+            questoes = Pergunta.objects.filter(questionario=questionario)
+            respostas = []
+            for questao in questoes:
+                respostas.append(Resposta.objects.get(pergunta=questao, aluno=aluno))
+            if not respostas[0].avaliado:
+                messages.add_message(request, messages.ERROR, 'Questionário não foi avaliado.')
+                return redirect('verificar_respostas', questionario_id=questionario_id)
+            else:
+                notas = request.POST.getlist('notas')
+                aux = 0
+                for resposta in respostas:
+                    resposta.nota = notas[aux]
+                    resposta.save()
+                    aux += 1
+                messages.add_message(request, messages.SUCCESS, 'Avaliação atualizada com sucesso!')
+                return redirect('verificar_respostas', questionario_id=questionario_id)
         else:
             messages.add_message(request, messages.ERROR, 'Permissão negada.')
             return redirect('redirect')

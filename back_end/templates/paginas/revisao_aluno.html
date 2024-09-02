@@ -7,7 +7,8 @@
         <link rel="stylesheet" href="{% static 'assets/bootstrap_4.1.3_dist/css/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
         <link rel="shortcut icon" href="{% static 'assets/imgs/logo.png' %}" type="image/x-icon">
-        <title>Questionário</title>
+        
+        <title>Questionários</title>
     </head>
     <body>
         <header class="text-white">
@@ -16,7 +17,7 @@
                     <div class="navbar-brand w-auto"><a href="{% url 'visualizar_questionario' questionario.id %}"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
 
                     <div class="d-flex">
-                        <a class="btn_nav rounded mr-2 ml-2" href="{% url 'perfil_professor' %}">Perfil</a>
+                        <a class="btn_nav rounded mr-2 ml-2" href="{% url 'perfil_aluno' %}">Perfil</a>
 
                         <!-- BOTAO DE SAIR DO SITE -->
                         <button type="button" class="btn_nav rounded mr-2 ml-2" onclick="abrir_modal('vis_modal')">Sair</button>
@@ -42,20 +43,18 @@
         </header>
         <main>
             <section>
-                <article>
-                    <h3>Questionario {{ questionario.enunciado }}</h3>
-                </article>
-                <h3>Alunos que responderam:</h3>
-
-                {% for aluno in alunos %}
-                <article>
-                    <p>Aluno: {{ aluno.username }}</p>
-                    <a href="{% url 'avaliar_respostas' questionario.id aluno.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Avaliar</button></a>
-                    <a href="{% url 'editar_avaliacao' questionario.id aluno.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Editar avaliação</button></a>
-                </article>
+                <h2>Respostas</h2>
+                {% for questao, resposta in questoes_respostas %}
+                <div>
+                    <h3>Questão: {{ questao.enunciado }}</h3>
+                    <p>Resposta: {{ resposta.resposta }}</p>
+                    {% if resposta.avaliado %}
+                    <p>Nota: {{ resposta.nota }}</p>
+                    {% else %}
+                    <p>Ainda não avaliado.</p>
+                    {% endif %}
+                </div>
                 {% endfor %}
-                <!-- MODAL PARA AVALIAR RESPOSTA -->
-                <!-- FIM MODAL -->
             </section>
         </main>
         <object class="w-100 obj_footer" data="{% static 'assets/paginas/footer.html' %}" type="text/html"></object>
