@@ -2,16 +2,20 @@
     --amarelo_claro: #F1E168;
     --ciano_medio: #6EB7C8;
     --ciano_claro: #B6F5FE;
-    --azul_marinho: #093D65;
-    --azul: #28647E;
+    --azul_marinho: ##163d5a;
+    --azul_marinho_grad: linear-gradient(-2turn, #031929, #0c2b42, #1b374e);
+    /*
+    --azul: #28647E;*/
+    --azul: #7592a3;
     --fonte_m: 1.4rem;
     --fonte_g: 1.6rem;
     --fonte_gg: 2rem;
     --fonte_gg: 3.2rem;
+    
 }
 footer{
     color: #fff;
-    background-color: var(--azul_marinho);
+    background-image: var(--azul_marinho_grad);
     height: 100%;
 }
 form>input{
@@ -23,7 +27,7 @@ html, body{
     height: 100%;
 }
 header{
-    background-color: var(--azul_marinho);
+    background-image: var(--azul_marinho_grad);
 }
 
 main{
@@ -43,7 +47,7 @@ header>nav>div>div>a>img{
 .btn_geral{
     padding: 5px 8px 5px 8px;
     background-color: var(--amarelo_claro);
-    border: inset var(--azul_marinho) 3px;
+    border: inset var(--azul_marinho_grad) 3px;
 }
 .btn_geral:hover{
     background-color: var(--azul);
@@ -60,7 +64,7 @@ header>nav>div>div>a>img{
 }
 .btn_nav:hover{
     background-color: var(--ciano_claro);
-    color: var(--azul_marinho);
+    color: var(--azul_marinho_grad);
     border: inset var(--ciano_medio) 3px;
     text-decoration: none;
     transition-duration: 0.25s;
@@ -70,7 +74,7 @@ header>nav>div>div>a>img{
     width: 55px;
     height: 55px;
     background-color: var(--amarelo_claro);
-    border: inset var(--azul_marinho) 4px;
+    border: inset var(--azul_marinho_grad) 4px;
 }
 
 .cadastre_btn:hover{
@@ -85,7 +89,7 @@ header>nav>div>div>a>img{
 }
 .conteudo_modal{
     max-width: 600px;
-    color: var(--azul_marinho);
+    color: var(--azul_marinho_grad);
 }
 .fonte_media{
     font-size: var(--fonte_m);
