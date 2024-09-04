@@ -15,7 +15,7 @@
         <header class="text-white">
             <nav class="navbar navbar-light bg-transparent">
                 <div class="container-fluid">
-                    <div class="navbar-brand"><a href="#"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
+                    <div class="navbar-brand"><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
                     <div class="d-flex">
                         <a class="btn_nav rounded mr-2 ml-2" href="{% url 'login' %}">Entre</a>
                         <a class="btn_nav rounded mr-2 ml-2" href="#">Sobre o site</a>
@@ -25,6 +25,13 @@
         </header>
         <main>
             <section class="row m-auto w_85 centraliza_vertical text-white">
+                {% if messages %}
+                <ul class="messages">
+                  {% for message in messages %}
+                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
+                  {% endfor %}
+                </ul>
+                {% endif %}
                 <article class="col-4 m-auto">
                     <h1 class="fonte_xgrande">BEM-VINDO!</h1>
                     <h3 class="">Cadastre-se</h3>

@@ -43,7 +43,20 @@
         </header>
         <main>
             <section>
-                <h2>Respostas</h2>
+                {% if messages %}
+                <ul class="messages">
+                  {% for message in messages %}
+                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+                <h2>Revisão</h2>
+                {% if avaliacao.avaliado %}
+                    <p>Nota: {{ avaliacao.nota }} </p>
+                {% else %}
+                    <p>Ainda não avaliado.</p>
+                {% endif %}
+                <p>Data de envio: {{ avaliacao.data_envio }} </p>
                 {% for questao, resposta in questoes_respostas %}
                 <div>
                     <h3>Questão: {{ questao.enunciado }}</h3>

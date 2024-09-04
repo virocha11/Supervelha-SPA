@@ -43,6 +43,13 @@
         <main>
             <section>
                 <article>
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
+                    {% endfor %}
+                </ul>
+                {% endif %}
                     <h3>Turma: {{ turma.nome }}</h3>
                     <p>Código: {{ turma.codigo }}</p>
                     <p>Capacidade: {{ turma.capacidade }}</p>
@@ -68,7 +75,20 @@
                     <p>Aluno: {{ aluno.username }} <a href="{% url 'remover_aluno' turma.codigo aluno.username %}"><button class="btn_geral rounded">Remover Aluno</button></a></p>
                 </article>
                 {% endfor %}
-                <p><a href="{% url 'excluir_turma' turma.codigo %}"><button class="btn_geral rounded">Excluir Turma</button></a></p>
+                <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="abrir_modal('vis_modal_excluir_turma')">Excluir Turma</button>
+                <!-- MODAL PARA CONFIRMAR EXCLUIR TURMA -->
+                <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_excluir_turma">
+                    <div class="conteudo_modal m-auto bg-light rounded text-center">
+                        <div>
+                            <h3 class="p-3 my-0 py-0">Você tem certeza que quer excluir a turma {{ turma.nome }}? Esta ação é irreversível! </h3>
+                        </div>
+                        <div>
+                            <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_excluir_turma')">Voltar</button>
+                            <a href="{% url 'excluir_turma' turma.codigo %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Excluir Turma</button></a>
+                         </div>
+                    </div>
+                </div>
+                <!-- FIM MODAL -->
             </section>
         </main>
         <object class="w-100 obj_footer" data="{% static 'assets/paginas/footer.html' %}" type="text/html"></object>

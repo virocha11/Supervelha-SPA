@@ -43,6 +43,13 @@
         <main>
             <section>
                 <article>
+                    {% if messages %}
+                    <ul class="messages">
+                      {% for message in messages %}
+                        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
+                      {% endfor %}
+                    </ul>
+                    {% endif %}
                     <h3>Turma: {{ turma.nome }}</h3>
                     <p>Código: {{ turma.codigo }}</p>
                     <p>Professor: {{ turma.professor }}</p>

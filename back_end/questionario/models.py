@@ -11,10 +11,19 @@ class Questionario(models.Model):
     abertura = models.DateTimeField(default=timezone.now)
     fechamento = models.DateTimeField(default=timezone.now)
     quantidade_perguntas = models.IntegerField(default=0)
-    respondido_por = models.ManyToManyField(User, limit_choices_to={'groups__name': 'Aluno'})
+    respondido_por = models.ManyToManyField(User, through='RespondidoPor')
     def __str__(self):
         return self.enunciado
-    
+
+class RespondidoPor(models.Model):
+    aluno = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': 'Aluno'})
+    questionario = models.ForeignKey(Questionario, on_delete=models.CASCADE)
+    avaliado = models.BooleanField(default=0)
+    nota = models.FloatField(null=True)
+    data_envio = models.DateTimeField(default=timezone.now)
+    def __str__(self):
+        return self.aluno.username
+   
 class Pergunta(models.Model):
     enunciado = models.TextField()
     questionario = models.ForeignKey(Questionario, on_delete=models.CASCADE)

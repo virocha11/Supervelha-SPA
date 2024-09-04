@@ -43,13 +43,26 @@
         <main>
             <section>
                 <article>
+                    {% if messages %}
+                    <ul class="messages">
+                      {% for message in messages %}
+                        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
+                      {% endfor %}
+                    </ul>
+                    {% endif %}
                     <h3>Questionario {{ questionario.enunciado }}</h3>
                 </article>
                 <h3>Alunos que responderam:</h3>
 
-                {% for aluno in alunos %}
+                {% for aluno, avaliacao in alunos %}
                 <article>
                     <p>Aluno: {{ aluno.username }}</p>
+                    {% if avaliacao.avaliado %}
+                    <p>Nota: {{ avaliacao.nota }} </p>
+                    {% else %}
+                    <p>Ainda não avaliado.</p>
+                    {% endif %}
+                    <p>Data de envio: {{ avaliacao.data_envio }} </p>
                     <a href="{% url 'avaliar_respostas' questionario.id aluno.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Avaliar</button></a>
                     <a href="{% url 'editar_avaliacao' questionario.id aluno.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Editar avaliação</button></a>
                 </article>

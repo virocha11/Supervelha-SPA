@@ -42,6 +42,13 @@
         <main>
             <section>
                 <table>
+                    {% if messages %}
+                    <ul class="messages">
+                      {% for message in messages %}
+                        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
+                      {% endfor %}
+                    </ul>
+                    {% endif %}
                     <tr>
                         <th>Nome de usuário </th>
                         <th>Nome </th>

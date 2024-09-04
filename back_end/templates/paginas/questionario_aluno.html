@@ -53,6 +53,14 @@
                     <h3>Questionário: {{ questionario.enunciado }}</h3>
                     <p>Abertura: {{ questionario.abertura }} {{ questionario.horario }}</p>
                     <p>Fechamento: {{ questionario.fechamento }} {{ questionario.horario }}</p>
+                    {% if avaliacao.avaliado %}
+                    <p>Nota: {{ avaliacao.nota }} </p>
+                    {% elif avaliacao %}
+                        <p>Ainda não avaliado.</p>
+                    {% endif %}
+                    {% if avaliacao.data_envio %}
+                        <p>Data de envio: {{ avaliacao.data_envio }} </p>
+                    {% endif %}
                     <a href="{% url 'responder_questionario' questionario.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Tentativa do questionário</button></a>
                     <a href="{% url 'revisar_respostas' questionario.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Revisar respostas</button></a>
                     </form>    

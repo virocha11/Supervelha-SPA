@@ -82,8 +82,21 @@
                     <p>Fechamento: {{ questionario.fechamento }}</p>
                     <p>{{ questionario.quantidade_perguntas }} questões</p>
                     <a href="{% url 'visualizar_questionario' questionario.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Visualizar questionário</button></a>
-                    <a href="{% url 'excluir_questionario' questionario.id turma.codigo %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Excluir questionário</button></a>
+                    <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="abrir_modal('vis_modal_excluir_questionario{{questionario.id}}')">Excluir questionário</button>
                 </div>
+                <!-- MODAL PARA CONFIRMAR EXCLUIR QUESTIONARIO -->
+                <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_excluir_questionario{{questionario.id}}">
+                    <div class="conteudo_modal m-auto bg-light rounded text-center">
+                        <div>
+                            <h3 class="p-3 my-0 py-0">Você tem certeza que quer excluir o questionário {{ questionario.enunciado }}? Esta ação é irreversível! </h3>
+                        </div>
+                        <div>
+                            <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_excluir_questionario{{questionario.id}}')">Voltar</button>
+                            <a href="{% url 'excluir_questionario' turma.codigo questionario.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Excluir questionário</button></a>
+                         </div>
+                    </div>
+                </div>
+                <!-- FIM MODAL -->
                 {% endfor %}
                 
             </section>

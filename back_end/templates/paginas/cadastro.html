@@ -24,7 +24,13 @@
             </nav>
         </header>
         <main>
-
+            {% if messages %}
+            <ul class="messages">
+              {% for message in messages %}
+                <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
+              {% endfor %}
+            </ul>
+            {% endif %}
             <section class="accordion w-50 m-auto py-2" id="accordion_entrar">
                 <div class="mb-2" id="heading_one">
                     <button class="btn btn_geral w-100" type="button" data-toggle="collapse" data-target="#formulario_p" aria-expanded="true" aria-controls="formulario_p">Sou professor</button>

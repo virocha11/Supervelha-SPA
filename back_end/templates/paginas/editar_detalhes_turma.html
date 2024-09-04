@@ -43,6 +43,13 @@
         </header>
         <main>
             <section>
+                {% if messages %}
+                <ul class="messages">
+                  {% for message in messages %}
+                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
+                  {% endfor %}
+                </ul>
+                {% endif %}
                 <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'editar_detalhes_turma' turma.codigo %}" method="POST">
                     {% csrf_token %}   
                     <h3 class="text-white">Editar Turma</h3>

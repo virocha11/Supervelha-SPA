@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from cadastro.models import Turma
-from .models import Questionario, Pergunta, Resposta
+from .models import Questionario, Pergunta, Resposta, RespondidoPor
 from django.contrib import messages
 from django.utils.dateparse import parse_datetime
 from django.utils import timezone
@@ -25,7 +25,11 @@ def visualizar_questionario(request: HttpRequest, questionario_id):
         if request.user.groups.get().name == 'Professor':
             return render(request, 'paginas/questionario.html', {'questionario': questionario, 'questoes': questoes})
         elif request.user.groups.get().name == 'Aluno':
-            return render(request, 'paginas/questionario_aluno.html', {'questionario': questionario, 'questoes': questoes})
+            try:
+                avaliacao = RespondidoPor.objects.get(questionario=questionario, aluno=request.user)
+                return render(request, 'paginas/questionario_aluno.html', {'questionario': questionario, 'questoes': questoes, 'avaliacao': avaliacao})
+            except:
+                return render(request, 'paginas/questionario_aluno.html', {'questionario': questionario, 'questoes': questoes})
         
 def criar_questionario(request: HttpRequest, codigo_turma):
     if request.method == 'POST':
@@ -179,7 +183,8 @@ def revisar_respostas(request: HttpRequest, questionario_id):
                 for questao in questoes:
                     respostas.append(Resposta.objects.get(pergunta=questao, aluno=request.user))
                 questoes_respostas = zip(questoes, respostas)
-                return render(request, 'paginas/revisao_aluno.html', {'questionario': questionario, 'questoes_respostas': questoes_respostas})
+                avaliacao = RespondidoPor.objects.get(questionario=questionario, aluno=request.user)
+                return render(request, 'paginas/revisao_aluno.html', {'questionario': questionario, 'questoes_respostas': questoes_respostas, 'avaliacao': avaliacao})
             else:
                 messages.add_message(request, messages.ERROR, 'Você não respondeu esse questionário.')
                 return redirect('visualizar_questionario', questionario_id=questionario_id)
@@ -192,7 +197,9 @@ def verificar_respostas(request: HttpRequest, questionario_id):
         if request.user.groups.get().name == 'Professor':
             questionario = Questionario.objects.get(id=questionario_id)
             alunos = questionario.respondido_por.all()
-            return render(request, 'paginas/respostas.html', {'questionario': questionario, 'alunos': alunos})
+            avaliacao = RespondidoPor.objects.filter(questionario=questionario)
+            alunos_avaliacao = zip(alunos, avaliacao)
+            return render(request, 'paginas/respostas.html', {'questionario': questionario, 'alunos': alunos_avaliacao})
         else:
             messages.add_message(request, messages.ERROR, 'Permissão negada.')
             return redirect('redirect')
@@ -203,12 +210,13 @@ def avaliar_respostas(request: HttpRequest, questionario_id, aluno_id):
             questionario = Questionario.objects.get(id=questionario_id)
             aluno = User.objects.get(id=aluno_id)
             questoes = Pergunta.objects.filter(questionario=questionario)
+            avaliacao = RespondidoPor.objects.get(questionario=questionario, aluno=aluno)
             respostas = []
             for questao in questoes:
                 respostas.append(Resposta.objects.get(pergunta=questao, aluno=aluno))
             if not respostas[0].avaliado:
                 questoes_respostas = zip(questoes, respostas)
-                return render(request, 'paginas/avaliar.html', {'questionario': questionario, 'questoes_respostas': questoes_respostas, 'aluno': aluno})
+                return render(request, 'paginas/avaliar.html', {'questionario': questionario, 'questoes_respostas': questoes_respostas, 'aluno': aluno, 'avaliacao': avaliacao})
             else:
                 messages.add_message(request, messages.ERROR, 'Questionário já avaliado.')
                 return redirect('verificar_respostas', questionario_id=questionario_id)
@@ -229,11 +237,18 @@ def avaliar_respostas(request: HttpRequest, questionario_id, aluno_id):
             else:
                 notas = request.POST.getlist('notas')
                 aux = 0
+                nota = 0
                 for resposta in respostas:
                     resposta.nota = notas[aux]
                     resposta.avaliado = 1
                     resposta.save()
+                    nota += int(notas[aux])
                     aux += 1
+                nota = nota/aux
+                respondido_por = RespondidoPor.objects.get(questionario=questionario, aluno=aluno)
+                respondido_por.nota = nota
+                respondido_por.avaliado = True
+                respondido_por.save()
                 messages.add_message(request, messages.SUCCESS, 'Questionário avaliado com sucesso!')
                 return redirect('verificar_respostas', questionario_id=questionario_id)
         else:
@@ -246,12 +261,13 @@ def editar_avalicao(request: HttpRequest, questionario_id, aluno_id):
             questionario = Questionario.objects.get(id=questionario_id)
             aluno = User.objects.get(id=aluno_id)
             questoes = Pergunta.objects.filter(questionario=questionario)
+            avaliacao = RespondidoPor.objects.get(questionario=questionario, aluno=aluno)
             respostas = []
             for questao in questoes:
                 respostas.append(Resposta.objects.get(pergunta=questao, aluno=aluno))
             if respostas[0].avaliado:
                 questoes_respostas = zip(questoes, respostas)
-                return render(request, 'paginas/editar_avaliacao.html', {'questionario': questionario, 'questoes_respostas': questoes_respostas, 'aluno': aluno})
+                return render(request, 'paginas/editar_avaliacao.html', {'questionario': questionario, 'questoes_respostas': questoes_respostas, 'aluno': aluno, 'avaliacao': avaliacao})
             else:
                 messages.add_message(request, messages.ERROR, 'Questionário não foi avaliado.')
                 return redirect('verificar_respostas', questionario_id=questionario_id)
@@ -272,10 +288,16 @@ def editar_avalicao(request: HttpRequest, questionario_id, aluno_id):
             else:
                 notas = request.POST.getlist('notas')
                 aux = 0
+                nota = 0
                 for resposta in respostas:
                     resposta.nota = notas[aux]
                     resposta.save()
+                    nota += float(notas[aux])
                     aux += 1
+                nota = nota/aux
+                respondido_por = RespondidoPor.objects.get(questionario=questionario, aluno=aluno)
+                respondido_por.nota = nota
+                respondido_por.save()
                 messages.add_message(request, messages.SUCCESS, 'Avaliação atualizada com sucesso!')
                 return redirect('verificar_respostas', questionario_id=questionario_id)
         else:
