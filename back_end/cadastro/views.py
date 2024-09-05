@@ -92,64 +92,39 @@ def cadastrar_turma(request: HttpRequest):
 
 def excluir_usuario(request: HttpRequest):
     if request.method == 'GET':
-        if request.user.is_authenticated:
-            return render(request, 'registration/excluir_usuario.html')
-        else:
-            messages.add_message(request, messages.ERROR, 'Você precisa estar autenticado para excluir seu usuario.')
-            return render(request, 'registration/home.html')
-
-    if request.method == 'POST':
-        usuario_id = request.POST.get('usuario_id') # id do formulario
-        try:
-            usuario = User.objects.get(id=usuario_id) # buscando o id do formulario no banco
-        except User.DoesNotExist:
-            messages.add_message(request, messages.ERROR, 'Usuário não encontrado.')
-            return render(request, 'registration/excluir_usuario.html')
-
-        # verifica se o id do usuario autenticado é o mesmo de quem ele tá tentando calar
-        if request.user.id != usuario.id:
-            messages.add_message(request, messages.ERROR, 'Você só pode excluir seu próprio usuário.')
-            return render(request, 'registration/excluir_usuario.html')
-
-        # remove o usuário
-        logout(request.user)
-        usuario.delete()
+        request.user.delete()
         messages.add_message(request, messages.SUCCESS, 'Seu usuário foi excluído com sucesso.')
-        return render(request, 'registration/excluir_usuario.html')
-    
+        return redirect('index')
+
 def editar_usuario(request: HttpRequest):
-    if request.method == 'GET':
-        if request.user.is_authenticated: # somente exibe o formulario se voce estiver autenticado
-            return render(request, 'registration/editar_usuario.html')
-        else:
-            messages.add_message(request, messages.ERROR, 'Você precisa estar autenticado para editar suas informações.')
-            return render(request, 'registration/home.html')
-
     if request.method == 'POST':
-        # validar os dados de entrada com validar cadastro
         if not validar_cadastro(request):
-            return render(request, 'registration/editar_usuario.html')
-
-        # se passou seja o que deus quiser
+            if request.user.groups.get().name == 'Professor':
+                return redirect('perfil_professor')
+            elif request.user.groups.get().name == 'Aluno':
+                return redirect('perfil_aluno')
         username = request.POST.get('username')
         email = request.POST.get('email')
+        nome = request.POST.get('nome')
         senha = request.POST.get('password')
-
-        user = User.objects.get(username=request.user.username)
-
         if username:
-            user.username = username
+            request.user.username = username
+        if nome:
+            request.user.first_name = nome
         if email:
-            user.email = email
+            request.user.email = email
         if senha:
-            user.password = senha
-
-        request.user.save() # salva as alterações
+            request.user.password = senha
+        request.user.save() 
         messages.add_message(request, messages.SUCCESS, 'Suas informações foram atualizadas com sucesso.')
-        return render(request, 'registration/editar_usuario.html')
+        if request.user.groups.get().name == 'Professor':
+            return redirect('perfil_professor')
+        elif request.user.groups.get().name == 'Aluno':
+            return redirect('perfil_aluno')
     
-def excluir_turma(request: HttpRequest, codigo_turma): # falta desenvolver completo
-    turma = Turma.objects.get(codigo=codigo_turma)
-    turma.delete()
-    messages.add_message(request, messages.SUCCESS, 'Turma excluída com sucesso.')
-    return redirect('minhas_turmas')
+def excluir_turma(request: HttpRequest, codigo_turma):
+    if request.method == 'GET':
+        turma = Turma.objects.get(codigo=codigo_turma)
+        turma.delete()
+        messages.add_message(request, messages.SUCCESS, 'Turma excluída com sucesso.')
+        return redirect('minhas_turmas')
