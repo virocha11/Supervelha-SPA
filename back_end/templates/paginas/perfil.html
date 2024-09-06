@@ -14,7 +14,7 @@
         <header class="text-white">
             <nav class="navbar navbar-light bg-transparent">
                 <div class="container-fluid">
-                    <div class="navbar-brand w-auto"><a href="{% url 'inicio_professor' %}"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
+                    <div class="navbar-brand w-auto"><a href="{% url 'redirect' %}"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
                     <div class="d-flex">
 
                         <!-- BOTAO DE SAIR DO SITE -->
@@ -57,7 +57,7 @@
                 <p><b>Nome: </b>{{user.first_name}}</p>
                 <p><b>E-mail: </b>{{user.email}}</p>
                 <button type="button" class="btn_nav rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_editar_perfil')">Editar Perfil</button>
-                <!-- MODAL PARA USUARIO CONFIRMAR SE DESEJA SAIR DO SITE -->
+                <!-- MODAL PARA USUARIO EDITAR PERFIL -->
                 <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_editar_perfil">
                     <div class="conteudo_modal m-auto bg-light rounded text-center">
                         <div>
@@ -79,7 +79,7 @@
                 </div>
                 <!-- FIM MODAL -->
                 <button type="button" class="btn_nav rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_excluir_conta')">Excluir Conta</button>
-                <!-- MODAL PARA USUARIO CONFIRMAR SE DESEJA SAIR DO SITE -->
+                <!-- MODAL PARA USUARIO EXCLUIR CONTA -->
                 <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_excluir_conta">
                     <div class="conteudo_modal m-auto bg-light rounded text-center">
                         <div>

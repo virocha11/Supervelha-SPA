@@ -7,15 +7,14 @@ from django.utils.dateparse import parse_datetime
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-# Create your views here.
-
 def visualizar_questionarios(request: HttpRequest, codigo_turma):
     if request.method == 'GET':
         turma = Turma.objects.get(codigo=codigo_turma)
-        questionarios = Questionario.objects.filter(turma=turma)
         if request.user.groups.get().name == 'Professor':
+            questionarios = Questionario.objects.filter(turma=turma)
             return render(request, 'paginas/questionarios.html', {'turma': turma, 'questionarios': questionarios})
         elif request.user.groups.get().name == 'Aluno':
+            questionarios = Questionario.objects.filter(turma=turma, publico=True)
             return render(request, 'paginas/questionarios_aluno.html', {'turma': turma, 'questionarios': questionarios})
         
 def visualizar_questionario(request: HttpRequest, questionario_id):
@@ -25,16 +24,23 @@ def visualizar_questionario(request: HttpRequest, questionario_id):
         if request.user.groups.get().name == 'Professor':
             return render(request, 'paginas/questionario.html', {'questionario': questionario, 'questoes': questoes})
         elif request.user.groups.get().name == 'Aluno':
-            try:
-                avaliacao = RespondidoPor.objects.get(questionario=questionario, aluno=request.user)
-                return render(request, 'paginas/questionario_aluno.html', {'questionario': questionario, 'questoes': questoes, 'avaliacao': avaliacao})
-            except:
-                return render(request, 'paginas/questionario_aluno.html', {'questionario': questionario, 'questoes': questoes})
+            if questionario.publico:
+                try:
+                    avaliacao = RespondidoPor.objects.get(questionario=questionario, aluno=request.user)
+                    return render(request, 'paginas/questionario_aluno.html', {'questionario': questionario, 'questoes': questoes, 'avaliacao': avaliacao})
+                except:
+                    return render(request, 'paginas/questionario_aluno.html', {'questionario': questionario, 'questoes': questoes})
+            else:
+                messages.add_message(request, messages.ERROR, 'Permissão negada.')
+                return redirect('redirect')
         
 def criar_questionario(request: HttpRequest, codigo_turma):
     if request.method == 'POST':
         if request.user.groups.get().name == 'Professor':
             turma = Turma.objects.get(codigo=codigo_turma)
+            if request.user != turma.professor:
+                messages.add_message(request, messages.ERROR, 'Permissão negada.')
+                return redirect('redirect')
             abertura_str = request.POST.get('abertura')
             abertura = parse_datetime(abertura_str)
             fechamento_str = request.POST.get('fechamento')
@@ -46,21 +52,45 @@ def criar_questionario(request: HttpRequest, codigo_turma):
             messages.add_message(request, messages.ERROR, 'Permissão negada.')
             return redirect('redirect')
 
+def publicar_questionario(request: HttpRequest, questionario_id):
+    if request.method == 'GET':
+        if request.user.groups.get().name == 'Professor':
+            questionario = Questionario.objects.get(id=questionario_id)
+            if request.user != questionario.turma.professor:
+                messages.add_message(request, messages.ERROR, 'Permissão negada.')
+                return redirect('redirect')
+            if questionario.publico:
+                messages.add_message(request, messages.ERROR, 'Questionário já está público.')
+                return redirect('visualizar_questionario', questionario_id)
+            questionario.publico = True
+            questionario.save()
+            messages.add_message(request, messages.SUCCESS, 'Questionário publicado com sucesso!')
+            return redirect('visualizar_questionario', questionario_id)
+        else:
+            messages.add_message(request, messages.ERROR, 'Permissão negada.')
+            return redirect('redirect')
+
 def excluir_questionario(request: HttpRequest, questionario_id, codigo_turma):
     if request.method == 'GET':
         if request.user.groups.get().name == 'Professor':
+            if request.user != Turma.objects.get(codigo=codigo_turma).professor:
+                messages.add_message(request, messages.ERROR, 'Permissão negada.')
+                return redirect('redirect')  
             questionario = Questionario.objects.get(id=questionario_id)
             questionario.delete()
             messages.add_message(request, messages.SUCCESS, 'Questionário excluído com sucesso!')
             return redirect('questionarios', codigo_turma)
         else:
             messages.add_message(request, messages.ERROR, 'Permissão negada.')
-            return redirect('redirect')
+            return redirect('redirect')    
         
 def editar_questionario(request: HttpRequest, questionario_id):
     if request.method == 'POST':
         if request.user.groups.get().name == 'Professor':
             questionario = Questionario.objects.get(id=questionario_id)
+            if request.user != questionario.turma.professor:
+                messages.add_message(request, messages.ERROR, 'Permissão negada.')
+                return redirect('redirect') 
             enunciado = request.POST.get('enunciado')
             if enunciado:
                 questionario.enunciado = enunciado
@@ -83,6 +113,12 @@ def adicionar_pergunta(request: HttpRequest, questionario_id):
     if request.method == 'POST':
         if request.user.groups.get().name == 'Professor':
             questionario = Questionario.objects.get(id=questionario_id)
+            if request.user != questionario.turma.professor:
+                messages.add_message(request, messages.ERROR, 'Permissão negada.')
+                return redirect('redirect')
+            if questionario.publico:
+                messages.add_message(request, messages.ERROR, 'Questão está público.')
+                return redirect('visualizar_questionario', questionario_id=questionario_id)
             enunciado = request.POST.get('enunciado')
             if enunciado:
                 try: 
@@ -101,6 +137,9 @@ def remover_pergunta(request: HttpRequest, questionario_id, questao_id):
             pergunta = Pergunta.objects.get(id=questao_id)
             if pergunta:
                 questionario = Questionario.objects.get(id=questionario_id)
+                if questionario.publico:
+                    messages.add_message(request, messages.ERROR, 'Questão está público.')
+                    return redirect('visualizar_questionario', questionario_id=questionario_id)
                 if questionario.turma.professor == request.user:
                     pergunta.delete()
                     questionario.quantidade_perguntas -= 1
@@ -120,11 +159,14 @@ def remover_pergunta(request: HttpRequest, questionario_id, questao_id):
 def editar_pergunta(request: HttpRequest, questionario_id, questao_id):
     if request.method == 'POST':
         if request.user.groups.get().name == 'Professor':
+            if request.user != Questionario.objects.get(id=questionario_id).turma.professor:
+                messages.add_message(request, messages.ERROR, 'Permissão negada.')
+                return redirect('redirect')
             perguntas = Pergunta.objects.filter(questionario=Questionario.objects.get(id=questionario_id))
             enunciado = request.POST.get('enunciado')
             for pergunta in perguntas:
                 if pergunta.enunciado == enunciado:
-                    messages.add_message(request, messages.ERROR, 'Pergunta já existe.')
+                    messages.add_message(request, messages.ERROR, 'Questão já existe.')
                     return redirect('visualizar_questionario', questionario_id=questionario_id)
             questao = Pergunta.objects.get(id=questao_id)
             questao.enunciado = enunciado

@@ -12,6 +12,7 @@ class Questionario(models.Model):
     fechamento = models.DateTimeField(default=timezone.now)
     quantidade_perguntas = models.IntegerField(default=0)
     respondido_por = models.ManyToManyField(User, through='RespondidoPor')
+    publico = models.BooleanField(default=False)
     def __str__(self):
         return self.enunciado
 

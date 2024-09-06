@@ -16,7 +16,7 @@
                     <div class="navbar-brand w-auto"><a href="{% url 'questionarios' questionario.turma_id %}"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
 
                     <div class="d-flex">
-                        <a class="btn_nav rounded mr-2 ml-2" href="{% url 'perfil_professor' %}">Perfil</a>
+                        <a class="btn_nav rounded mr-2 ml-2" href="{% url 'perfil' %}">Perfil</a>
 
                         <!-- BOTAO DE SAIR DO SITE -->
                         <button type="button" class="btn_nav rounded mr-2 ml-2" onclick="abrir_modal('vis_modal')">Sair</button>
@@ -44,11 +44,16 @@
             <section class="m_lados_15 text-white border rounded p-3">
                 <article>
                     <h3 class="bgc_claro px-3 text-center">Questionário: {{ questionario.enunciado }}</h3>
-                    <p>Abertura: {{ questionario.abertura }} {{ questionario.horario }}</p>
-                    <p>Fechamento: {{ questionario.fechamento }} {{ questionario.horario }}</p>
+                    <p>Abertura: {{ questionario.abertura }}</p>
+                    <p>Fechamento: {{ questionario.fechamento }}</p>
+                    {% if questionario.publico %}
+                    <p>Público: Sim</p>
+                    {% else %}
+                    <p>Público: Não</p>
+                    {% endif %}
                     <p>{{ questionario.quantidade_perguntas }} questões</p>
                     <button type="button" class="btn_geral rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_questionario')">Editar questionário</button>
-                    <!-- MODAL PARA EDITAR QUESTAO -->
+                    <!-- MODAL PARA EDITAR QUESTIONARIO -->
                     <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_questionario">
                         <div class="conteudo_modal m-auto bg-light rounded text-center">
                             <div>
@@ -57,11 +62,11 @@
                                     <h3 class="p-3 my-0 py-0 ">Editar questionário {{ questionario.enunciado }}</h3>
                                 
                                     <label class="row m-2 fonte_media" for="enunciado">Enunciado:</label>
-                                    <textarea class="rounded mb-3" id="enunciado" name="enunciado" placeholder="Digite o novo enunciado do questionário" minlength="1" maxlength="1000" rows=3 cols=60></textarea>
+                                    <textarea class="rounded mb-3" id="enunciado" name="enunciado" value="{{ questionario.enunciado }}" placeholder="Digite o novo enunciado do questionário" minlength="1" maxlength="1000" rows=3 cols=60></textarea>
                                     <label class="row m-2 fonte_media" for="abertura">Abertura:</label>
-                                    <input type="datetime-local" id="abertura" name="abertura"/>
+                                    <input type="datetime-local" id="abertura" name="abertura" value="{{ questionario.abertura }}">
                                     <label class="row m-2 fonte_media" for="fechamento">Fechamento:</label>
-                                    <input type="datetime-local" id="fechamento" name="fechamento"/>
+                                    <input type="datetime-local" id="fechamento" name="fechamento" value="{{ questionario.fechamento }}">
                                     <p></p>
                                     <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_questionario')">Voltar</button>
                                     <button class="btn m-3 pr-3 pl-3 btn_geral">Salvar</button>      
@@ -84,19 +89,23 @@
                 
                 {% endif %}
                 <h3 class="bgc_claro px-3 text-center">Questões</h3>
-                <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'adicionar_questao' questionario.id %}" method="POST">
-                    {% csrf_token %}
-                    <h3 class="text-white">Adicionar questão:</h3>
+                {% if not questionario.publico %}
+                    <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'adicionar_questao' questionario.id %}" method="POST">
+                        {% csrf_token %}
+                        <h3 class="text-white">Adicionar questão:</h3>
 
-                    <label class="row m-2 fonte_media" for="aluno">Enunciado:</label>
-                    <textarea class="rounded mb-3" id="enunciado" name="enunciado" placeholder="Digite o enunciado da questão" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
-                    <button class="btn_nav rounded row m-auto" type="submit">Adicionar</button>    
-                </form>
+                        <label class="row m-2 fonte_media" for="aluno">Enunciado:</label>
+                        <textarea class="rounded mb-3" id="enunciado" name="enunciado" placeholder="Digite o enunciado da questão" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
+                        <button class="btn_nav rounded row m-auto" type="submit">Adicionar</button>    
+                    </form>
+                {% endif %}
                 {% for questao in questoes %}
                 <article>
                     <p>Questão: {{ questao.enunciado }}
                         <button class="btn_geral rounded" data-target="#vis_modal_questao{{questao.id}}" onclick="abrir_modal('vis_modal_questao{{questao.id}}')">Editar</button> 
+                        {% if not questionario.publico %}
                         <a href="{% url 'remover_questao' questionario.id questao.id %}"><button class="btn_geral rounded">Remover questão</button></a></p>
+                        {% endif %}
                         <!-- MODAL PARA EDITAR QUESTAO -->
                         <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_questao{{questao.id}}">
                             <div class="conteudo_modal m-auto bg-light rounded text-center">
@@ -105,7 +114,7 @@
                                         {% csrf_token %}
                                         <h3 class="p-3 my-0 py-0">Editar questão</h3>
                                         <label class="row m-2 fonte_media" for="enunciado">Enunciado:</label>
-                                        <textarea class="rounded mb-3" id="enunciado" name="enunciado" placeholder="Digite o enunciado da questão" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
+                                        <textarea class="rounded mb-3" id="enunciado" name="enunciado" placeholder="Digite o enunciado da questão" minlength="1" maxlength="1000" rows=3 cols=60 value="{{ questao.enunciado }}" required></textarea>
                                         <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_questao{{questao.id}}')">Voltar</button>
                                         <button class="btn m-3 pr-3 pl-3 btn_geral">Salvar</button>    
                                     </form>
@@ -115,6 +124,22 @@
                         <!-- FIM MODAL -->
                 </article>
                 {% endfor %}
+                {% if not questionario.publico %}
+                    <button type="button" class="btn_nav rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_publicar')">Publicar Questionario</button>
+                {% endif %}
+                <!-- MODAL PARA PROFESSOR CONFIRMAR PUBLICACAO -->
+                <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_publicar">
+                    <div class="conteudo_modal m-auto bg-light rounded text-center">
+                        <div>
+                            <h3 class="p-3 my-0 py-0">Tem certeza que deseja publicar o questionário? Ao fazer isso não será possível remover ou adicionar novas perguntas.</h3>
+                        </div>
+                        <div>
+                            <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_publicar')">Voltar</button>
+                            <a href="{% url 'publicar_questionario' questionario.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Publicar</button></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- FIM MODAL -->
                 <a href="{% url 'verificar_respostas' questionario.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Verificar Respostas</button></a>
                 <section>
             </section>

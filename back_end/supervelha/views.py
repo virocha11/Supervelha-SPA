@@ -11,6 +11,8 @@ def redirect_group(request: HttpRequest):
         return redirect('inicio_professor')
     elif request.user.groups.get().name == 'Aluno':
         return redirect('inicio_aluno')
+    else:
+        return redirect('index')
 
 def home_professor(request: HttpRequest):
     return render(request, 'paginas/inicio_professor.html')
@@ -44,10 +46,6 @@ def logout_validate(request: HttpRequest):
             messages.add_message(request, messages.ERROR, 'Sessão inválida.')
             return redirect('login')
         
-def perfil_professor(request: HttpRequest):
+def perfil(request: HttpRequest):
     if request.method == 'GET':
-        return render(request, 'paginas/perfil_prof.html')
-    
-def perfil_aluno(request: HttpRequest):
-    if request.method == 'GET':
-        return render(request, 'paginas/perfil_aluno.html')
+        return render(request, 'paginas/perfil.html')

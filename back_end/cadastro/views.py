@@ -42,30 +42,36 @@ def cadastro_professor(request: HttpRequest):
     return cadastrar_professor(request)
 
 def cadastrar_aluno(request: HttpRequest):
-    if (validar_cadastro(request) == True):
-        novo_aluno = User.objects.create_user(request.POST.get('username'), request.POST.get('email'), request.POST.get('password'))
-        try:
-            grupo = Group.objects.get(name='Aluno')
-        except:
-            grupo = Group.objects.create(name='Aluno')
-        novo_aluno.groups.add(grupo)
-        login(request, novo_aluno)
-        messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_aluno.id}')
-        return redirect('redirect')
+    if request.method == 'POST':
+        if (validar_cadastro(request) == True):
+            novo_aluno = User.objects.create_user(request.POST.get('username'), request.POST.get('email'), request.POST.get('password'))
+            try:
+                grupo = Group.objects.get(name='Aluno')
+            except:
+                grupo = Group.objects.create(name='Aluno')
+            novo_aluno.groups.add(grupo)
+            login(request, novo_aluno)
+            messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_aluno.id}')
+            return redirect('redirect')
+        else:
+            return redirect('redirect')
     else:
         return redirect('redirect')
 
 def cadastrar_professor(request: HttpRequest):
-    if (validar_cadastro(request) == True):
-        novo_professor = User.objects.create_user(request.POST.get('username'), request.POST.get('email'), request.POST.get('password'))
-        try:
-            grupo = Group.objects.get(name='Professor')
-        except:
-            grupo = Group.objects.create(name='Professor')
-        novo_professor.groups.add(grupo)
-        login(request, novo_professor)
-        messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_professor.id}')
-        return redirect('redirect')
+    if request.method == 'POST':
+        if (validar_cadastro(request) == True):
+            novo_professor = User.objects.create_user(request.POST.get('username'), request.POST.get('email'), request.POST.get('password'))
+            try:
+                grupo = Group.objects.get(name='Professor')
+            except:
+                grupo = Group.objects.create(name='Professor')
+            novo_professor.groups.add(grupo)
+            login(request, novo_professor)
+            messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_professor.id}')
+            return redirect('redirect')
+        else:
+            return redirect('redirect')
     else:
         return redirect('redirect')
     
@@ -88,7 +94,7 @@ def cadastrar_turma(request: HttpRequest):
         professor_responsavel = User.objects.get(id=request.user.id)
         nova_turma = Turma.objects.create(nome=nome, capacidade=capacidade, professor=professor_responsavel, quantidade_alunos=quantidade_alunos)
         messages.add_message(request, messages.SUCCESS, f'Turma "{nova_turma.nome}" cadastrada com sucesso. O código dela é "{nova_turma.codigo}"!')
-        return render(request, 'paginas/cadastro_turma.html')
+        return redirect('cadastrar_turma')
 
 def excluir_usuario(request: HttpRequest):
     if request.method == 'GET':
@@ -99,10 +105,7 @@ def excluir_usuario(request: HttpRequest):
 def editar_usuario(request: HttpRequest):
     if request.method == 'POST':
         if not validar_cadastro(request):
-            if request.user.groups.get().name == 'Professor':
-                return redirect('perfil_professor')
-            elif request.user.groups.get().name == 'Aluno':
-                return redirect('perfil_aluno')
+            return redirect('perfil')
         username = request.POST.get('username')
         email = request.POST.get('email')
         nome = request.POST.get('nome')
@@ -117,14 +120,14 @@ def editar_usuario(request: HttpRequest):
             request.user.password = senha
         request.user.save() 
         messages.add_message(request, messages.SUCCESS, 'Suas informações foram atualizadas com sucesso.')
-        if request.user.groups.get().name == 'Professor':
-            return redirect('perfil_professor')
-        elif request.user.groups.get().name == 'Aluno':
-            return redirect('perfil_aluno')
+        return redirect('perfil')
     
 def excluir_turma(request: HttpRequest, codigo_turma):
     if request.method == 'GET':
         turma = Turma.objects.get(codigo=codigo_turma)
+        if request.user != turma.professor:
+            messages.add_message(request, messages.ERROR, 'Permissão negada.')
+            redirect('redirect')
         turma.delete()
         messages.add_message(request, messages.SUCCESS, 'Turma excluída com sucesso.')
         return redirect('minhas_turmas')
