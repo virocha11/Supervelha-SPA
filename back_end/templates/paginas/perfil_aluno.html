@@ -40,14 +40,19 @@
             </nav>
         </header>
         <main>
-            <section>
+            <section class="m_lados_15 text-white">
                 <table>
                     {% if messages %}
-                    <ul class="messages">
-                      {% for message in messages %}
-                        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
-                      {% endfor %}
-                    </ul>
+                    <div class="alert-container">
+                        {% for message in messages %}
+                        {% if message.tags == "success" %}
+                        <p class="alert-success p-2 rounded"> {{ message }}</p>
+                    </div>
+                        {%else%}
+                        <p class="alert-danger p-2 rounded"> {{ message }}</p>
+                        {% endif %}
+                        {% endfor %}
+                    
                     {% endif %}
                     <tr>
                         <th>Nome de usuário </th>

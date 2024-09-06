@@ -42,19 +42,24 @@
             </nav>
         </header>
         <main>
-            <section>
-                <h2>Questionários</h2>
+            <section class="m_lados_15 text-white border rounded p-3">
+                <h2 class="bgc_claro px-3 text-center">Questionários</h2>
 
                 {% if messages %}
-                <ul class="messages">
+                <div class="alert-container">
                     {% for message in messages %}
-                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
+                    {% if message.tags == "success" %}
+                    <p class="alert-success p-2 rounded"> {{ message }}</p>
+                </div>
+                    {%else%}
+                    <p class="alert-danger p-2 rounded"> {{ message }}</p>
+                    {% endif %}
                     {% endfor %}
-                </ul>
+                
                 {% endif %}
                 
                 <!-- MODAL PARA EDITAR QUESTAO -->
-                <button type="button" class="btn_nav rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_add_questionario')">Adicionar questionário</button>
+                <button type="button" class="btn_geral rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_add_questionario')">Adicionar questionário</button>
                 <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_add_questionario">
                     <div class="conteudo_modal m-auto bg-light rounded text-center">
                         <div>
@@ -69,7 +74,7 @@
                                 <input type="datetime-local" id="fechamento" name="fechamento" required/>
                                 <p></p>
                                 <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_add_questionario')">Voltar</button>
-                                <button class="btn m-3 pr-3 pl-3 btn_geral"><h4>Adicionar</h4></button>    
+                                <button class="btn m-3 pr-3 pl-3 btn_geral">Adicionar</button>    
                             </form>
                         </div>
                     </div>
@@ -77,7 +82,7 @@
                 <!-- FIM MODAL -->
                 {% for questionario in questionarios %}
                 <div>
-                    <h3>Questionário: {{ questionario.enunciado }}</h3>
+                    <h3 class="bgc_claro px-3 text-center">Questionário: {{ questionario.enunciado }}</h3>
                     <p>Abertura: {{ questionario.abertura }}</p>
                     <p>Fechamento: {{ questionario.fechamento }}</p>
                     <p>{{ questionario.quantidade_perguntas }} questões</p>

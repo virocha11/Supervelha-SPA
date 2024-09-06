@@ -40,13 +40,18 @@
             </nav>
         </header>
         <main>
-            <section>
+            <section class="m_lados_15 text-white">
                 {% if messages %}
-                <ul class="messages">
-                  {% for message in messages %}
-                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
-                  {% endfor %}
-                </ul>
+                <div class="alert-container">
+                    {% for message in messages %}
+                    {% if message.tags == "success" %}
+                    <p class="alert-success p-2 rounded"> {{ message }}</p>
+                </div>
+                    {%else%}
+                    <p class="alert-danger p-2 rounded"> {{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                
                 {% endif %}
                 <p><b>Nome de usuário: </b>{{user.username}}</p>
                 <p><b>Nome: </b>{{user.first_name}}</p>
@@ -56,8 +61,9 @@
                 <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_editar_perfil">
                     <div class="conteudo_modal m-auto bg-light rounded text-center">
                         <div>
-                            <h3 class="p-3 my-0 py-0">Editar Perfil</h3>
                             <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'editar_usuario' %}" method="POST">
+                                <h3 class="p-3 my-0 py-0">Editar Perfil</h3>
+
                                 {% csrf_token %}
                                 <label class="row m-2 fonte_media" for="nome_prof">Nome de usuário:</label>
                                 <input class="rounded w-100 mb-3" type="text" id="username" name="username" placeholder="Nome de usuário" value="{{ user.username }}">
@@ -66,7 +72,7 @@
                                 <label class="row m-2 fonte_media" for="email_prof">Nome:</label>
                                 <input class="rounded w-100 mb-3" type="text" id="nome" name="nome" placeholder="Nome" value="{{ user.first_name }}">
                                 <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_editar_perfil')">Cancelar</button>
-                                <button class="btn m-3 pr-3 pl-3 btn_geral"><h4>Salvar</h4></button>
+                                <button class="btn m-3 pr-3 pl-3 btn_geral">Salvar</button>
                             </form>   
                         </div>
                     </div>
@@ -77,7 +83,7 @@
                 <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_excluir_conta">
                     <div class="conteudo_modal m-auto bg-light rounded text-center">
                         <div>
-                            <h3 class="p-3 my-0 py-0">Tem certeza que deseja excluir sua conta? Esta ação é irreversível e você perderá todos os seus dados!</h3>
+                            <h4 class="p-3 my-0 py-0">Tem certeza que deseja excluir sua conta? Esta ação é irreversível e você perderá todos os seus dados!</h4>
                         </div>
                     <div>
                         <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_excluir_conta')">Cancelar</button>

@@ -41,23 +41,28 @@
             </nav>
         </header>
         <main>
-            <section>
+            <section class="m_lados_15 text-white border rounded p-3">
                 <article>
-                {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-                    <h3>Turma: {{ turma.nome }}</h3>
+                    {% if messages %}
+                    <div class="alert-container">
+                        {% for message in messages %}
+                        {% if message.tags == "success" %}
+                        <p class="alert-success p-2 rounded"> {{ message }}</p>
+                    </div>
+                        {%else%}
+                        <p class="alert-danger p-2 rounded"> {{ message }}</p>
+                        {% endif %}
+                        {% endfor %}
+                    
+                    {% endif %}
+                    <h3 class="bgc_claro px-3 text-center">Turma: {{ turma.nome }}</h3>
                     <p>Código: {{ turma.codigo }}</p>
                     <p>Capacidade: {{ turma.capacidade }}</p>
                     <p>Quantidade de Alunos: {{ turma.quantidade_alunos }}</p>
                     <a href="{% url 'questionarios' turma.codigo %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Questionários</button></a>
                     <a href="{% url 'editar_detalhes_turma' turma.codigo %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Editar Turma</button></a>
                 </article>
-                <h3>Alunos</h3>
+                <h3 class="bgc_claro px-3 text-center">Alunos</h3>
                 {% if turma.quantidade_alunos < turma.capacidade %}
                 <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'adicionar_aluno' turma.codigo %}" method="POST">
                     {% csrf_token %}
@@ -80,7 +85,7 @@
                 <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_excluir_turma">
                     <div class="conteudo_modal m-auto bg-light rounded text-center">
                         <div>
-                            <h3 class="p-3 my-0 py-0">Você tem certeza que quer excluir a turma {{ turma.nome }}? Esta ação é irreversível! </h3>
+                            <h4 class="p-3 my-0 py-0">Você tem certeza que quer excluir a turma {{ turma.nome }}? Esta ação é irreversível! </h4>
                         </div>
                         <div>
                             <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_excluir_turma')">Voltar</button>

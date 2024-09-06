@@ -41,16 +41,21 @@
             </nav>
         </header>
         <main>
-            <section>
+            <section class="m_lados_15 text-white border rounded p-3">
                 <article>
                     {% if messages %}
-                    <ul class="messages">
-                      {% for message in messages %}
-                        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
-                      {% endfor %}
-                    </ul>
+                    <div class="alert-container">
+                        {% for message in messages %}
+                        {% if message.tags == "success" %}
+                        <p class="alert-success p-2 rounded"> {{ message }}</p>
+                    </div>
+                        {%else%}
+                        <p class="alert-danger p-2 rounded"> {{ message }}</p>
+                        {% endif %}
+                        {% endfor %}
+                    
                     {% endif %}
-                    <h3>Turma: {{ turma.nome }}</h3>
+                    <h3 class="bgc_claro px-3 text-center">Turma: {{ turma.nome }}</h3>
                     <p>Código: {{ turma.codigo }}</p>
                     <p>Professor: {{ turma.professor }}</p>
                     <a href="{% url 'questionarios' turma.codigo %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Questionários</button></a>

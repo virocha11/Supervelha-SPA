@@ -1,12 +1,16 @@
 :root{
     --amarelo_claro: #F1E168;
+    --amarelo_escuro: #cabd56;
     --ciano_medio: #6EB7C8;
+    --ciano_escuro: #609eac;
     --ciano_claro: #B6F5FE;
-    --azul_marinho: #163d5a;
-    --azul_marinho_grad: linear-gradient(-2turn, #031929, #0c2b42, #1b374e);
+    --branco_transp: #85aeb8ab;
+    --azul_marinho: #1c4c70;
+    --azul_marinho_grad: linear-gradient(-2turn, #042035, #10314b, #285172);
     /*
     --azul: #28647E;*/
     --azul: #7592a3;
+    --fonte_p: 1.2rem;
     --fonte_m: 1.4rem;
     --fonte_g: 1.6rem;
     --fonte_gg: 2rem;
@@ -41,30 +45,34 @@ header>nav>div>div>a>img{
     background-color: var(--ciano_medio);
 }
 .bgc_claro{
-    background-color: var(--ciano_medio);
+    background-color: var(--branco_transp);
 }
 
 .btn_geral{
-    padding: 5px 8px 5px 8px;
+    padding: 2px 6px 2px 6px;
+    font-size: var(--fonte_p);
     background-color: var(--amarelo_claro);
-    border: inset var(--azul_marinho_grad) 3px;
+    border: inset var(--ciano_medio) 3px;
 }
 .btn_geral:hover{
-    background-color: var(--azul);
-    color: var(--amarelo_claro);
-    border: inset var(--ciano_medio) 3px;
+    background-color: var(--amarelo_escuro);
+    border: inset var(--azul_marinho) 3px;
     text-decoration: none;
-    transition-duration: 0.25s;
+    transition-duration: 0.15s;
+}
+.btn_geral img{
+    width: 25px;
 }
 .btn_nav{
-    color: #fff;
+    color: #ffffff;
+    font-size: var(--fonte_p);
     padding: 5px 8px 5px 8px;
     background-color: var(--ciano_medio);
-    border: inset var(--ciano_claro) 3px;
+    border: inset var(--ciano_escuro) 3px;
 }
 .btn_nav:hover{
-    background-color: var(--ciano_claro);
-    color: var(--azul_marinho_grad);
+    color: #ffffffc2;
+    background-color: var(--ciano_escuro);
     border: inset var(--ciano_medio) 3px;
     text-decoration: none;
     transition-duration: 0.25s;
@@ -74,7 +82,7 @@ header>nav>div>div>a>img{
     width: 55px;
     height: 55px;
     background-color: var(--amarelo_claro);
-    border: inset var(--azul_marinho_grad) 4px;
+    border: inset var(--azul_marinho) 4px;
 }
 
 .cadastre_btn:hover{
@@ -89,7 +97,7 @@ header>nav>div>div>a>img{
 }
 .conteudo_modal{
     max-width: 600px;
-    color: var(--azul_marinho_grad);
+    color: var(--azul_marinho);
 }
 .fonte_media{
     font-size: var(--fonte_m);
@@ -106,6 +114,9 @@ header>nav>div>div>a>img{
 .img_livros{
     width: 300px;
 }
+.m_lados_15{
+    margin: 0 15%;
+}
 .modal_sair{
     background-color: #00000075;
     display: none;
@@ -116,6 +127,15 @@ header>nav>div>div>a>img{
 }
 .obj_footer{
     height: 250px;
+}
+.trocar_img_1{
+    display: none;
+}
+.trocar_img:hover .trocar_img_2{
+    display: none;
+}
+.trocar_img:hover .trocar_img_1{
+    display: inherit;
 }
 .w_85{
     width: 85%;

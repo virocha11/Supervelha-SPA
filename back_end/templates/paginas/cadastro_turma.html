@@ -42,15 +42,18 @@
             </nav>
         </header>
         <main>
-            <section class="w-75 m-auto py-2">
+            <section class="w-75 m-auto py-2 m_lados_15 text-white">
                 {% if messages %}
                 <div class="alert-container">
                     {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
+                    {% if message.tags == "success" %}
+                    <p class="alert-success p-2 rounded"> {{ message }}</p>
                 </div>
+                    {%else%}
+                    <p class="alert-danger p-2 rounded"> {{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                
                 {% endif %}
                 <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'cadastrar_turma' %}" method="POST">
                     {% csrf_token %}   

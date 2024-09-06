@@ -41,14 +41,19 @@
             </nav>
         </header>
         <main>
-            <section>
+            <section class="m_lados_15 text-white border rounded p-3">
                 <article>
                     {% if messages %}
                     <div class="alert-container">
                         {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                        {% endfor %}
+                        {% if message.tags == "success" %}
+                        <p class="alert-success p-2 rounded"> {{ message }}</p>
                     </div>
+                        {%else%}
+                        <p class="alert-danger p-2 rounded"> {{ message }}</p>
+                        {% endif %}
+                        {% endfor %}
+                    
                     {% endif %}
                     <h3>Questionário: {{ questionario.enunciado }}</h3>
                     <p>Abertura: {{ questionario.abertura }} {{ questionario.horario }}</p>

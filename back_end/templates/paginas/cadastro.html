@@ -24,13 +24,18 @@
             </nav>
         </header>
         <main>
-            <section class="accordion w-50 m-auto py-2" id="accordion_entrar">
+            <section class="accordion w-50 m-auto py-2 text-white" id="accordion_entrar">
                 {% if messages %}
-                <ul class="messages">
-                  {% for message in messages %}
-                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
-                  {% endfor %}
-                </ul>
+                <div class="alert-container">
+                    {% for message in messages %}
+                    {% if message.tags == "success" %}
+                    <p class="alert-success p-2 rounded"> {{ message }}</p>
+                </div>
+                    {%else%}
+                    <p class="alert-danger p-2 rounded"> {{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                
                 {% endif %}
                 <div class="mb-2" id="heading_one">
                     <button class="btn btn_geral w-100" type="button" data-toggle="collapse" data-target="#formulario_p" aria-expanded="true" aria-controls="formulario_p">Sou professor</button>

@@ -41,14 +41,19 @@
             </nav>
         </header>
         <main>
-            <section>
+            <section class="m_lados_15 text-white">
                 <article>
                     {% if messages %}
                     <div class="alert-container">
                         {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                        {% endfor %}
+                        {% if message.tags == "success" %}
+                        <p class="alert-success p-2 rounded"> {{ message }}</p>
                     </div>
+                        {%else%}
+                        <p class="alert-danger p-2 rounded"> {{ message }}</p>
+                        {% endif %}
+                        {% endfor %}
+                    
                     {% endif %}
                     <h3>Questões</h3>
                     <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'responder_questionario' questionario.id %}" method="POST">
@@ -60,7 +65,7 @@
                         <textarea class="rounded mb-3" name="resposta" placeholder="Digite sua resposta" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
                     </article>
                     {% endfor %}
-                    <button class="btn m-3 pr-3 pl-3 btn_geral"><h4>Enviar</h4></button>
+                    <button class="btn m-3 pr-3 pl-3 btn_geral">Enviar</button>
                     </form>    
                 </article>
                 <section>

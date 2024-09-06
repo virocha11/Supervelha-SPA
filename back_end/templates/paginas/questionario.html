@@ -41,20 +41,20 @@
             </nav>
         </header>
         <main>
-            <section>
+            <section class="m_lados_15 text-white border rounded p-3">
                 <article>
-                    <h3>Questionário: {{ questionario.enunciado }}</h3>
+                    <h3 class="bgc_claro px-3 text-center">Questionário: {{ questionario.enunciado }}</h3>
                     <p>Abertura: {{ questionario.abertura }} {{ questionario.horario }}</p>
                     <p>Fechamento: {{ questionario.fechamento }} {{ questionario.horario }}</p>
                     <p>{{ questionario.quantidade_perguntas }} questões</p>
-                    <button type="button" class="btn_nav rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_questionario')">Editar questionário</button>
+                    <button type="button" class="btn_geral rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_questionario')">Editar questionário</button>
                     <!-- MODAL PARA EDITAR QUESTAO -->
                     <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_questionario">
                         <div class="conteudo_modal m-auto bg-light rounded text-center">
                             <div>
                                 <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'editar_questionario' questionario.id %}" method="POST">
                                     {% csrf_token %}
-                                    <h3 class="p-3 my-0 py-0">Editar questionário {{ questionario.enunciado }}</h3>
+                                    <h3 class="p-3 my-0 py-0 ">Editar questionário {{ questionario.enunciado }}</h3>
                                 
                                     <label class="row m-2 fonte_media" for="enunciado">Enunciado:</label>
                                     <textarea class="rounded mb-3" id="enunciado" name="enunciado" placeholder="Digite o novo enunciado do questionário" minlength="1" maxlength="1000" rows=3 cols=60></textarea>
@@ -64,7 +64,7 @@
                                     <input type="datetime-local" id="fechamento" name="fechamento"/>
                                     <p></p>
                                     <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_questionario')">Voltar</button>
-                                    <button class="btn m-3 pr-3 pl-3 btn_geral"><h4>Salvar</h4></button>      
+                                    <button class="btn m-3 pr-3 pl-3 btn_geral">Salvar</button>      
                                 </form>
                             </div>
                         </div>
@@ -72,20 +72,25 @@
                     <!-- FIM MODAL -->
                 </article>
                 {% if messages %}
-                    <div class="alert-container">
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                        {% endfor %}
-                    </div>
+                <div class="alert-container">
+                    {% for message in messages %}
+                    {% if message.tags == "success" %}
+                    <p class="alert-success p-2 rounded"> {{ message }}</p>
+                </div>
+                    {%else%}
+                    <p class="alert-danger p-2 rounded"> {{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                
                 {% endif %}
-                <h3>Questões</h3>
+                <h3 class="bgc_claro px-3 text-center">Questões</h3>
                 <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'adicionar_questao' questionario.id %}" method="POST">
                     {% csrf_token %}
                     <h3 class="text-white">Adicionar questão:</h3>
 
                     <label class="row m-2 fonte_media" for="aluno">Enunciado:</label>
                     <textarea class="rounded mb-3" id="enunciado" name="enunciado" placeholder="Digite o enunciado da questão" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
-                    <button class="btn-info rounded row m-auto" type="submit"><h4>Adicionar</h4></button>    
+                    <button class="btn_nav rounded row m-auto" type="submit">Adicionar</button>    
                 </form>
                 {% for questao in questoes %}
                 <article>
@@ -102,7 +107,7 @@
                                         <label class="row m-2 fonte_media" for="enunciado">Enunciado:</label>
                                         <textarea class="rounded mb-3" id="enunciado" name="enunciado" placeholder="Digite o enunciado da questão" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
                                         <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_questao{{questao.id}}')">Voltar</button>
-                                        <button class="btn m-3 pr-3 pl-3 btn_geral"><h4>Salvar</h4></button>    
+                                        <button class="btn m-3 pr-3 pl-3 btn_geral">Salvar</button>    
                                     </form>
                                 </div>
                             </div>

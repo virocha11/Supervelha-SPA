@@ -23,15 +23,18 @@
             </nav>
         </header>
         <main>
-            <section class="w-50 m-auto py-2" id="">
+            <section class="w-50 m-auto py-2 text-white" id="">
                 {% if messages %}
                 <div class="alert-container">
                     {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
+                    {% if message.tags == "success" %}
+                    <p class="alert-success p-2 rounded"> {{ message }}</p>
                 </div>
+                    {%else%}
+                    <p class="alert-danger p-2 rounded"> {{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                
                 {% endif %}
                 <!-- formulario-->
                 <form class="form mt-5 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'login' %}" method="POST">
@@ -41,7 +44,7 @@
                     <input class="rounded w-100 mb-3" type="text" id="username" name="username" placeholder="Nome de usuário">
                     <label class="row m-2 fonte_media" for="username">Senha: </label>
                     <input class="rounded w-100 mb-3" type="password" id="username" name="password" placeholder="Senha">
-                    <button class="row btn-info rounded m-auto"><h4>Entrar</h4></button>
+                    <button class="row btn_nav rounded m-auto">Entrar</button>
                 </form>
             </section>
         </main>

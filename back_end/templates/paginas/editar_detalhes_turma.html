@@ -42,13 +42,18 @@
             </nav>
         </header>
         <main>
-            <section>
+            <section class="m_lados_15 text-white">
                 {% if messages %}
-                <ul class="messages">
-                  {% for message in messages %}
-                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
-                  {% endfor %}
-                </ul>
+                <div class="alert-container">
+                    {% for message in messages %}
+                    {% if message.tags == "success" %}
+                    <p class="alert-success p-2 rounded"> {{ message }}</p>
+                </div>
+                    {%else%}
+                    <p class="alert-danger p-2 rounded"> {{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                
                 {% endif %}
                 <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'editar_detalhes_turma' turma.codigo %}" method="POST">
                     {% csrf_token %}   
@@ -60,7 +65,7 @@
                     <label class="row m-2 fonte_media" for="capacidade">Capacidade:</label>
                     <input class="rounded w-25 mb-3" type="number" min="1" id="capacidade" name="capacidade" placeholder="Número máximo de alunos">
 
-                    <button class="btn-info rounded row m-auto" type="submit"><h4>Concluir</h4></button>    
+                    <button class="btn-info rounded row m-auto" type="submit">Concluir</button>    
                 </form>
                 
             </section>
