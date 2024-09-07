@@ -11,6 +11,9 @@
         <title>Minhas Turmas</title>
     </head>
     <body>
+        <button class="custom-range:focus d-flex form-inline position-fixed rounded rolar_cima p-2" onclick="voltar_cima();">
+            <img class="w-100 rounded" src="{% static 'assets/imgs/seta_cima.png' %}" alt="">
+        </button>
         <header class="text-white">
             <nav class="navbar navbar-light bg-transparent">
                 <div class="container-fluid">
@@ -42,15 +45,15 @@
             </nav>
         </header>
         <main>
-            <section class="m_lados_15 text-white border rounded p-3">
+            <section class="m_lados_15 text-white border rounded ">
                 {% if messages %}
-                <div class="alert-container">
+                <div class="alert-container m-3">
                     {% for message in messages %}
                     {% if message.tags == "success" %}
                     <p class="alert-success p-2 rounded"> {{ message }}</p>
                 </div>
                     {%else%}
-                    <p class="alert-danger p-2 rounded"> {{ message }}</p>
+                    <p class="alert-danger p-2 rounded m-3"> {{ message }}</p>
                     {% endif %}
                     {% endfor %}
                 

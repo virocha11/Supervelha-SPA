@@ -10,6 +10,9 @@
         <title>Turma</title>
     </head>
     <body>
+        <button class="custom-range:focus d-flex form-inline position-fixed scroll_top trocar_img" onclick="back_top();">
+            <img class="w-100 trocar_img_1" src="{% static 'assets/imgs/para_cima_1.png' %}" alt=""><img class="w-100 trocar_img_2" src="{% static 'assets/imgs/para_cima_2.png' %}" alt="">
+        </button>
         <header class="text-white">
             <nav class="navbar navbar-light bg-transparent">
                 <div class="container-fluid">
@@ -42,15 +45,15 @@
         </header>
         <main>
             <section class="m_lados_15 text-white border rounded p-3">
-                <article>
+                <article class="">
                     {% if messages %}
                     <div class="alert-container">
                         {% for message in messages %}
                         {% if message.tags == "success" %}
-                        <p class="alert-success p-2 rounded"> {{ message }}</p>
+                        <p class="alert-success my-2 p-2 rounded"> {{ message }}</p>
                     </div>
                         {%else%}
-                        <p class="alert-danger p-2 rounded"> {{ message }}</p>
+                        <p class="alert-danger my-2 p-2 rounded"> {{ message }}</p>
                         {% endif %}
                         {% endfor %}
                     
@@ -60,7 +63,7 @@
                     <p>Capacidade: {{ turma.capacidade }}</p>
                     <p>Quantidade de Alunos: {{ turma.quantidade_alunos }}</p>
                     <a href="{% url 'questionarios' turma.codigo %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Questionários</button></a>
-                    <button type="button" class="btn_geral rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_editar_turma')">Editar Turma</button>
+                    <button type="button" class="btn m-3 pr-3 pl-3 btn_geral trocar_img" onclick="abrir_modal('vis_modal_editar_turma')">Editar Turma <img class="trocar_img_1" src = "{% static 'assets/imgs/lapis_1.png' %}"><img class="trocar_img_2" src="{% static 'assets/imgs/lapis_2.png' %}"></button>
                     <!-- MODAL PARA EDITAR TURMA -->
                     <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_editar_turma">
                         <div class="conteudo_modal m-auto bg-light rounded text-center">
@@ -85,13 +88,13 @@
                 </article>
                 <h3 class="bgc_claro px-3 text-center">Alunos</h3>
                 {% if turma.quantidade_alunos < turma.capacidade %}
-                <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'adicionar_aluno' turma.codigo %}" method="POST">
+                <form class="form mt-2 w-100 bgc_claro rounded p-2 px-4 shadow" action="{% url 'adicionar_aluno' turma.codigo %}" method="POST">
                     {% csrf_token %}
-                    <h3 class="text-white">Adicionar Aluno</h3>
+                    <h3>Adicionar Aluno</h3>
 
                     <label class="row m-2 fonte_media" for="aluno">Nome de usuário:</label>
                     <input class="rounded w-100 mb-3" type="text" id="aluno" name="aluno" placeholder="Nome de usuário" required>
-                    <button class="btn-info rounded row m-auto" type="submit"><h4>Adicionar</h4></button>    
+                    <button class="btn_nav rounded row m-auto" type="submit">Adicionar</button>    
                 </form>
                 {% else %}
                 <p>Turma cheia, não é possível adicionar mais alunos.</p>
