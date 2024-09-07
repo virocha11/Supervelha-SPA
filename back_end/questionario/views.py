@@ -6,8 +6,9 @@ from django.contrib import messages
 from django.utils.dateparse import parse_datetime
 from django.utils import timezone
 from django.contrib.auth.models import User
+from .padrao_projeto.strategies import professor_verificacao_strategy, nao_autorizado_verificacao_strategy, verificacao_context
 
-def visualizar_questionarios(request: HttpRequest, codigo_turma):
+def visualizar_questionarios(request: HttpRequest, codigo_turma): # listagem com todos os questionarios
     if request.method == 'GET':
         turma = Turma.objects.get(codigo=codigo_turma)
         if request.user.groups.get().name == 'Professor':
@@ -17,7 +18,7 @@ def visualizar_questionarios(request: HttpRequest, codigo_turma):
             questionarios = Questionario.objects.filter(turma=turma, publico=True)
             return render(request, 'paginas/questionarios_aluno.html', {'turma': turma, 'questionarios': questionarios})
         
-def visualizar_questionario(request: HttpRequest, questionario_id):
+def visualizar_questionario(request: HttpRequest, questionario_id): # depois de selecionar um em específico
     if request.method == 'GET':
         questionario = Questionario.objects.get(id=questionario_id)
         questoes = Pergunta.objects.filter(questionario=questionario)
@@ -234,17 +235,26 @@ def revisar_respostas(request: HttpRequest, questionario_id):
             messages.add_message(request, messages.ERROR, 'Permissão negada.')
             return redirect('redirect')
         
-def verificar_respostas(request: HttpRequest, questionario_id):
+# def verificar_respostas(request: HttpRequest, questionario_id):
+#     if request.method == 'GET':
+#         if request.user.groups.get().name == 'Professor':
+#             questionario = Questionario.objects.get(id=questionario_id)
+#             alunos = questionario.respondido_por.all()
+#             avaliacao = RespondidoPor.objects.filter(questionario=questionario)
+#             alunos_avaliacao = zip(alunos, avaliacao)
+#             return render(request, 'paginas/respostas.html', {'questionario': questionario, 'alunos': alunos_avaliacao})
+#         else:
+#             messages.add_message(request, messages.ERROR, 'Permissão negada.')
+#             return redirect('redirect')
+def verificar_respostas(request, questionario_id):
     if request.method == 'GET':
         if request.user.groups.get().name == 'Professor':
-            questionario = Questionario.objects.get(id=questionario_id)
-            alunos = questionario.respondido_por.all()
-            avaliacao = RespondidoPor.objects.filter(questionario=questionario)
-            alunos_avaliacao = zip(alunos, avaliacao)
-            return render(request, 'paginas/respostas.html', {'questionario': questionario, 'alunos': alunos_avaliacao})
+            strategy = professor_verificacao_strategy()
         else:
-            messages.add_message(request, messages.ERROR, 'Permissão negada.')
-            return redirect('redirect')
+            strategy = nao_autorizado_verificacao_strategy()
+        # context é uma convenção de strategy: descreve a classe que gerencia a interação entre o usuario e as strategies
+        context = verificacao_context(strategy)
+        return context.executar_verificacao(request, questionario_id)
         
 def avaliar_respostas(request: HttpRequest, questionario_id, aluno_id):
     if request.method == 'GET':
