@@ -105,8 +105,8 @@
                 {% for questao in questoes %}
                 <article>
                     <p>Questão: {{ questao.enunciado }}
-                        <button class="btn_geral rounded" data-target="#vis_modal_questao{{questao.id}}" onclick="abrir_modal('vis_modal_questao{{questao.id}}')">Editar</button> 
                         {% if not questionario.publico %}
+                        <button class="btn_geral rounded" data-target="#vis_modal_questao{{questao.id}}" onclick="abrir_modal('vis_modal_questao{{questao.id}}')">Editar</button> 
                         <a href="{% url 'remover_questao' questionario.id questao.id %}"><button class="btn_geral rounded">Remover questão</button></a></p>
                         {% endif %}
                         <!-- MODAL PARA EDITAR QUESTAO -->
@@ -143,7 +143,9 @@
                     </div>
                 </div>
                 <!-- FIM MODAL -->
+                {% if questionario.publico %}
                 <a href="{% url 'verificar_respostas' questionario.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Verificar Respostas</button></a>
+                {% endif %}
                 <section>
             </section>
         </main>

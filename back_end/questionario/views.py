@@ -139,7 +139,7 @@ def remover_pergunta(request: HttpRequest, questionario_id, questao_id):
             if pergunta:
                 questionario = Questionario.objects.get(id=questionario_id)
                 if questionario.publico:
-                    messages.add_message(request, messages.ERROR, 'Questão está público.')
+                    messages.add_message(request, messages.ERROR, 'Questionário está público.')
                     return redirect('visualizar_questionario', questionario_id=questionario_id)
                 if questionario.turma.professor == request.user:
                     pergunta.delete()
@@ -163,6 +163,10 @@ def editar_pergunta(request: HttpRequest, questionario_id, questao_id):
             if request.user != Questionario.objects.get(id=questionario_id).turma.professor:
                 messages.add_message(request, messages.ERROR, 'Permissão negada.')
                 return redirect('redirect')
+            questionario = Questionario.objects.get(id=questionario_id)
+            if questionario.publico:
+                messages.add_message(request, messages.ERROR, 'Questionário está público.')
+                return redirect('visualizar_questionario', questionario_id=questionario_id)
             perguntas = Pergunta.objects.filter(questionario=Questionario.objects.get(id=questionario_id))
             enunciado = request.POST.get('enunciado')
             for pergunta in perguntas:
@@ -182,22 +186,29 @@ def responder_questionario(request:HttpRequest, questionario_id):
     if request.method == 'GET':
         if request.user.groups.get().name == 'Aluno':
             questionario = Questionario.objects.get(id=questionario_id)
-            if questionario.abertura <= timezone.now() <= questionario.fechamento:
-                if request.user not in questionario.respondido_por.all():
-                    questoes = Pergunta.objects.filter(questionario=questionario)
-                    return render(request, 'paginas/responder_aluno.html', {'questionario': questionario, 'questoes': questoes})
+            if questionario.publico:
+                if questionario.abertura <= timezone.now() <= questionario.fechamento:
+                    if request.user not in questionario.respondido_por.all():
+                        questoes = Pergunta.objects.filter(questionario=questionario)
+                        return render(request, 'paginas/responder_aluno.html', {'questionario': questionario, 'questoes': questoes})
+                    else:
+                        messages.add_message(request, messages.ERROR, 'Você já respondeu esse questionário.')
+                        return redirect('visualizar_questionario', questionario_id=questionario_id)
                 else:
-                    messages.add_message(request, messages.ERROR, 'Você já respondeu esse questionário.')
+                    messages.add_message(request, messages.ERROR, 'Questionário fechado.')
                     return redirect('visualizar_questionario', questionario_id=questionario_id)
             else:
-                messages.add_message(request, messages.ERROR, 'Questionário fechado.')
-                return redirect('visualizar_questionario', questionario_id=questionario_id)
+                messages.add_message(request, messages.ERROR, 'Permissão negada.')
+                return redirect('redirect')
         else:
             messages.add_message(request, messages.ERROR, 'Permissão negada.')
             return redirect('redirect')
     if request.method == 'POST':
         if request.user.groups.get().name == 'Aluno':
             questionario = Questionario.objects.get(id=questionario_id)
+            if not questionario.publico:
+                messages.add_message(request, messages.ERROR, 'Permissão negada.')
+                return redirect('redirect')
             if request.user not in questionario.respondido_por.all():
                 perguntas = Pergunta.objects.filter(questionario=questionario)
                 respostas = request.POST.getlist('resposta')
@@ -220,6 +231,9 @@ def revisar_respostas(request: HttpRequest, questionario_id):
     if request.method == 'GET':
         if request.user.groups.get().name == 'Aluno':
             questionario = Questionario.objects.get(id=questionario_id)
+            if not questionario.publico:
+                messages.add_message(request, messages.ERROR, 'Permissão negada.')
+                return redirect('redirect')
             if request.user in questionario.respondido_por.all():
                 questoes = Pergunta.objects.filter(questionario=questionario)
                 respostas = []
@@ -246,7 +260,7 @@ def revisar_respostas(request: HttpRequest, questionario_id):
 #         else:
 #             messages.add_message(request, messages.ERROR, 'Permissão negada.')
 #             return redirect('redirect')
-def verificar_respostas(request, questionario_id):
+def verificar_respostas(request: HttpRequest, questionario_id):
     if request.method == 'GET':
         if request.user.groups.get().name == 'Professor':
             strategy = professor_verificacao_strategy()
@@ -260,6 +274,9 @@ def avaliar_respostas(request: HttpRequest, questionario_id, aluno_id):
     if request.method == 'GET':
         if request.user.groups.get().name == 'Professor':
             questionario = Questionario.objects.get(id=questionario_id)
+            if not questionario.publico:
+                messages.add_message(request, messages.ERROR, 'Questionário não foi publicado.')
+                return redirect('visualizar_questionario', questionario_id=questionario_id)
             aluno = User.objects.get(id=aluno_id)
             questoes = Pergunta.objects.filter(questionario=questionario)
             avaliacao = RespondidoPor.objects.get(questionario=questionario, aluno=aluno)
@@ -278,6 +295,9 @@ def avaliar_respostas(request: HttpRequest, questionario_id, aluno_id):
     if request.method == 'POST':
         if request.user.groups.get().name == 'Professor':
             questionario = Questionario.objects.get(id=questionario_id)
+            if not questionario.publico:
+                messages.add_message(request, messages.ERROR, 'Questionário não foi publicado.')
+                return redirect('visualizar_questionario', questionario_id=questionario_id)
             aluno = User.objects.get(id=aluno_id)
             questoes = Pergunta.objects.filter(questionario=questionario)
             respostas = []
@@ -297,6 +317,7 @@ def avaliar_respostas(request: HttpRequest, questionario_id, aluno_id):
                     nota += int(notas[aux])
                     aux += 1
                 nota = nota/aux
+                nota = round(nota, 1)
                 respondido_por = RespondidoPor.objects.get(questionario=questionario, aluno=aluno)
                 respondido_por.nota = nota
                 respondido_por.avaliado = True
@@ -311,6 +332,9 @@ def editar_avalicao(request: HttpRequest, questionario_id, aluno_id):
     if request.method == 'GET':
         if request.user.groups.get().name == 'Professor':
             questionario = Questionario.objects.get(id=questionario_id)
+            if not questionario.publico:
+                messages.add_message(request, messages.ERROR, 'Questionário não foi publicado.')
+                return redirect('visualizar_questionario', questionario_id=questionario_id)
             aluno = User.objects.get(id=aluno_id)
             questoes = Pergunta.objects.filter(questionario=questionario)
             avaliacao = RespondidoPor.objects.get(questionario=questionario, aluno=aluno)
@@ -329,6 +353,9 @@ def editar_avalicao(request: HttpRequest, questionario_id, aluno_id):
     if request.method == 'POST':
         if request.user.groups.get().name == 'Professor':
             questionario = Questionario.objects.get(id=questionario_id)
+            if not questionario.publico:
+                messages.add_message(request, messages.ERROR, 'Questionário não foi publicado.')
+                return redirect('visualizar_questionario', questionario_id=questionario_id)
             aluno = User.objects.get(id=aluno_id)
             questoes = Pergunta.objects.filter(questionario=questionario)
             respostas = []
@@ -347,6 +374,7 @@ def editar_avalicao(request: HttpRequest, questionario_id, aluno_id):
                     nota += float(notas[aux])
                     aux += 1
                 nota = nota/aux
+                nota = round(nota, 1)
                 respondido_por = RespondidoPor.objects.get(questionario=questionario, aluno=aluno)
                 respondido_por.nota = nota
                 respondido_por.save()
