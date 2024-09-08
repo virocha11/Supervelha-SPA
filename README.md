@@ -9,7 +9,7 @@ MySql Server 8.0.x
 </b>
 ### Criar tabelas do banco de dados e executar projeto
 
-<i>Execute na dentro da mesma pasrta que se encontra o arquivo manage.py</i>
+<i>Execute na dentro da mesma pasrta que se encontra o arquivo manage.py</i> <br>
 <b>
 python manage.py migrate <br>
 python manage.py runserver <br>
