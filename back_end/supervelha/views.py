@@ -7,10 +7,11 @@ def index(request: HttpRequest):
     return render(request, 'index.html')
 
 def redirect_group(request: HttpRequest):
-    if request.user.groups.get().name == 'Professor':
-        return redirect('inicio_professor')
-    elif request.user.groups.get().name == 'Aluno':
-        return redirect('inicio_aluno')
+    if request.user.is_authenticated:
+        if request.user.groups.get().name == 'Professor':
+            return redirect('inicio_professor')
+        elif request.user.groups.get().name == 'Aluno':
+            return redirect('inicio_aluno')
     else:
         return redirect('index')
 

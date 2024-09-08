@@ -54,9 +54,9 @@ def cadastrar_aluno(request: HttpRequest):
             messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_aluno.id}')
             return redirect('redirect')
         else:
-            return redirect('redirect')
+            return redirect('cadastro')
     else:
-        return redirect('redirect')
+        return redirect('cadastro')
 
 def cadastrar_professor(request: HttpRequest):
     if request.method == 'POST':
@@ -71,9 +71,9 @@ def cadastrar_professor(request: HttpRequest):
             messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_professor.id}')
             return redirect('redirect')
         else:
-            return redirect('redirect')
+            return redirect('cadastro')
     else:
-        return redirect('redirect')
+        return redirect('cadastro')
     
 def cadastrar_turma(request: HttpRequest):
     if request.method == 'GET':
