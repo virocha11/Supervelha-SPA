@@ -124,6 +124,11 @@ header>nav>div>div>a>img{
     text-decoration: underline;
     color: var(--azul_marinho);
 }
+
+.centralizar{
+    display: flex;
+    justify-content: center;
+}
 .m_lados_15{
     margin: 0 15%;
 }

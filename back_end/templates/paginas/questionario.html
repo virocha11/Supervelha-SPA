@@ -65,11 +65,11 @@
                                     <h3 class="p-3 my-0 py-0 ">Editar questionário {{ questionario.enunciado }}</h3>
                                 
                                     <label class="row m-2 fonte_media" for="enunciado">Enunciado:</label>
-                                    <textarea class="rounded mb-3" id="enunciado" name="enunciado" value="{{ questionario.enunciado }}" placeholder="Digite o novo enunciado do questionário" minlength="1" maxlength="1000" rows=3 cols=60></textarea>
+                                    <textarea class="rounded mb-3" id="enunciado" name="enunciado" value="{{ questionario.enunciado }}" placeholder="Digite o novo enunciado do questionário" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
                                     <label class="row m-2 fonte_media" for="abertura">Abertura:</label>
-                                    <input type="datetime-local" id="abertura" name="abertura" value="{{ questionario.abertura }}">
+                                    <input type="datetime-local" id="abertura" name="abertura" value="{{ questionario.abertura }} required">
                                     <label class="row m-2 fonte_media" for="fechamento">Fechamento:</label>
-                                    <input type="datetime-local" id="fechamento" name="fechamento" value="{{ questionario.fechamento }}">
+                                    <input type="datetime-local" id="fechamento" name="fechamento" value="{{ questionario.fechamento }} ">
                                     <p></p>
                                     <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_questionario')">Voltar</button>
                                     <button class="btn m-3 pr-3 pl-3 btn_geral">Salvar</button>      

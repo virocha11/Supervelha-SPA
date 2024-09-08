@@ -42,11 +42,11 @@
                 <!-- formulario-->
                 <form class="form mt-5 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'login' %}" method="POST">
                     {% csrf_token %}
-                    <h3 class="text-white">Preencha com seus dados</h3>
+                    <h3 class="text-white text-center">Preencha com seus dados</h3>
                     <label class="row m-2 fonte_media" for="username">Nome: </label>
-                    <input class="rounded w-100 mb-3" type="text" id="username" name="username" placeholder="Nome de usuário">
+                    <input class="rounded w-100 mb-3" type="text" id="username" name="username" placeholder="Nome de usuário" required>
                     <label class="row m-2 fonte_media" for="username">Senha: </label>
-                    <input class="rounded w-100 mb-3" type="password" id="username" name="password" placeholder="Senha">
+                    <input class="rounded w-100 mb-3" type="password" id="username" name="password" placeholder="Senha" required>
                     <button class="row btn_nav rounded m-auto">Entrar</button>
                 </form>
             </section>

@@ -48,16 +48,16 @@
                 <form class="form collapse mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_p" action="{% url 'cadastro_professor' %}" method="POST">
                     {% csrf_token %}
                     <label class="row m-2 fonte_media" for="nome_prof">Nome:</label>
-                    <input class="rounded w-100 mb-3" type="text" id="nome_prof" name="username" placeholder="Nome de usuário">
+                    <input class="rounded w-100 mb-3" type="text" id="nome_prof" name="username" placeholder="Nome de usuário" required>
 
                     <label class="row m-2 fonte_media" for="email_prof">Email:</label>
-                    <input class="rounded w-100 mb-3" type="email" id="email_prof" name="email" placeholder="Email">
+                    <input class="rounded w-100 mb-3" type="email" id="email_prof" name="email" placeholder="Email" required>
 
                     <label class="row m-2 fonte_media" for="senha_prof">Senha</label>
-                    <input class="rounded w-100 mb-3" type="password" id="senha_prof" name="password" placeholder="Senha">
+                    <input class="rounded w-100 mb-3" type="password" id="senha_prof" name="password" placeholder="Senha" required>
 
                     <label class="row m-2 fonte_media" for="confirmacao_prof">Confirmação de senha:</label>
-                    <input class="rounded w-100 mb-3" type="password" id="confirmacao_prof" name="cpassword" placeholder="Confirme sua senha">
+                    <input class="rounded w-100 mb-3" type="password" id="confirmacao_prof" name="cpassword" placeholder="Confirme sua senha" required>
 
                     <button class="btn-info rounded row m-auto"><h4>Cadastrar</h4></button>    
                 </form>
@@ -70,16 +70,16 @@
                 <form class="form collapse mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" aria-labelledby="heading_one" data-parent="#accordion_entrar" id="formulario_a" action="{% url 'cadastro_aluno' %}" method="POST">
                     {% csrf_token %}
                     <label class="row m-2 fonte_media" for="nome_aluno">Nome:</label>
-                    <input class="rounded w-100 mb-3" type="text" id="nome_aluno" name="username" placeholder="Nome de usuário">
+                    <input class="rounded w-100 mb-3" type="text" id="nome_aluno" name="username" placeholder="Nome de usuário" required>
 
                     <label class="row m-2 fonte_media" for="email_aluno">Email:</label>
-                    <input class="rounded w-100 mb-3" type="email" id="email_aluno" name="email" placeholder="Email">
+                    <input class="rounded w-100 mb-3" type="email" id="email_aluno" name="email" placeholder="Email" required>
 
                     <label class="row m-2 fonte_media" for="senha_aluno">Senha</label>
-                    <input class="rounded w-100 mb-3" type="password" id="senha_aluno" name="password" placeholder="Senha">
+                    <input class="rounded w-100 mb-3" type="password" id="senha_aluno" name="password" placeholder="Senha" required>
 
                     <label class="row m-2 fonte_media" for="confirmacao_aluno">Confirmação de senha:</label>
-                    <input class="rounded w-100 mb-3" type="password" id="confirmacao_aluno" name="cpassword" placeholder="Confirme sua senha">
+                    <input class="rounded w-100 mb-3" type="password" id="confirmacao_aluno" name="cpassword" placeholder="Confirme sua senha" required>
 
                     <button class="btn-info rounded row m-auto"><h4>Cadastrar</h4></button>      
                 </form>

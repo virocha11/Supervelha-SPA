@@ -43,7 +43,7 @@
             </nav>
         </header>
         <main>
-            <section class="m_lados_15 text-white">
+            <section class="m_lados_15 text-white border rounded p-3">
                 {% if messages %}
                 <div class="alert-container">
                     {% for message in messages %}
@@ -56,53 +56,57 @@
                     {% endfor %}
                 
                 {% endif %}
+                <!-- INFORMAÇÕES DO PERFIL -->
+                <p><b>Resgitro Acadêmico: </b>{{user.id}}</p>
                 <p><b>Nome de usuário: </b>{{user.username}}</p>
-                <p><b>Nome: </b>{{user.first_name}}</p>
+                <!-- <p><b>Nome: </b>{{user.first_name}}</p> -->
                 <p><b>E-mail: </b>{{user.email}}</p>
-                <button type="button" class="btn_geral rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_editar_perfil')">Editar Perfil</button>
-                <!-- MODAL PARA USUARIO EDITAR PERFIL -->
-                <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_editar_perfil">
-                    <div class="conteudo_modal m-auto bg-light rounded text-center">
-                        <div>
-                            <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'editar_usuario' %}" method="POST">
-                                <h3 class="p-3 my-0 py-0">Editar Perfil</h3>
-
-                                {% csrf_token %}
-                                <label class="row m-2 fonte_media" for="nome_prof">Nome de usuário:</label>
-                                <input class="rounded w-100 mb-3" type="text" id="username" name="username" placeholder="Nome de usuário" value="{{ user.username }}">
-                                <label class="row m-2 fonte_media" for="email_prof">Email:</label>
-                                <input class="rounded w-100 mb-3" type="email" id="email" name="email" placeholder="Email" value="{{ user.email }}">
-                                <label class="row m-2 fonte_media" for="email_prof">Nome:</label>
-                                <input class="rounded w-100 mb-3" type="text" id="nome" name="nome" placeholder="Nome" value="{{ user.first_name }}">
-
-                                <a class="link_destac" id="trocar_senha" data-toggle="collapse" href="#collapse_senha" aria-expanded="false" aria-controls="collapse_senha">Trocar senha</a>
-
-                                <div class="collapse" id="collapse_senha">
-                                    <label class="row m-2 fonte_media" for="senha">Senha atual:</label>
-                                    <input class="rounded w-100 mb-3 inativo" type="password" id="senha" name="senha" placeholder="Senha atual" disabled>
-                                    <label class="row m-2 fonte_media " for="nova_senha">Nova senha:</label>
-                                    <input class="rounded w-100 mb-3 inativo" type="password" id="nova_senha" name="nova_senha" placeholder="Nova senha"  disabled>
-                                    <label class="row m-2 fonte_media " for="confirma_senha">Confirmação de nova senha:</label>
-                                    <input class="rounded w-100 mb-3 inativo" type="password" id="confirma_senha" name="confirma_senha" placeholder="Nova senha" disabled>
-                                </div>
-
-                                <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_editar_perfil')">Cancelar</button>
-                                <button class="btn m-3 pr-3 pl-3 btn_geral">Salvar</button>
-                            </form>   
+                <div class="centralizar">
+                    <button type="button" class="btn_geral rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_editar_perfil')">Editar Perfil</button>
+                    <!-- MODAL PARA USUARIO EDITAR PERFIL -->
+                    <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_editar_perfil">
+                        <div class="conteudo_modal m-auto bg-light rounded text-center">
+                            <div>
+                                <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'editar_usuario' %}" method="POST">
+                                    <h3 class="p-3 my-0 py-0">Editar Perfil</h3>
+    
+                                    {% csrf_token %}
+                                    <label class="row m-2 fonte_media" for="nome_prof">Nome de usuário:</label>
+                                    <input class="rounded w-100 mb-3" type="text" id="username" name="username" placeholder="Nome de usuário" value="{{ user.username }}">
+                                    <label class="row m-2 fonte_media" for="email_prof">Email:</label>
+                                    <input class="rounded w-100 mb-3" type="email" id="email" name="email" placeholder="Email" value="{{ user.email }}">
+                                    <!-- <label class="row m-2 fonte_media" for="email_prof">Nome:</label>
+                                    <input class="rounded w-100 mb-3" type="text" id="nome" name="nome" placeholder="Nome" value="{{ user.first_name }}"> -->
+                                    
+                                    <a class="link_destac" id="trocar_senha" data-toggle="collapse" href="#collapse_senha" aria-expanded="false" aria-controls="collapse_senha">Trocar senha</a>
+                                    
+                                    <div class="collapse" id="collapse_senha">
+                                        <label class="row m-2 fonte_media" for="senha">Senha atual:</label>
+                                        <input class="rounded w-100 mb-3 inativo" type="password" id="senha" name="senha" placeholder="Senha atual" disabled required>
+                                        <label class="row m-2 fonte_media " for="nova_senha">Nova senha:</label>
+                                        <input class="rounded w-100 mb-3 inativo" type="password" id="nova_senha" name="nova_senha" placeholder="Nova senha" disabled required>
+                                        <label class="row m-2 fonte_media " for="confirma_senha">Confirmação de nova senha:</label>
+                                        <input class="rounded w-100 mb-3 inativo" type="password" id="confirma_senha" name="confirma_senha" placeholder="Nova senha" disabled required>
+                                    </div>
+                                    
+                                    <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_editar_perfil')">Cancelar</button>
+                                    <button class="btn m-3 pr-3 pl-3 btn_geral">Salvar</button>
+                                </form>   
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- FIM MODAL -->
-                <button type="button" class="btn_geral rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_excluir_conta')">Excluir Conta</button>
-                <!-- MODAL PARA USUARIO EXCLUIR CONTA -->
-                <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_excluir_conta">
-                    <div class="conteudo_modal m-auto bg-light rounded text-center">
+                    <!-- FIM MODAL -->
+                    <button type="button" class="btn_geral rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_excluir_conta')">Excluir Conta</button>
+                    <!-- MODAL PARA USUARIO EXCLUIR CONTA -->
+                    <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_excluir_conta">
+                        <div class="conteudo_modal m-auto bg-light rounded text-center">
+                            <div>
+                                <h4 class="p-3 my-0 py-0">Tem certeza que deseja excluir sua conta? Esta ação é irreversível e você perderá todos os seus dados!</h4>
+                            </div>
                         <div>
-                            <h4 class="p-3 my-0 py-0">Tem certeza que deseja excluir sua conta? Esta ação é irreversível e você perderá todos os seus dados!</h4>
-                        </div>
-                    <div>
-                        <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_excluir_conta')">Cancelar</button>
-                            <a href="{% url 'excluir_usuario' %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Excluir</button></a>
+                            <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_excluir_conta')">Cancelar</button>
+                                <a href="{% url 'excluir_usuario' %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Excluir</button></a>
+                            </div>
                         </div>
                     </div>
                 </div>
