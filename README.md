@@ -1,6 +1,8 @@
 
 # Supervelha-SPA
 
+## Comandos <img src="https://cdn-icons-png.flaticon.com/128/7207/7207873.png" width="20px">:
+
 ### Instalar Django e MySql
 <b>python -m pip install Django <br>
 python -m pip install mysqlclient <br>
