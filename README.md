@@ -1,13 +1,19 @@
+
 # Supervelha-SPA
 
-python -m pip install Django
-python -m pip install mysqlclient
-Python 3.x.x
+### Instalar Django
+<b>python -m pip install Django <br>
+python -m pip install mysqlclient <br>
+Python 3.x.x <br>
 MySql Server 8.0.x
+</b>
+### Criar tabelas do banco de dados e executar projeto
 
-python manage.py migrate
-python manage.py runserver
-
+<i>Execute na dentro da mesma pasrta que se encontra o arquivo manage.py</i>
+<b>
+python manage.py migrate <br>
+python manage.py runserver <br>
+</b>
 ## Padrão utilizado: <a href="https://refactoring.guru/pt-br/design-patterns/strategy" target="_blank">Strategy</a>
 Se encontra no método "verificar_respostas" na pasta de questionário, em views.py. A implementação do Strategy em sí está ná pasta "<a href="https://github.com/virocha11/Supervelha-SPA/tree/main/back_end/questionario/padrao_projeto" target="_blank">padrao_projeto</a>", dentro da pasta questionário, em "<a href="https://github.com/virocha11/Supervelha-SPA/blob/main/back_end/questionario/padrao_projeto/strategies.py" target="_blank">strategies.py</a>".
 
