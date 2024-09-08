@@ -16,7 +16,7 @@ def cadastro(request: HttpRequest):
 def validar_cadastro(request: HttpRequest):
     error = 0
     if request.POST.get('password') != request.POST.get('cpassword'):
-        messages.add_message(request, messages.ERROR, 'As duas senhas digitadas são diferentes.')
+        messages.add_message(request, messages.ERROR, 'As senhas digitadas são diferentes.')
         error = 1
     r = re.compile(r'^[\w-]+@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$')
     if (not r.match(request.POST.get('email'))):
