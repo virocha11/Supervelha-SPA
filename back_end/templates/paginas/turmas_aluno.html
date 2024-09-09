@@ -58,14 +58,19 @@
                     {% endfor %}
                 
                 {% endif %}
-                {% for turma in turmas %}
-                <div>
-                    <h3 class="bgc_claro px-3 text-center">Turma: {{ turma.nome }}</h3>
-                    <p>Código: {{ turma.codigo }}</p>
-                    <p>Professor: {{ turma.professor }}</p>
-                    <a href="{% url 'visualizar_turma' turma.codigo %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral trocar_img">Visualizar Turma</button></a>
+                <h2 class="centralizar">Minhas Turmas</h2>
+                <div class="container">
+                    <div class="row">
+                        {% for turma in turmas %}
+                        <div  class="col-sm bgc_amarelo_transp m-2 rounded">
+                            <h3 class="bgc_claro px-3 text-center">Turma: {{ turma.nome }}</h3>
+                            <p>Código: {{ turma.codigo }}</p>
+                            <p>Professor: {{ turma.professor }}</p>
+                            <a href="{% url 'visualizar_turma' turma.codigo %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral trocar_img">Visualizar Turma</button></a>
+                        </div>
+                        {% endfor %}
+                    </div>
                 </div>
-                {% endfor %}
             </section>
         </main>
         <object class="w-100 obj_footer" data="{% static 'assets/paginas/footer.html' %}" type="text/html"></object>
