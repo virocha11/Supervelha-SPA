@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from .models import Turma
@@ -16,7 +16,7 @@ def cadastro(request: HttpRequest):
 def validar_cadastro(request: HttpRequest):
     error = 0
     if request.POST.get('password') != request.POST.get('cpassword'):
-        messages.add_message(request, messages.ERROR, 'As duas senhas digitadas são diferentes.')
+        messages.add_message(request, messages.ERROR, 'As senhas digitadas são diferentes.')
         error = 1
     r = re.compile(r'^[\w-]+@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$')
     if (not r.match(request.POST.get('email'))):
@@ -54,9 +54,9 @@ def cadastrar_aluno(request: HttpRequest):
             messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_aluno.id}')
             return redirect('redirect')
         else:
-            return redirect('redirect')
+            return redirect('cadastro')
     else:
-        return redirect('redirect')
+        return redirect('cadastro')
 
 def cadastrar_professor(request: HttpRequest):
     if request.method == 'POST':
@@ -71,9 +71,9 @@ def cadastrar_professor(request: HttpRequest):
             messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_professor.id}')
             return redirect('redirect')
         else:
-            return redirect('redirect')
+            return redirect('cadastro')
     else:
-        return redirect('redirect')
+        return redirect('cadastro')
     
 def cadastrar_turma(request: HttpRequest):
     if request.method == 'GET':
@@ -106,18 +106,39 @@ def editar_usuario(request: HttpRequest):
     if request.method == 'POST':
         if not validar_cadastro(request):
             return redirect('perfil')
+        senha = request.POST.get('senha')
+        confirma_senha = request.POST.get('confirma_senha')
+        nova_senha = request.POST.get('nova_senha')
+        if senha:
+            if not confirma_senha or not nova_senha:
+                messages.add_message(request, messages.ERROR, 'Credencias novas incorretas.')
+                return redirect('perfil')
+            user = authenticate(request, username=request.user.username, password=senha)
+            if user is not None:
+                if nova_senha == senha:
+                    messages.add_message(request, messages.ERROR, 'Nova senha é igual a senha atual.')
+                    return redirect('perfil')
+                if confirma_senha == nova_senha:
+                    request.user.set_password(nova_senha)
+                    login(request, request.user)
+                else:
+                    messages.add_message(request, messages.ERROR, 'Senhas digitadas são diferentes.')
+                    return redirect('perfil')
+            else:
+                messages.add_message(request, messages.ERROR, 'Senha atual incorreta.')
+                return redirect('perfil')
+        elif nova_senha or confirma_senha:
+            messages.add_message(request, messages.ERROR, 'Você precisa informar sua senha atual para alterá-la.')
+            return redirect('perfil')
         username = request.POST.get('username')
         email = request.POST.get('email')
         nome = request.POST.get('nome')
-        senha = request.POST.get('password')
         if username:
             request.user.username = username
         if nome:
             request.user.first_name = nome
         if email:
             request.user.email = email
-        if senha:
-            request.user.password = senha
         request.user.save() 
         messages.add_message(request, messages.SUCCESS, 'Suas informações foram atualizadas com sucesso.')
         return redirect('perfil')
