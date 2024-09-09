@@ -141,10 +141,6 @@ header>nav>div>div>a>img{
 .obj_footer{
     height: 250px;
 }
-.centralizar{
-    display: flex;
-    justify-content: center;
-}
 .rolar_cima{
     background-image: linear-gradient(45deg, #e0cf4b, #fff6b0);
     box-shadow: var(--sombra) 1px 1px 2px 1px;
@@ -175,6 +171,9 @@ header>nav>div>div>a>img{
 }
 .trocar_img:hover .trocar_img_1{
     display: inherit;
+}
+.w_40{
+    width: 40%;
 }
 .w_85{
     width: 85%;
