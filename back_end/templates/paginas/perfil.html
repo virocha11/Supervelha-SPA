@@ -66,7 +66,9 @@
                 <!-- INFORMAÇÕES DO PERFIL -->
                 <p><b>Resgitro Acadêmico: </b>{{user.id}}</p>
                 <p><b>Nome de usuário: </b>{{user.username}}</p>
-                <!-- <p><b>Nome: </b>{{user.first_name}}</p> -->
+                {% if user.first_name %}
+                <p><b>Nome: </b>{{user.first_name}}</p>
+                {% endif %}
                 <p><b>E-mail: </b>{{user.email}}</p>
                 <div class="centralizar">
                     <button type="button" class="btn_geral rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_editar_perfil')">Editar Perfil</button>
@@ -82,8 +84,8 @@
                                     <input class="rounded w-100 mb-3" type="text" id="username" name="username" placeholder="Nome de usuário" value="{{ user.username }}">
                                     <label class="row m-2 fonte_media" for="email_prof">Email:</label>
                                     <input class="rounded w-100 mb-3" type="email" id="email" name="email" placeholder="Email" value="{{ user.email }}">
-                                    <!-- <label class="row m-2 fonte_media" for="email_prof">Nome:</label>
-                                    <input class="rounded w-100 mb-3" type="text" id="nome" name="nome" placeholder="Nome" value="{{ user.first_name }}"> -->
+                                    <label class="row m-2 fonte_media" for="email_prof">Nome:</label>
+                                    <input class="rounded w-100 mb-3" type="text" id="nome" name="nome" placeholder="Nome" value="{{ user.first_name }}">
                                     
                                     <a class="link_destac" id="trocar_senha" data-toggle="collapse" href="#collapse_senha" aria-expanded="false" aria-controls="collapse_senha">Trocar senha</a>
                                     

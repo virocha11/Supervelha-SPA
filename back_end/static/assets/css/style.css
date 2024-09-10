@@ -124,10 +124,6 @@ main{
     color: var(--azul_marinho);
 }
 
-.centralizar{
-    display: flex;
-    justify-content: center;
-}
 .m_lados_15{
     margin: 0 15%;
 }
@@ -139,6 +135,7 @@ main{
     width: 100vw;
     height: 100vh;
     overflow-y: auto;
+    /* z-index: 1000; */
 }
 .obj_footer{
     height: 270px;
@@ -148,7 +145,6 @@ main{
     width: 40px;
     height: 40px;
 }
-
 .rolar_cima{
     box-shadow: var(--sombra) 1px 1px 2px 1px;
     border: 0;
@@ -190,12 +186,4 @@ main{
 }
 .w_85{
     width: 85%;
-}
-@media (min-width: 576px) {
-    .coluna_sm {
-      -ms-flex-preferred-size: 0;
-      flex-basis: 0;
-      flex-grow: 1;
-      max-width: 100%;
-    }
 }
