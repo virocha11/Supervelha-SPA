@@ -68,7 +68,7 @@
                     <div class="row">
                         {% for turma in turmas %}
                         <div class="coluna_sm bgc_amarelo_transp mx-2 mb-2 pb-2 rounded">
-                            <h3 class=" d-flex bgc_claro px-1 text-center rounded"><div class="w-75">Turma:</div> {{ turma.nome }}</h3>
+                            <h3 class=" d-flex bgc_escuro px-1 text-center rounded p-3">Turma: {{ turma.nome }}</h3>
                             <div class="border d-flex mx-4 px-2 rounded"><div class="w-75">Código: </div><div class="w-25 text-right">{{ turma.codigo }}</div></div><br>
                             <div class="border d-flex mx-4 px-2 rounded"><div class="w-75">Capacidade:</div> <div class="w-25 text-right">{{ turma.capacidade }}</div></div><br>
                             <div class="border d-flex mx-4 px-2 rounded"><div class="w-75">Quantidade de Alunos:</div> <div class="w-25 text-right">{{ turma.quantidade_alunos }}</div></div><br>

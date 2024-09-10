@@ -48,6 +48,10 @@ main{
 }
 .bgc_claro{
     background-color: var(--ciano_claro);
+    border-radius: 5px;
+}
+.bgc_escuro{
+    background-color: #637D8B;
 }
 .btn_geral{
     padding: 2px 6px 2px 6px;

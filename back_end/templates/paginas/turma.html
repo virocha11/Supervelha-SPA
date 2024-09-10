@@ -64,9 +64,9 @@
                         {% endfor %}
                     
                     {% endif %}
-                    <p>Código: {{ turma.codigo }}</p>
-                    <p>Capacidade: {{ turma.capacidade }}</p>
-                    <p>Quantidade de Alunos: {{ turma.quantidade_alunos }}</p>
+                    <p class="pl-4 ml-3">Código: {{ turma.codigo }}</p>
+                    <p class="pl-4 ml-3">Capacidade: {{ turma.capacidade }}</p>
+                    <p class="pl-4 ml-3">Quantidade de Alunos: {{ turma.quantidade_alunos }}</p>
                     <a href="{% url 'questionarios' turma.codigo %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Questionários</button></a>
                     <button type="button" class="btn m-3 pr-3 pl-3 btn_geral trocar_img" onclick="abrir_modal('vis_modal_editar_turma')">Editar Turma <img class="trocar_img_1" src = "{% static 'assets/imgs/lapis_1.png' %}"><img class="trocar_img_2" src="{% static 'assets/imgs/lapis_2.png' %}"></button>
                     <!-- MODAL PARA EDITAR TURMA -->
@@ -105,6 +105,7 @@
                 <p>Turma cheia, não é possível adicionar mais alunos.</p>
                 {% endif %}
                 {% for aluno in alunos %}
+                <p></p>
                 <article class="m_lados_15 d-flex py-1 px-3 border">
                     <div class="w-50">
                         {{ aluno.username }}

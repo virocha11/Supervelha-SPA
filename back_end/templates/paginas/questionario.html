@@ -53,14 +53,14 @@
                 </article>
                 <article>
                     
-                    <p>Abertura: {{ questionario.abertura }}</p>
-                    <p>Fechamento: {{ questionario.fechamento }}</p>
+                    <p class="pl-4 ml-3">Abertura: {{ questionario.abertura }}</p>
+                    <p class="pl-4 ml-3">Fechamento: {{ questionario.fechamento }}</p>
                     {% if questionario.publico %}
-                    <p>Público: Sim</p>
+                    <p class="pl-4 ml-3">Público: Sim</p>
                     {% else %}
-                    <p>Público: Não</p>
+                    <p class="pl-4 ml-3">Público: Não</p>
                     {% endif %}
-                    <p>{{ questionario.quantidade_perguntas }} questões</p>
+                    <p class="pl-4 ml-3">{{ questionario.quantidade_perguntas }} questões</p>
                     <button type="button" class="btn_geral rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_questionario')">Editar questionário</button>
                     <!-- MODAL PARA EDITAR QUESTIONARIO -->
                     <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_questionario">
@@ -84,6 +84,7 @@
                         </div>
                     </article>
                     <!-- FIM MODAL -->
+                <p></p>
                 </article>
                 {% if messages %}
                 <div class="alert-container">
@@ -97,7 +98,7 @@
                     {% endfor %}
                 
                 {% endif %}
-                <h3 class="bgc_claro px-3 text-center">Questões</h3>
+                <h3 class="bgc_claro px-3 pt-2  pb-2 text-center">Questões</h3>
                 {% if not questionario.publico %}
                     <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'adicionar_questao' questionario.id %}" method="POST">
                         {% csrf_token %}
@@ -109,7 +110,7 @@
                     </form>
                 {% endif %}
                 {% for questao in questoes %}
-                <article>
+                <article  class="m_lados_15 d-flex py-1 px-3 mt-3 border">
                     <p>Questão: {{ questao.enunciado }}
                         {% if not questionario.publico %}
                         <button class="btn_geral rounded" data-target="#vis_modal_questao{{questao.id}}" onclick="abrir_modal('vis_modal_questao{{questao.id}}')">Editar</button> 
@@ -133,6 +134,7 @@
                         <!-- FIM MODAL -->
                 </article>
                 {% endfor %}
+                <p></p>
                 {% if not questionario.publico %}
                     <button type="button" class="btn_nav rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_publicar')">Publicar Questionario</button>
                 {% endif %}

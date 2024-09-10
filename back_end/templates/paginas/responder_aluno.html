@@ -69,12 +69,26 @@
                     {% csrf_token %}
                     {% for questao in questoes %}
                     <article>
-                        <p>{{ questao.enunciado }}</p>
-                        <label class="row m-2 fonte_media" value="" for="resposta">Resposta:</label>
-                        <textarea class="rounded mb-3" name="resposta" placeholder="Digite sua resposta" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
+                        <p></p>
+                        <p class="pl-4">{{ questao.enunciado }}</p>
+                        <label class="row m-2 fonte_media pl-4 ml-3"" value="" for="resposta">Resposta:</label>
+                        <textarea class="rounded pl-2 ml-5" name="resposta" placeholder="Digite sua resposta" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
                     </article>
                     {% endfor %}
-                    <button class="btn m-3 pr-3 pl-3 btn_geral">Enviar</button>
+                    <button type="button" class="btn_nav rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_enviar')">Enviar</button>
+                    <!-- MODAL PARA ALUNO CONFIRMAR ENVIO DAS RESPOSTAS -->
+                    <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_enviar">
+                        <div class="conteudo_modal m-auto bg-light rounded text-center">
+                            <div>
+                                <h3 class="p-3 my-0 py-0">Tem certeza que deseja enviar o questionário respondido? Ao fazer isso não será possível editar respostas.</h3>
+                            </div>
+                            <div>
+                                <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_enviar')">Voltar</button>
+                                <a href="{% url 'responder_questionario' questionario.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Enviar</button></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FIM MODAL -->
                     </form>    
                 </article>
                 <section>

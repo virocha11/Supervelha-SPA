@@ -44,11 +44,11 @@
             </nav>
         </header>
         <main>
-            <section class="m_lados_15 text-white border rounded p-3">
+            <section class="m_lados_15 text-white border rounded p-3 fonte_p">
                 <article class="text-white rounded my-3">
                     <div class="d-flex">
                         <a class="grad_amarelo rounded sombra mr-2 sombra quadrado_40 pt-1" href="{% url 'minhas_turmas' %}"><img class="rounded" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a>
-                        <h3 class="bgc_claro px-3 text-center">Turma: {{ turma.nome }}</h3>
+                        <h3 class="px-3 text-center">Turma: {{ turma.nome }}</h3>
                     </div>
                 </article>
                 <article>
@@ -64,8 +64,8 @@
                         {% endfor %}
                     
                     {% endif %}
-                    <p>Código: {{ turma.codigo }}</p>
-                    <p>Professor: {{ turma.professor }}</p>
+                    <p class="pl-4 ml-3">Código: {{ turma.codigo }}</p>
+                    <p class="pl-4 ml-3">Professor: {{ turma.professor }}</p>
                     <a href="{% url 'questionarios' turma.codigo %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Questionários</button></a>
                 </article>
             </section>

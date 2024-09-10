@@ -65,10 +65,10 @@
                     
                     {% endif %}
                     
-                    <p>Abertura: {{ questionario.abertura }} {{ questionario.horario }}</p>
-                    <p>Fechamento: {{ questionario.fechamento }} {{ questionario.horario }}</p>
+                    <p class="pl-4 ml-3">Abertura: {{ questionario.abertura }} {{ questionario.horario }}</p>
+                    <p class="pl-4 ml-3">Fechamento: {{ questionario.fechamento }} {{ questionario.horario }}</p>
                     {% if avaliacao.avaliado %}
-                    <p>Nota: {{ avaliacao.nota }} </p>
+                    <p class="pl-4 ml-3">Nota: {{ avaliacao.nota }} </p>
                     {% elif avaliacao %}
                         <p>Ainda não avaliado.</p>
                     {% endif %}

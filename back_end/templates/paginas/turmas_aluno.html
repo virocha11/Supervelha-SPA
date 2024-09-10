@@ -45,7 +45,7 @@
             </nav>
         </header>
         <main>
-            <section class="m_lados_15 text-white border rounded ">
+            <section class="m_lados_15 text-white border rounded p-3">
                 <article class="text-white rounded my-3">
                     <div class="d-flex">
                         <a class="grad_amarelo rounded sombra mr-2 sombra quadrado_40 pt-1" href="{% url 'inicio_aluno' %}"><img class="rounded" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a>
@@ -64,14 +64,13 @@
                     {% endfor %}
                 
                 {% endif %}
-                <h2 class="centralizar">Minhas Turmas</h2>
                 <div class="container">
                     <div class="row">
                         {% for turma in turmas %}
-                        <div  class="col-sm bgc_amarelo_transp m-2 rounded">
-                            <h3 class="bgc_claro px-3 text-center">Turma: {{ turma.nome }}</h3>
-                            <p>Código: {{ turma.codigo }}</p>
-                            <p>Professor: {{ turma.professor }}</p>
+                        <div class="coluna_sm bgc_amarelo_transp mx-2 mb-2 pb-2 rounded">
+                            <h3 class=" d-flex bgc_escuro px-1 text-center rounded p-3">Turma: {{ turma.nome }}</h3>
+                            <p class="border d-flex mx-4 px-2 rounded">Código: {{ turma.codigo }}</p>
+                            <p class="border d-flex mx-4 px-2 rounded">Professor: {{ turma.professor }}</p>
                             <a href="{% url 'visualizar_turma' turma.codigo %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral trocar_img">Visualizar Turma</button></a>
                         </div>
                         {% endfor %}
