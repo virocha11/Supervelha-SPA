@@ -36,14 +36,8 @@ def validar_cadastro(request: HttpRequest):
         return True
         
 def cadastro_aluno(request: HttpRequest):
-    return cadastrar_aluno(request)
-
-def cadastro_professor(request: HttpRequest):
-    return cadastrar_professor(request)
-
-def cadastrar_aluno(request: HttpRequest):
     if request.method == 'POST':
-        if (validar_cadastro(request) == True):
+        if (validar_cadastro(request)):
             novo_aluno = User.objects.create_user(request.POST.get('username'), request.POST.get('email'), request.POST.get('password'))
             try:
                 grupo = Group.objects.get(name='Aluno')
@@ -58,9 +52,9 @@ def cadastrar_aluno(request: HttpRequest):
     else:
         return redirect('cadastro')
 
-def cadastrar_professor(request: HttpRequest):
+def cadastro_professor(request: HttpRequest):
     if request.method == 'POST':
-        if (validar_cadastro(request) == True):
+        if (validar_cadastro(request)):
             novo_professor = User.objects.create_user(request.POST.get('username'), request.POST.get('email'), request.POST.get('password'))
             try:
                 grupo = Group.objects.get(name='Professor')
@@ -99,7 +93,7 @@ def cadastrar_turma(request: HttpRequest):
 def excluir_usuario(request: HttpRequest):
     if request.method == 'GET':
         request.user.delete()
-        messages.add_message(request, messages.SUCCESS, 'Seu usuário foi excluído com sucesso.')
+        messages.add_message(request, messages.SUCCESS, 'Sua conta foi excluído com sucesso.')
         return redirect('index')
 
 def editar_usuario(request: HttpRequest):
@@ -145,10 +139,18 @@ def editar_usuario(request: HttpRequest):
     
 def excluir_turma(request: HttpRequest, codigo_turma):
     if request.method == 'GET':
-        turma = Turma.objects.get(codigo=codigo_turma)
-        if request.user != turma.professor:
+        if request.user.is_authenticated:
+            try:
+                turma = Turma.objects.get(codigo=codigo_turma)
+            except:
+                messages.add_message(request, messages.ERROR, 'Turma não existe.')
+                return redirect('redirect')
+            if request.user != turma.professor:
+                messages.add_message(request, messages.ERROR, 'Permissão negada.')
+                redirect('redirect')
+            turma.delete()
+            messages.add_message(request, messages.SUCCESS, 'Turma excluída com sucesso.')
+            return redirect('minhas_turmas')
+        else:
             messages.add_message(request, messages.ERROR, 'Permissão negada.')
-            redirect('redirect')
-        turma.delete()
-        messages.add_message(request, messages.SUCCESS, 'Turma excluída com sucesso.')
-        return redirect('minhas_turmas')
+            redirect('index')
