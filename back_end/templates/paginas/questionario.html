@@ -10,13 +10,13 @@
         <title>Questionário</title>
     </head>
     <body>
-        <button class="custom-range:focus d-flex form-inline position-fixed rounded rolar_cima p-2" onclick="voltar_cima();">
+        <button class="custom-range:focus d-flex form-inline position-fixed rounded rolar_cima p-2 grad_amarelo" onclick="voltar_cima();">
             <img class="w-100 rounded" src="{% static 'assets/imgs/seta_cima.png' %}" alt="">
         </button>
         <header class="text-white">
             <nav class="navbar navbar-light bg-transparent">
                 <div class="container-fluid">
-                    <div class="navbar-brand w-auto"><a href="{% url 'questionarios' questionario.turma_id %}"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
+                    <div class="navbar-brand w-auto"><a href="{% url 'index' %}"><img class="rounded p-1 grad_amarelo" src="{% static 'assets/imgs/logo.png' %}" alt=""> SPA</a></div>
 
                     <div class="d-flex">
                         <a class="btn_nav rounded mr-2 ml-2" href="{% url 'perfil' %}">Perfil</a>
@@ -45,8 +45,14 @@
         </header>
         <main>
             <section class="m_lados_15 text-white border rounded p-3">
+                <article class="text-white rounded my-3">
+                    <div class="d-flex">
+                        <a class="grad_amarelo rounded sombra mr-2 sombra quadrado_40 pt-1" href="{% url 'questionarios' questionario.turma_id %}"><img class="rounded" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a>
+                        <h3 class="text-center">Questionário: {{ questionario.enunciado }}</h3>
+                    </div>
+                </article>
                 <article>
-                    <h3 class="bgc_claro px-3 text-center">Questionário: {{ questionario.enunciado }}</h3>
+                    
                     <p>Abertura: {{ questionario.abertura }}</p>
                     <p>Fechamento: {{ questionario.fechamento }}</p>
                     {% if questionario.publico %}
@@ -58,9 +64,9 @@
                     <button type="button" class="btn_geral rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_questionario')">Editar questionário</button>
                     <!-- MODAL PARA EDITAR QUESTIONARIO -->
                     <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_questionario">
-                        <div class="conteudo_modal m-auto bg-light rounded text-center">
+                        <div class="conteudo_modal m-auto rounded text-center">
                             <div>
-                                <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'editar_questionario' questionario.id %}" method="POST">
+                                <form class="form w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'editar_questionario' questionario.id %}" method="POST">
                                     {% csrf_token %}
                                     <h3 class="p-3 my-0 py-0 ">Editar questionário {{ questionario.enunciado }}</h3>
                                 

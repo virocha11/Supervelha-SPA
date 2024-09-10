@@ -10,13 +10,13 @@
         <title>Questionário</title>
     </head>
     <body>
-        <button class="custom-range:focus d-flex form-inline position-fixed rounded rolar_cima p-2" onclick="voltar_cima();">
+        <button class="custom-range:focus d-flex form-inline position-fixed rounded rolar_cima p-2 grad_amarelo" onclick="voltar_cima();">
             <img class="w-100 rounded" src="{% static 'assets/imgs/seta_cima.png' %}" alt="">
         </button>
         <header class="text-white">
             <nav class="navbar navbar-light bg-transparent">
                 <div class="container-fluid">
-                    <div class="navbar-brand w-auto"><a href="{% url 'verificar_respostas' questionario.id %}"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
+                    <div class="navbar-brand w-auto"><a class="text-white" href="{% url 'verificar_respostas' questionario.id %}"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded p-1 grad_amarelo" src="{% static 'assets/imgs/logo.png' %}" alt=""> SPA</a></div>
 
                     <div class="d-flex">
                         <a class="btn_nav rounded mr-2 ml-2" href="{% url 'perfil' %}">Perfil</a>
@@ -44,7 +44,14 @@
             </nav>
         </header>
         <main>
+
             <section class="m_lados_15 text-white">
+                <article class="text-white rounded my-3">
+                    <div class="d-flex">
+                        <a class="grad_amarelo rounded sombra mr-2 sombra quadrado_40 pt-1" href="{% url 'verificar_respostas' questionario.id %}"><img class="rounded" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a>
+                        <h3>Avaliar Questionário</h3>
+                    </div>
+                </article>
                 <article>
                     {% if messages %}
                     <div class="alert-container">
@@ -56,16 +63,16 @@
                     <h3>Questões</h3>
                     <p>Data de envio: {{ avaliacao.data_envio }} </p>
                     <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'avaliar_respostas' questionario.id aluno.id %}" method="POST">
-                    {% csrf_token %}
-                    {% for questao, resposta in questoes_respostas %}
-                    <article>
-                        <p>{{ questao.enunciado }}</p>
-                        <p>{{ resposta.resposta }}</p>
-                        <label class="row m-2 fonte_media" value="" for="notas">Nota:</label>
-                        <input type="number" name="notas" min="0" max="10">
-                    </article>
-                    {% endfor %}
-                    <button class="btn m-3 pr-3 pl-3 btn_geral">Avaliar</button>
+                        {% csrf_token %}
+                        {% for questao, resposta in questoes_respostas %}
+                        <article>
+                            <p>{{ questao.enunciado }}</p>
+                            <p>{{ resposta.resposta }}</p>
+                            <label class="row m-2 fonte_media" value="" for="notas">Nota:</label>
+                            <input type="number" name="notas" min="0" max="10">
+                        </article>
+                        {% endfor %}
+                        <button class="btn m-3 pr-3 pl-3 btn_geral">Avaliar</button>
                     </form>    
                 </article>
                 <section>

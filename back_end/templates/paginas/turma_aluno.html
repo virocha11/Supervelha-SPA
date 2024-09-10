@@ -10,13 +10,13 @@
         <title>Turma</title>
     </head>
     <body>
-        <button class="custom-range:focus d-flex form-inline position-fixed rounded rolar_cima p-2" onclick="voltar_cima();">
+        <button class="custom-range:focus d-flex form-inline position-fixed rounded rolar_cima p-2 grad_amarelo" onclick="voltar_cima();">
             <img class="w-100 rounded" src="{% static 'assets/imgs/seta_cima.png' %}" alt="">
         </button>
         <header class="text-white">
             <nav class="navbar navbar-light bg-transparent">
                 <div class="container-fluid">
-                    <div class="navbar-brand w-auto"><a href="{% url 'minhas_turmas' %}"><img class="rounded mr-3" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a><a href="{% url 'index' %}"><img class="rounded" src="{% static 'assets/imgs/logo.png' %}" alt=""></a></div>
+                    <div class="navbar-brand w-auto"><a href="{% url 'index' %}"><img class="rounded p-1 grad_amarelo" src="{% static 'assets/imgs/logo.png' %}" alt=""> SPA</a></div>
 
                     <div class="d-flex">
                         <a class="btn_nav rounded mr-2 ml-2" href="{% url 'perfil' %}">Perfil</a>
@@ -45,6 +45,12 @@
         </header>
         <main>
             <section class="m_lados_15 text-white border rounded p-3">
+                <article class="text-white rounded my-3">
+                    <div class="d-flex">
+                        <a class="grad_amarelo rounded sombra mr-2 sombra quadrado_40 pt-1" href="{% url 'minhas_turmas' %}"><img class="rounded" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a>
+                        <h3 class="bgc_claro px-3 text-center">Turma: {{ turma.nome }}</h3>
+                    </div>
+                </article>
                 <article>
                     {% if messages %}
                     <div class="alert-container">
@@ -58,7 +64,6 @@
                         {% endfor %}
                     
                     {% endif %}
-                    <h3 class="bgc_claro px-3 text-center">Turma: {{ turma.nome }}</h3>
                     <p>Código: {{ turma.codigo }}</p>
                     <p>Professor: {{ turma.professor }}</p>
                     <a href="{% url 'questionarios' turma.codigo %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Questionários</button></a>
