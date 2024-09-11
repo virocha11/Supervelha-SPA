@@ -69,3 +69,11 @@ document.getElementById('trocar_senha').addEventListener('click', function(event
         senha.disabled = true;
     }
 });
+//BOTAO VER MAIS
+// document.getElementById('ver-mais').addEventListener('click', function() {
+//     var alunosEscondidos = document.querySelectorAll('.aluno-item.d-none');
+//     alunosEscondidos.forEach(function(aluno) {
+//         aluno.classList.remove('d-none'); // Remove a classe que esconde os alunos
+//     });
+//     this.style.display = 'none'; // Esconde o botão "Ver mais" depois de clicar
+// });

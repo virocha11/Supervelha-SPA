@@ -64,9 +64,9 @@
                         {% endfor %}
                     
                     {% endif %}
-                    <!-- <h3 class="pl-4 ml-3">Aluno: ???? </h3> -->
+                    <h3 class="pl-4 ml-3">Aluno: {{aluno.username}} </h3>
                     {% if avaliacao.avaliado %}
-                    <p class="pl-4 ml-3">Nota: {{ avaliacao.nota }} </p>
+                    <p class="pl-4 ml-3">Nota: {{avaliacao.nota }} </p>
                     {% else %}
                     <p class="alert-warning p-2 rounded">Ainda não avaliado.</p>
                     {% endif %}

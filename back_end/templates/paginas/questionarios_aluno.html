@@ -69,9 +69,9 @@
                         {% for questionario in questionarios %}
                         <div class="coluna-sm bgc_amarelo_transp m-2 rounded">
                             <h3 class="d-flex bgc_escuro px-1 text-center rounded p-3">Questionário: {{ questionario.enunciado }}</h3>
-                            <p class="pl-4">Abertura: {{ questionario.abertura }}</p>
-                            <p class="pl-4">Fechamento: {{ questionario.fechamento }}</p>
-                            <p class="pl-4">{{ questionario.quantidade_perguntas }} questões</p>
+                            <p class="pl-4 pr-2">Abertura: {{ questionario.abertura }}</p>
+                            <p class="pl-4 pr-2">Fechamento: {{ questionario.fechamento }}</p>
+                            <p class="pl-4 pr-2">{{ questionario.quantidade_perguntas }} questões</p>
                             <a href="{% url 'visualizar_questionario' questionario.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral trocar_img">Visualizar questionário <img class="trocar_img_2" src="{% static 'assets/imgs/olho_2.png' %}"><img class="trocar_img_1" src="{% static 'assets/imgs/olho_1.png' %}"></button></a>
                         </div>
                         {% endfor %}
