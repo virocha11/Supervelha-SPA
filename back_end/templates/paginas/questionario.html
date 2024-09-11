@@ -110,35 +110,38 @@
                     </form>
                 {% endif %}
                 {% for questao in questoes %}
-                <article  class="m_lados_15 d-flex py-1 px-3 pt-3 mt-3 border">
-                    <p>Questão: {{ questao.enunciado }}
+                <article  class="m_lados_15 d-flex py-1 px-3 pt-3 mt-3 border rounded">
+                    <div class="col">
+                        <p class="row">Questão: <br>{{ questao.enunciado }}</p>
                         {% if not questionario.publico %}
-                        <div class="w-50 text-right">
-                            <button class="btn_geral rounded" data-target="#vis_modal_questao{{questao.id}}" onclick="abrir_modal('vis_modal_questao{{questao.id}}')">Editar</button> 
-                            <a href="{% url 'remover_questao' questionario.id questao.id %}"><button class="btn_geral rounded">Remover questão</button></a></p>
+                        <div class="row float-right">
+                            <a href="{% url 'remover_questao' questionario.id questao.id %}"><button class="btn_geral rounded">Remover questão</button></a>
+                            <button class="btn_geral rounded ml-2" data-target="#vis_modal_questao{{questao.id}}" onclick="abrir_modal('vis_modal_questao{{questao.id}}')">Editar</button>
                         </div>
-                        {% endif %}
-                        <!-- MODAL PARA EDITAR QUESTAO -->
-                        <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_questao{{questao.id}}">
-                            <div class="conteudo_modal m-auto bg-light rounded text-center">
-                                <div>
-                                    <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'editar_questao' questionario.id questao.id %}" method="POST">
-                                        {% csrf_token %}
-                                        <h3 class="p-3 my-0 py-0">Editar questão</h3>
-                                        <label class="row m-2 fonte_media" for="enunciado">Enunciado:</label>
-                                        <textarea class="rounded mb-3" id="enunciado" name="enunciado" placeholder="Digite o enunciado da questão" minlength="1" maxlength="1000" rows=3 cols=60 value="{{ questao.enunciado }}" required></textarea>
-                                        <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_questao{{questao.id}}')">Voltar</button>
-                                        <button class="btn m-3 pr-3 pl-3 btn_geral">Salvar</button>    
-                                    </form>
-                                </div>
+                    </div>
+                    {% endif %}
+                    <!-- MODAL PARA EDITAR QUESTAO -->
+                    <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_questao{{questao.id}}">
+                        <div class="conteudo_modal m-auto bg-light rounded text-center">
+                            <div>
+                                <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'editar_questao' questionario.id questao.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <h3 class="p-3 my-0 py-0">Editar questão</h3>
+                                    <label class="row m-2 fonte_media" for="enunciado">Enunciado:</label>
+                                    <textarea class="rounded mb-3" id="enunciado" name="enunciado" placeholder="Digite o enunciado da questão" minlength="1" maxlength="1000" rows=3 cols=60 value="{{ questao.enunciado }}" required></textarea>
+                                    <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_questao{{questao.id}}')">Voltar</button>
+                                    <button class="btn m-3 pr-3 pl-3 btn_geral">Salvar</button>    
+                                </form>
                             </div>
-                        </article>
-                        <!-- FIM MODAL -->
+                        </div>
+                    </article>
+                    <!-- FIM MODAL -->
                 </article>
                 {% endfor %}
-                <p></p>
                 {% if not questionario.publico %}
-                    <button type="button" class="btn_nav rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_publicar')">Publicar Questionario</button>
+                <div class="m_lados_15 text-right my-3">
+                    <button type="button" class="btn_geral rounded" onclick="abrir_modal('vis_modal_publicar')">Publicar Questionario</button>
+                </div>
                 {% endif %}
                 <!-- MODAL PARA PROFESSOR CONFIRMAR PUBLICACAO -->
                 <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_publicar">
