@@ -111,14 +111,14 @@
                 {% endif %}
                 {% for questao in questoes %}
                 <article  class="m_lados_15 d-flex border py-1 px-3 pt-3 mt-3 rounded">
-                    <!-- <div class="col "> -->
+                    <div class="coluna">
                         <p class="">Questão: <br>{{ questao.enunciado }}</p>
                         {% if not questionario.publico %}
                         <div class="row float-right">
                             <a href="{% url 'remover_questao' questionario.id questao.id %}"><button class="btn_geral rounded">Remover questão</button></a>
-                            <button class="btn_geral rounded ml-2" data-target="#vis_modal_questao{{questao.id}}" onclick="abrir_modal('vis_modal_questao{{questao.id}}')">Editar</button>
+                            <button class="btn_geral rounded mx-2" data-target="#vis_modal_questao{{questao.id}}" onclick="abrir_modal('vis_modal_questao{{questao.id}}')">Editar</button>
                         </div>
-                    <!-- </div> -->
+                    </div>
                     {% endif %}
                     <!-- MODAL PARA EDITAR QUESTAO -->
                     <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_questao{{questao.id}}">

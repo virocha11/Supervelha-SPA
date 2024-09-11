@@ -69,36 +69,21 @@
                 
                 <!-- MODAL PARA ADICIONAR QUESTIONÁRIO -->
                 <button type="button" class="btn_geral rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_add_questionario')">Adicionar questionário</button>
-                <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_add_questionario">
-                    <div class="conteudo_modal m-auto bg-light rounded text-center">
-                        <div>
-                            <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'criar_questionario' turma.codigo %}" method="POST">
-                                {% csrf_token %}
-                                <h3 class="p-3 my-0 py-0">Adicionar questionário</h3>
-                                <label class="row m-2 fonte_media" for="enunciado">Enunciado:</label>
-                                <textarea class="rounded mb-3" id="enunciado" name="enunciado" placeholder="Digite o enunciado do questionário" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
-                                <label class="row m-2 fonte_media" for="abertura">Abertura:</label>
-                                <input type="datetime-local" id="abertura" name="abertura" required/>
-                                <label class="row m-2 fonte_media" for="fechamento">Fechamento:</label>
-                                <input type="datetime-local" id="fechamento" name="fechamento" required/>
-                                <p></p>
-                                <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_add_questionario')">Voltar</button>
-                                <button class="btn m-3 pr-3 pl-3 btn_geral">Adicionar</button>    
-                            </form>
-                        </div>
-                    </div>
-                </article>
+
                 <!-- FIM MODAL -->
                 <div class="container">
                     <div class="row">
                         {% for questionario in questionarios %}
-                        <div class="coluna-sm bgc_amarelo_transp m-2 rounded">
+                        <div class="relativo coluna_sm bgc_amarelo_transp m-2 rounded">
                             <h3 class="d-flex bgc_escuro px-1 text-center rounded p-3">Questionário: {{ questionario.enunciado }}</h3>
                             <p class="pl-4">Abertura: {{ questionario.abertura }}</p>
                             <p class="pl-4">Fechamento: {{ questionario.fechamento }}</p>
-                            <p class="pl-4">{{ questionario.quantidade_perguntas }} questões</p>
-                            <a href="{% url 'visualizar_questionario' questionario.id %}"><button type="button" class="btn m-3 px-3 btn_geral trocar_img">Visualizar questionário</button></a>
-                            <button type="button" class="btn m-3 px-3 btn_geral" onclick="abrir_modal('vis_modal_excluir_questionario{{questionario.id}}')">Excluir questionário</button>
+                            <p class="pl-4 mb_7">{{ questionario.quantidade_perguntas }} questões</p>
+                            <div class="botao_embaixo">
+                                <button type="button" class="btn m-3 px-3 btn_geral " onclick="abrir_modal('vis_modal_excluir_questionario{{questionario.id}}')">Excluir</button>
+                                <a href="{% url 'visualizar_questionario' questionario.id %}"><button type="button" class="btn m-3 px-3 btn_geral trocar_img">Visualizar questionário</button></a>
+                            </div>
+                        
                         </div>
                         <!-- MODAL PARA CONFIRMAR EXCLUIR QUESTIONARIO -->
                         <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_excluir_questionario{{questionario.id}}">
@@ -118,6 +103,28 @@
                  </div>
                 
             </section>
+
+            <!-- O MODAL ESTA AQUI PARA OS QUESTIONARIOS NAO SOBRESAIREM ELE QUANDO CLICAR EM EDITAR QUESTIONARIO -->
+
+            <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_add_questionario">
+                <div class="conteudo_modal m-auto bg-light rounded text-center">
+                    <div>
+                        <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow relativo" action="{% url 'criar_questionario' turma.codigo %}" method="POST">
+                            {% csrf_token %}
+                            <h3 class="p-3 my-0 py-0">Adicionar questionário</h3>
+                            <label class="row m-2 fonte_media" for="enunciado">Enunciado:</label>
+                            <textarea class="rounded mb-3" id="enunciado" name="enunciado" placeholder="Digite o enunciado do questionário" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
+                            <label class="row m-2 fonte_media" for="abertura">Abertura:</label>
+                            <input type="datetime-local" id="abertura" name="abertura" required/>
+                            <label class="row m-2 fonte_media" for="fechamento">Fechamento:</label>
+                            <input type="datetime-local" id="fechamento" name="fechamento" required/>
+                            <p></p>
+                            <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal_add_questionario')">Voltar</button>
+                            <button class="btn m-3 pr-3 pl-3 btn_geral">Adicionar</button>    
+                        </form>
+                    </div>
+                </div>
+            </article>
         </main>
         <object class="w-100 obj_footer" data="{% static 'assets/paginas/footer.html' %}" type="text/html"></object>
         <script src="{% static 'assets/js/script.js' %}"></script>

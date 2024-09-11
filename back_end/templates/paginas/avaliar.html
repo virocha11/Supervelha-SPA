@@ -26,19 +26,6 @@
 
                     </div>
 
-                    <!-- MODAL PARA USUARIO CONFIRMAR SE DESEJA SAIR DO SITE -->
-                    <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal">
-                        <div class="conteudo_modal m-auto bg-light rounded text-center">
-                            <div>
-                                <h3 class="p-3 my-0 py-0">Tem certeza que deseja sair do site?</h3>
-                            </div>
-                            <div>
-                                <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal')">Voltar</button>
-                                <a href="{% url 'logout' %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Sair</button></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- FIM MODAL -->
 
                 </div>
             </nav>
@@ -77,8 +64,22 @@
                     </form>    
                 </article>
                 <section>
+
             </section>
         </main>
+        <!-- MODAL PARA USUARIO CONFIRMAR SE DESEJA SAIR DO SITE -->
+        <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal">
+            <div class="conteudo_modal m-auto bg-light rounded text-center">
+                <div>
+                    <h3 class="p-3 my-0 py-0">Tem certeza que deseja sair do site?</h3>
+                </div>
+                <div>
+                    <button type="button" class="btn m-3 pr-3 pl-3 btn_geral" onclick="fechar_modal('vis_modal')">Voltar</button>
+                    <a href="{% url 'logout' %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Sair</button></a>
+                </div>
+            </div>
+        </div>
+        <!-- FIM MODAL -->
         <object class="w-100 obj_footer" data="{% static 'assets/paginas/footer.html' %}" type="text/html"></object>
         <script src="{% static 'assets/js/script.js' %}"></script>
     </body>

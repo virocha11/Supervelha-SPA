@@ -70,7 +70,7 @@
                 <div class="container">
                     <div class="row"> 
                         {% for aluno, avaliacao in alunos %}
-                        <article class="coluna-sm sem_padding bgc_amarelo_transp m-2 ml-3 rounded">
+                        <article class="relativo coluna_sm sem_padding bgc_amarelo_transp m-2 ml-3 rounded">
                             <!-- {% if forloop.counter > 2 %} d-none {% endif %} aluno-item -->
                             <h4 class="d-flex bgc_escuro text-center rounded p-3"> Aluno: {{ aluno.username }}</h4>
                             {% if avaliacao.avaliado %}
@@ -78,9 +78,11 @@
                             {% else %}
                             <p class="pl-4 ml-3">Ainda não avaliado.</p>
                             {% endif %}
-                            <p class="pl-4 mx-3">Data de envio: {{ avaliacao.data_envio }} </p>
-                            <a href="{% url 'avaliar_respostas' questionario.id aluno.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Avaliar</button></a>
-                            <a href="{% url 'editar_avaliacao' questionario.id aluno.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Editar avaliação</button></a>
+                            <p class="pl-4 mx-3 mb_7">Data de envio: {{ avaliacao.data_envio }} </p>
+                            <div class="botao_embaixo">
+                                <a href="{% url 'avaliar_respostas' questionario.id aluno.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Avaliar</button></a>
+                                <a href="{% url 'editar_avaliacao' questionario.id aluno.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Editar avaliação</button></a>
+                            </div>
                         </article>
                         {% endfor %}
                     </div>

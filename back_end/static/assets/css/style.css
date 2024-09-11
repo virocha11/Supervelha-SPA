@@ -53,6 +53,11 @@ main{
 .bgc_escuro{
     background-color: #637D8B;
 }
+.botao_embaixo{
+    position: absolute;
+    bottom: 1px;
+
+}
 .btn_geral{
     padding: 2px 6px 2px 6px;
     font-size: var(--fonte_p);
@@ -100,6 +105,12 @@ main{
 .centraliza_vertical{
     height: 100vh;
 }
+.coluna{
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+}
 .conteudo_modal{
     max-width: 600px;
     color: var(--azul_marinho);
@@ -134,6 +145,9 @@ main{
 .m_lados_15{
     margin: 0 15%;
 }
+.mb_7{
+    margin-bottom: 4rem;
+}
 .modal_sair{
     background-color: #00000075;
     display: none;
@@ -150,6 +164,9 @@ main{
 .quadrado_40{
     width: 40px;
     height: 40px;
+}
+.relativo{
+    position: relative;
 }
 .rolar_cima{
     box-shadow: var(--sombra) 1px 1px 2px 1px;
