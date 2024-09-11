@@ -118,7 +118,7 @@ def adicionar_pergunta(request: HttpRequest, questionario_id):
                 messages.add_message(request, messages.ERROR, 'Permissão negada.')
                 return redirect('redirect')
             if questionario.publico:
-                messages.add_message(request, messages.ERROR, 'Questão está público.')
+                messages.add_message(request, messages.ERROR, 'Questionário está público.')
                 return redirect('visualizar_questionario', questionario_id=questionario_id)
             enunciado = request.POST.get('enunciado')
             if enunciado:

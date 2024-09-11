@@ -76,10 +76,10 @@ def cadastrar_turma(request: HttpRequest):
                 return render(request, 'paginas/cadastro_turma.html')
             else:
                 messages.add_message(request, messages.ERROR, 'Permissão negada.')
-                redirect('index')
+                return redirect('index')
         else:
             messages.add_message(request, messages.ERROR, 'Usuário não autenticado.')
-            redirect('index')
+            return redirect('index')
 
     if request.method == 'POST':
         nome = request.POST.get('nome')
@@ -147,10 +147,10 @@ def excluir_turma(request: HttpRequest, codigo_turma):
                 return redirect('redirect')
             if request.user != turma.professor:
                 messages.add_message(request, messages.ERROR, 'Permissão negada.')
-                redirect('redirect')
+                return redirect('redirect')
             turma.delete()
             messages.add_message(request, messages.SUCCESS, 'Turma excluída com sucesso.')
             return redirect('minhas_turmas')
         else:
             messages.add_message(request, messages.ERROR, 'Permissão negada.')
-            redirect('index')
+            return redirect('index')
