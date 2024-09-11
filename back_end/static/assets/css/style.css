@@ -139,7 +139,6 @@ main{
     width: 100vw;
     height: 100vh;
     overflow-y: auto;
-    /* z-index: 1000; */
 }
 .obj_footer{
     height: 270px;
@@ -190,4 +189,12 @@ main{
 }
 .w_85{
     width: 85%;
+}
+@media (min-width: 576px) {
+    .coluna_sm {
+      -ms-flex-preferred-size: 0;
+      flex-basis: 0;
+      flex-grow: 1;
+      max-width: 80%;
+    }
 }

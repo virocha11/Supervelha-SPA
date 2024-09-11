@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
         <link rel="shortcut icon" href="{% static 'assets/imgs/logo.png' %}" type="image/x-icon">
         
-        <title>Questionários</title>
+        <title>Revisão do Questionário</title>
     </head>
     <body>
         <button class="custom-range:focus d-flex form-inline position-fixed rounded rolar_cima p-2 grad_amarelo" onclick="voltar_cima();">
@@ -66,19 +66,19 @@
                 {% endif %}
                 
                 {% if avaliacao.avaliado %}
-                    <p>Nota: {{ avaliacao.nota }} </p>
+                    <p class="pl-4 ml-3">Nota: {{ avaliacao.nota }} </p>
                 {% else %}
-                    <p>Ainda não avaliado.</p>
+                    <p class="pl-4 ml-3">Ainda não avaliado.</p>
                 {% endif %}
-                <p>Data de envio: {{ avaliacao.data_envio }} </p>
+                <p class="pl-4 ml-3">Data de envio: {{ avaliacao.data_envio }} </p>
                 {% for questao, resposta in questoes_respostas %}
-                <div>
-                    <h3>Questão: {{ questao.enunciado }}</h3>
-                    <p>Resposta: {{ resposta.resposta }}</p>
+                <div class="border m-3 p-2">
+                    <h4 class="pl-4 ml-3">Questão: {{ questao.enunciado }}</h4>
+                    <p class="pl-4 ml-3">Resposta: {{ resposta.resposta }}</p>
                     {% if resposta.avaliado %}
-                    <p>Nota: {{ resposta.nota }}</p>
+                    <h6 class="pl-4 ml-3">Nota: {{ resposta.nota }}</h6>
                     {% else %}
-                    <p>Ainda não avaliado.</p>
+                    <p class="pl-4 ml-3">Ainda não avaliado.</p>
                     {% endif %}
                 </div>
                 {% endfor %}

@@ -67,8 +67,8 @@
                 <div class="container">
                     <div class="row">
                         {% for questionario in questionarios %}
-                        <div class="col-sm bgc_amarelo_transp m-2 rounded">
-                            <h3 class="d-flex bgc_escuro px-1 mt-2 text-center rounded p-3">Questionário: {{ questionario.enunciado }}</h3>
+                        <div class="coluna-sm bgc_amarelo_transp m-2 rounded">
+                            <h3 class="d-flex bgc_escuro px-1 text-center rounded p-3">Questionário: {{ questionario.enunciado }}</h3>
                             <p class="pl-4">Abertura: {{ questionario.abertura }}</p>
                             <p class="pl-4">Fechamento: {{ questionario.fechamento }}</p>
                             <p class="pl-4">{{ questionario.quantidade_perguntas }} questões</p>

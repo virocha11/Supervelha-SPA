@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="{% static 'assets/bootstrap_4.1.3_dist/css/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
         <link rel="shortcut icon" href="{% static 'assets/imgs/logo.png' %}" type="image/x-icon">
-        <title>Questionário</title>
+        <title>Respostas do Questionário</title>
     </head>
     <body>
         <button class="custom-range:focus d-flex form-inline position-fixed rounded rolar_cima p-2 grad_amarelo" onclick="voltar_cima();">
@@ -44,8 +44,8 @@
             </nav>
         </header>
         <main>
-            <section class="m_lados_15 text-white">
-                <article class="text-white rounded my-3">
+            <section class="m_lados_15 text-white border">
+                <article class="text-white rounded m-3">
                     <div class="d-flex">
                         <a class="grad_amarelo rounded sombra mr-2 sombra quadrado_40 pt-1" href="{% url 'visualizar_questionario' questionario.id %}"><img class="rounded" src="{% static 'assets/imgs/seta_esquerda.png' %}" alt=""></a>
                         <h3>Questionario {{ questionario.enunciado }}</h3>
@@ -66,23 +66,24 @@
                     {% endif %}
                     
                 </article>
-                <h3>Alunos que responderam:</h3>
-
-                {% for aluno, avaliacao in alunos %}
-                <article>
-                    <p>Aluno: {{ aluno.username }}</p>
-                    {% if avaliacao.avaliado %}
-                    <p>Nota: {{ avaliacao.nota }} </p>
-                    {% else %}
-                    <p>Ainda não avaliado.</p>
-                    {% endif %}
-                    <p>Data de envio: {{ avaliacao.data_envio }} </p>
-                    <a href="{% url 'avaliar_respostas' questionario.id aluno.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Avaliar</button></a>
-                    <a href="{% url 'editar_avaliacao' questionario.id aluno.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Editar avaliação</button></a>
-                </article>
-                {% endfor %}
-                <!-- MODAL PARA AVALIAR RESPOSTA -->
-                <!-- FIM MODAL -->
+                <h3 class="pl-4 ml-3">Alunos que responderam:</h3>
+                <div class="container">
+                    <div class="row"> 
+                        {% for aluno, avaliacao in alunos %}
+                        <article class="coluna-sm sem_padding bgc_amarelo_transp m-2 ml-3 rounded">
+                            <h4 class="d-flex bgc_escuro text-center rounded p-3"> Aluno: {{ aluno.username }}</h4>
+                            {% if avaliacao.avaliado %}
+                            <p class="pl-4 ml-3">Nota: {{ avaliacao.nota }} </p>
+                            {% else %}
+                            <p class="pl-4 ml-3">Ainda não avaliado.</p>
+                            {% endif %}
+                            <p class="pl-4 mx-3">Data de envio: {{ avaliacao.data_envio }} </p>
+                            <a href="{% url 'avaliar_respostas' questionario.id aluno.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Avaliar</button></a>
+                            <a href="{% url 'editar_avaliacao' questionario.id aluno.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Editar avaliação</button></a>
+                        </article>
+                        {% endfor %}
+                    </div>
+                </div>
             </section>
         </main>
         <object class="w-100 obj_footer" data="{% static 'assets/paginas/footer.html' %}" type="text/html"></object>

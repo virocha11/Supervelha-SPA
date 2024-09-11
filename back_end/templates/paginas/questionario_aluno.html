@@ -70,10 +70,10 @@
                     {% if avaliacao.avaliado %}
                     <p class="pl-4 ml-3">Nota: {{ avaliacao.nota }} </p>
                     {% elif avaliacao %}
-                        <p>Ainda não avaliado.</p>
+                        <p class="pl-4 ml-3">Ainda não avaliado.</p>
                     {% endif %}
                     {% if avaliacao.data_envio %}
-                        <p>Data de envio: {{ avaliacao.data_envio }} </p>
+                        <p class="pl-4 ml-3">Data de envio: {{ avaliacao.data_envio }} </p>
                     {% endif %}
                     <a href="{% url 'responder_questionario' questionario.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Tentativa do questionário</button></a>
                     <a href="{% url 'revisar_respostas' questionario.id %}"><button type="button" class="btn m-3 pr-3 pl-3 btn_geral">Revisar respostas</button></a>
