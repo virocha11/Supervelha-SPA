@@ -45,7 +45,7 @@ def cadastro_aluno(request: HttpRequest):
                 grupo = Group.objects.create(name='Aluno')
             novo_aluno.groups.add(grupo)
             login(request, novo_aluno)
-            messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_aluno.id}')
+            messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu RA é: {novo_aluno.id}')
             return redirect('redirect')
         else:
             return redirect('cadastro')
@@ -62,7 +62,7 @@ def cadastro_professor(request: HttpRequest):
                 grupo = Group.objects.create(name='Professor')
             novo_professor.groups.add(grupo)
             login(request, novo_professor)
-            messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu ID é: {novo_professor.id}')
+            messages.add_message(request, messages.SUCCESS, f'Cadastrado com sucesso! Seu RA é: {novo_professor.id}')
             return redirect('redirect')
         else:
             return redirect('cadastro')
