@@ -60,16 +60,17 @@
                         {% endfor %}
                     </div>
                     {% endif %}
-                    <h3>Questões</h3>
-                    <p>Data de envio: {{ avaliacao.data_envio }} </p>
+                    <!-- <h3>Questões</h3> -->
+                    <p class="pl-4 ml-3">Data de envio: {{ avaliacao.data_envio }} </p>
                     <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'avaliar_respostas' questionario.id aluno.id %}" method="POST">
                         {% csrf_token %}
                         {% for questao, resposta in questoes_respostas %}
-                        <article>
-                            <p>{{ questao.enunciado }}</p>
-                            <p>{{ resposta.resposta }}</p>
-                            <label class="row m-2 fonte_media" value="" for="notas">Nota:</label>
-                            <input type="number" name="notas" min="0" max="10">
+                        <p></p>
+                        <article class="border m-2 p-1">
+                            <p class="pl-4 ">Questão: {{ questao.enunciado }}</p>
+                            <p class="pl-4 ">Resposta: {{ resposta.resposta }}</p>
+                            <label class="row m-2 fonte_media pl-3 " value="" for="notas">Nota:</label>
+                            <input class="pl-4 ml-5 mb-2" type="number" name="notas" min="0" max="10" required>
                         </article>
                         {% endfor %}
                         <button class="btn m-3 pr-3 pl-3 btn_geral">Avaliar</button>

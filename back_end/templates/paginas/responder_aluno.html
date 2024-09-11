@@ -72,10 +72,10 @@
                         <p></p>
                         <p class="pl-4">{{ questao.enunciado }}</p>
                         <label class="row m-2 fonte_media pl-4 ml-3"" value="" for="resposta">Resposta:</label>
-                        <textarea class="rounded pl-2 ml-5" name="resposta" placeholder="Digite sua resposta" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
+                        <textarea class="rounded pl-2 ml-5" name="resposta" placeholder="Digite sua resposta" minlength="1" maxlength="1000" rows=3 cols=60 ></textarea>
                     </article>
                     {% endfor %}
-                    <button type="button" class="btn_nav rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_enviar')">Enviar</button>
+                    <button type="button" class="btn_nav rounded m-3" onclick="abrir_modal('vis_modal_enviar')">Enviar</button>
                     <!-- MODAL PARA ALUNO CONFIRMAR ENVIO DAS RESPOSTAS -->
                     <div class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_enviar">
                         <div class="conteudo_modal m-auto bg-light rounded text-center">

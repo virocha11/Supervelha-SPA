@@ -102,19 +102,21 @@
                 {% if not questionario.publico %}
                     <form class="form mt-2 w-100 bgc_claro rounded p-1 pb-2 shadow" action="{% url 'adicionar_questao' questionario.id %}" method="POST">
                         {% csrf_token %}
-                        <h3 class="text-white">Adicionar questão:</h3>
+                        <h3 class="text-white pt-1 pl-4 ml-3">Adicionar questão:</h3>
 
-                        <label class="row m-2 fonte_media" for="aluno">Enunciado:</label>
-                        <textarea class="rounded mb-3" id="enunciado" name="enunciado" placeholder="Digite o enunciado da questão" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
+                        <label class="row m-2 fonte_media pl-4 ml-3" for="enunciado">Enunciado:</label>
+                        <textarea class="rounded mb-3 ml-5" id="enunciado" name="enunciado" placeholder="Digite o enunciado da questão" minlength="1" maxlength="1000" rows=3 cols=60 required></textarea>
                         <button class="btn_nav rounded row m-auto" type="submit">Adicionar</button>    
                     </form>
                 {% endif %}
                 {% for questao in questoes %}
-                <article  class="m_lados_15 d-flex py-1 px-3 mt-3 border">
+                <article  class="m_lados_15 d-flex py-1 px-3 pt-3 mt-3 border">
                     <p>Questão: {{ questao.enunciado }}
                         {% if not questionario.publico %}
-                        <button class="btn_geral rounded" data-target="#vis_modal_questao{{questao.id}}" onclick="abrir_modal('vis_modal_questao{{questao.id}}')">Editar</button> 
-                        <a href="{% url 'remover_questao' questionario.id questao.id %}"><button class="btn_geral rounded">Remover questão</button></a></p>
+                        <div class="w-50 text-right">
+                            <button class="btn_geral rounded" data-target="#vis_modal_questao{{questao.id}}" onclick="abrir_modal('vis_modal_questao{{questao.id}}')">Editar</button> 
+                            <a href="{% url 'remover_questao' questionario.id questao.id %}"><button class="btn_geral rounded">Remover questão</button></a></p>
+                        </div>
                         {% endif %}
                         <!-- MODAL PARA EDITAR QUESTAO -->
                         <article class="position-fixed w-100 pt-5 modal_sair" id="vis_modal_questao{{questao.id}}">

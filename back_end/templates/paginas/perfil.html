@@ -64,12 +64,12 @@
                 
                 {% endif %}
                 <!-- INFORMAÇÕES DO PERFIL -->
-                <p><b>Resgitro Acadêmico: </b>{{user.id}}</p>
-                <p><b>Nome de usuário: </b>{{user.username}}</p>
+                <p class="pl-4 ml-3"><b>Resgitro Acadêmico: </b>{{user.id}}</p>
+                <p class="pl-4 ml-3"><b>Nome de usuário: </b>{{user.username}}</p>
                 {% if user.first_name %}
-                <p><b>Nome: </b>{{user.first_name}}</p>
+                <p class="pl-4 ml-3"><b>Nome: </b>{{user.first_name}}</p>
                 {% endif %}
-                <p><b>E-mail: </b>{{user.email}}</p>
+                <p class="pl-4 ml-3"><b>E-mail: </b>{{user.email}}</p>
                 <div class="centralizar">
                     <button type="button" class="btn_geral rounded mr-2 ml-2" onclick="abrir_modal('vis_modal_editar_perfil')">Editar Perfil</button>
                     <!-- MODAL PARA USUARIO EDITAR PERFIL -->
